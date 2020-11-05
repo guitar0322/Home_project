@@ -4,32 +4,33 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class MNQMoveControl : MonoBehaviour
-{
-    public Transform target;
-
+{    
     bool isPlayerEnter;
-       
+    public bool isMove;
+           
     GameObject player;
     GameObject playerEquipPoint;
     
-    NavMeshAgent nav;
+    public NavMeshAgent nav;
     Rigidbody rigid;
 
     Player_MoveCtrl moveCtrl;
-    DiaryOpen diaryOpen;
-    MNQ_Follow_Trigger mNQ_Follow_Trigger;
+    ObjectCheck objectCheck;
+    //MNQ_Follow_Trigger mNQ_Follow_Trigger;
     is_Level_Clear level_Clear;
+    Level_2_MNQ_Position level_2_MNQ_Position;
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerEquipPoint = GameObject.FindGameObjectWithTag("EquipPoint");
-        moveCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_MoveCtrl>();
-        diaryOpen = GameObject.FindGameObjectWithTag("Diary").GetComponent<DiaryOpen>();
+        moveCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_MoveCtrl>();        
         nav = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();
-        mNQ_Follow_Trigger = GameObject.FindGameObjectWithTag("MNQ_Follow_Trigger").GetComponent<MNQ_Follow_Trigger>();
+        //mNQ_Follow_Trigger = GameObject.FindGameObjectWithTag("MNQ_Follow_Trigger").GetComponent<MNQ_Follow_Trigger>();
         level_Clear = GameObject.FindGameObjectWithTag("ClearTrigger").GetComponent<is_Level_Clear>();
+        objectCheck = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectCheck>();
+        level_2_MNQ_Position = GameObject.FindWithTag("Level_2_MNQ_Position").GetComponent<Level_2_MNQ_Position>();
     }
 
     void Update() 
@@ -39,9 +40,14 @@ public class MNQMoveControl : MonoBehaviour
 
     void MNQEqupiment()
     {
-        if(level_Clear.isClear_1 == false)
+
+        Vector3 mouseDownPos;
+        mouseDownPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(mouseDownPos);
+
+        if (level_Clear.isClear_1 == false)
         {
-            if (diaryOpen.mNQMove == true && Input.GetMouseButtonDown(0) && isPlayerEnter)
+            if (objectCheck.mNQMove == true && Input.GetMouseButtonDown(0) && isPlayerEnter)
             {
                 transform.SetParent(playerEquipPoint.transform);
                 transform.localPosition = Vector3.zero;
@@ -104,10 +110,29 @@ public class MNQMoveControl : MonoBehaviour
     // 유저 추적
     void OnTriggerStay(Collider other)
     {
-        if (mNQ_Follow_Trigger.isMNQFollow == true && other.tag == "Player")
+        if (other.tag == "Player")
         {
-            Debug.Log("Follow!");
-            nav.SetDestination(target.position);           
+            Invoke("MNQ_Follow_Player", objectCheck.randomTime);       
         }
+    }
+
+    void MNQ_Follow_Player()
+    {
+        Debug.Log("Follow!");
+
+        if(objectCheck.isCanMNQMove && !level_2_MNQ_Position.isPositionAcceptance_Mobile)
+        {
+            nav.SetDestination(player.transform.position);            
+        }
+
+        //if((level_2_MNQ_Position.isPositionSoju || level_2_MNQ_Position.isPositionFallenLeaves) && isMove)
+        //{
+        //    nav.speed = 0;            
+        //}
+
+        //if (!isMove)
+        //{
+        //    nav.speed = 1.5f;
+        //}
     }
 }

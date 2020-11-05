@@ -7,11 +7,11 @@ public class is_Level_Clear : MonoBehaviour
     public bool isClear_1 = false;
     public GameObject door;
 
-    MNQPsitionCondition mNQPsitionCondition;
+    ObjectCheck objectCheck;
 
     void Start()
     {
-        mNQPsitionCondition = GameObject.FindGameObjectWithTag("MNQNeedPosition").GetComponent<MNQPsitionCondition>();
+        objectCheck = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectCheck>();
     }
     void Update()
     {
@@ -26,9 +26,9 @@ public class is_Level_Clear : MonoBehaviour
         mouseDownPos = Input.mousePosition;
         ray = Camera.main.ScreenPointToRay(mouseDownPos);
 
-        if (mNQPsitionCondition.isMNQ1 == true && Input.GetMouseButtonDown(0))
+        if (objectCheck.isInteract_PianoFlower == true && Input.GetMouseButtonDown(0))
         {
-            if(Physics.Raycast(ray, out hit, 1f) && hit.collider.tag == "ClearTrigger")
+            if (Physics.Raycast(ray, out hit, 1f) && hit.collider.tag == "ClearTrigger")
             {
                 isClear_1 = true;
                 door.SetActive(false);

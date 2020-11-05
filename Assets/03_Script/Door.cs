@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public GameObject door;
+    public GameObject mNQ_D;
+    public GameObject soju;
 
     private void OnTriggerExit(Collider other)
     {
         if(other.tag == "Player")
         {
-            door.SetActive(true);            
+            mNQ_D.SetActive(false);
+            soju.SetActive(true);
         }
     }
 }

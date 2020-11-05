@@ -6,15 +6,28 @@ TagManager:
   tags:
   - GameObject
   - Diary
-  - FishBread
-  - Scarf
-  - MNQ
-  - EquipPoint
   - Door
-  - MNQNeedPosition
   - ClearTrigger
-  - MNQ_Follow_Trigger
+  - EquipPoint
   - SetMNQNewPosition
+  - Scarf
+  - FishBread
+  - MNQNeedPosition
+  - MNQ
+  - Flashing_Light
+  - Medicine_Envelope_A
+  - Medicine_Envelope_B
+  - MedicalSchool_Pic
+  - MedicalSchool_AcceptanceLetter
+  - Flower
+  - Soju
+  - MNQ_Normal
+  - MNQ_Horror
+  - FallenLeaves
+  - Acceptance_Mobile
+  - Level_2_MNQ_Position
+  - ShadowHands
+  - DoorHinge
   layers:
   - Default
   - TransparentFX
@@ -24,8 +37,8 @@ TagManager:
   - UI
   - 
   - 
-  - MNQ
-  - Diary
+  - FlashingHorror
+  - 
   - 
   - 
   - 

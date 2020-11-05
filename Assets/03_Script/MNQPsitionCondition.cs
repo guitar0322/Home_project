@@ -4,22 +4,18 @@ using UnityEngine;
 
 public class MNQPsitionCondition : MonoBehaviour
 {
-    public bool isMNQ1 = false;
-    GameObject mNQ;
-    public GameObject door;
-
-    void Awake()
-    {
-        mNQ = GameObject.FindGameObjectWithTag("MNQ");       
-    }
+    public bool isFlower = false;
+    public GameObject mNQ_D;
+    //public GameObject mNQ_F;
+    public GameObject pianoFlower;
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "MNQ")
-        {            
-            isMNQ1 = true;
-            door.SetActive(false);
-            gameObject.SetActive(false);
+        if (other.gameObject == mNQ_D)
+        {
+            isFlower = true;
+            pianoFlower.SetActive(true);
+            Destroy(this.gameObject);
         }
-    }
+    }  
 }
