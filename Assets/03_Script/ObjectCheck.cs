@@ -5,11 +5,15 @@ using UnityEngine.AI;
 
 public class ObjectCheck : MonoBehaviour
 {
-    public float m_RayDistance = 1f;
+    public float m_RayDistance = 100f;
     public bool diaryMax01 = true;
 
     public bool mNQMove = false;
     public bool can_Interact_Level1_Objects = false;
+
+
+    public bool viewMode = false;
+    public bool uiMode = false;
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
@@ -70,7 +74,9 @@ public class ObjectCheck : MonoBehaviour
     AudioSource mirrorCrackingSound;
     AudioSource pianoBGM;
 
-    Player_MoveCtrl player_MoveCtrl;
+    Player_MoveCtrl playerControler;
+    ObjectControler objectControler;
+
     MNQPsitionCondition mNQPsition;
     OKMeshChange oKMesh;
     SetMNQNewPosition setMNQNewPosition;
@@ -80,6 +86,12 @@ public class ObjectCheck : MonoBehaviour
     RaycastHit hit;
     Ray ray;
 
+    public GameObject viewModeTargetObj;
+    public GameObject viewModeCamArm;
+    public GameObject UI;
+
+    public GameObject rawImage;
+
     public void FlipSound()
     {
         diaryFilpSound.Play();
@@ -88,7 +100,9 @@ public class ObjectCheck : MonoBehaviour
     void Awake()
     {
         Book book_paper = GetComponent<Book>();
-        player_MoveCtrl = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
+        playerControler = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
+        objectControler = GetComponent<ObjectControler>();
+
         mNQPsition = GameObject.FindWithTag("MNQNeedPosition").GetComponent<MNQPsitionCondition>();
         oKMesh = GameObject.Find("RenderChangeManager").GetComponent<OKMeshChange>();
         setMNQNewPosition = GameObject.FindWithTag("SetMNQNewPosition").GetComponent<SetMNQNewPosition>();
@@ -100,6 +114,8 @@ public class ObjectCheck : MonoBehaviour
 
         mirrorCrackingSound = GameObject.Find("CrackingSound").GetComponent<AudioSource>();
         pianoBGM = GameObject.Find("PianoBGM").GetComponent<AudioSource>();
+
+
     }
 
     void Start()
@@ -110,10 +126,65 @@ public class ObjectCheck : MonoBehaviour
     void Update()
     {
         ObjectCheckByRay();
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (viewMode == true)
+            {
+                ViewModeExit();
+            }
+            else if (uiMode == true)
+            {
+                UIModeExit();
+            }
+        }
+    }
+    void InitViewMode(GameObject target)
+    {
+        Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
+        viewModeTargetObj = Instantiate(target, targetPos, Quaternion.identity) as GameObject;
+        viewModeTargetObj.transform.parent = viewModeCamArm.transform;
+        //viewModeTargetObj.transform.localPosition = Vector3.zero;
+        viewModeTargetObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        objectControler.enabled = true;
+        playerControler.enabled = false;
+        viewMode = true;
+        rawImage.SetActive(true);
+    }
+    void InitUIMode()
+    {
+        uiMode = true;
+        playerControler.enabled = false; //유저 움직임 멈춤
+
+        Cursor.visible = true; // 마우스 보임 
+        Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
+        UI.SetActive(true); // UI 보이기
+    }
+
+    private void ViewModeExit()
+    {
+        playerControler.enabled = true; // 유저 다시 움직인다.
+        objectControler.enabled = false;
+
+        rawImage.SetActive(false); // 렌더텍스처 없애기
+        viewMode = false;
+        Destroy(viewModeTargetObj);
+        viewModeTargetObj = null;
+        Debug.Log("Diary Close");
+    }
+
+    private void UIModeExit()
+    {
+        playerControler.enabled = true;
+
+        UI.SetActive(false); //UI 숨기기
+        uiMode = false;
+        Debug.Log("Diary Close");
     }
 
     private void ObjectCheckByRay()
     {
+        if (viewMode || uiMode)
+            return;
         Vector3 mouseDownPos;        
         mouseDownPos = Input.mousePosition;
         ray = Camera.main.ScreenPointToRay(mouseDownPos);
@@ -121,101 +192,124 @@ public class ObjectCheck : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, m_RayDistance))
         {
-            Debug.Log(hit.collider.tag);
-            FirstMNQ_Interactive();                         // 처음 마네킹 상호작용 함수
-            Diary_Interactive();                            // 일기장 상호작용 함수
-            Scarf_Interactive();                            // 목돌이 함수
-            FishBread_Interactive();                        // 붕어빵 함수
-            Medicine_Envelope_A_Interactive();              // 약봉투 A 함수
-            Medicine_Envelope_B_Interactive();              // 약봉투 B 함수
-            MedicalSchool_Pic_Interactive();                // 의과대 사진 함수
-            MedicalSchool_AcceptanceLetter_Interactive();   // 의과대 합격장 함수
-            PianoFlower_Interactive();                      // 피아노 꽃 함수
-            Door_Interactive();                             // 문 열고 닫기 함수
-            Soju_Interactive();                             // 소주 함수
-            FallenLeaves_Interactive();                     // 낙엽 함수
-            Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
-        }// 개별로 만든 이유는 나중에 각 오브젝트 별로 특별한 사운드 및 연출을 하기 위함.
+            switch (hit.collider.tag)
+            {
+                case "MNQ":
+                    FirstMNQ_Interactive();//첫 마네킹 상호작용
+                    break;
+                case "Diary":
+                    Diary_Interactive();//일기장 함수
+                    break;
+                case "Scarf":
+                    Scarf_Interactive();//목돌이 함수
+                    break;
+                case "FishBread":
+                    FishBread_Interactive();                        // 붕어빵 함수
+                    break;
+                case "Medicine_Envelope_A":
+                    Medicine_Envelope_A_Interactive();              // 약봉투 A 함수
+                    break;
+                case "Medicine_Envelope_B":
+                    Medicine_Envelope_B_Interactive();              // 약봉투 B 함수
+                    break;
+                case "MedicalSchool_Pic":
+                    MedicalSchool_Pic_Interactive();                // 의과대 사진 함수
+                    break;
+                case "MedicalSchool_AcceptanceLetter":
+                    MedicalSchool_AcceptanceLetter_Interactive();   // 의과대 합격장 함수
+                    break;
+                case "Flower":
+                    PianoFlower_Interactive();                      // 피아노 꽃 함수
+                    break;
+                case "Door":
+                    Door_Interactive();                             // 문 열고 닫기 함수
+                    break;
+                case "Soju":
+                    Soju_Interactive();                             // 소주 함수
+                    break;
+                case "FallenLeaves":
+                    FallenLeaves_Interactive();                     // 낙엽 함수
+                    break;
+                case "Acceptance_Mobile":
+                    Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
+                    break;
+                default:
+                    InitViewMode(hit.transform.gameObject);
+                    break;
 
-        if (Input.GetMouseButtonDown(1)) //Diary를 닫는 방법
-        {
-            player_MoveCtrl.enabled = true; // 유저 다시 움직인다.
-            book_paper.SetActive(false); // 일기장 숨기기
-            //Debug.Log("Diary Close");
-        }
+            }
+            Debug.Log(hit.collider.tag);
+        }// 개별로 만든 이유는 나중에 각 오브젝트 별로 특별한 사운드 및 연출을 하기 위함.
     }
 
     void Diary_Interactive() //일기장 상호작용
     {
-        if (hit.collider.tag == "Diary") //MNQ를 한 번이라도 눌렀는가? Diary를 켜기 위한 조건
+
+        Debug.Log("Diary Open");
+        if (GameManager.instance.gameState == 1)
         {
-            if (diaryMax01 == false)
-            {
-                player_MoveCtrl.enabled = false;        //유저 움직임 멈춤
-                Cursor.visible = true;                  // 마우스 보임
-                Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
-                book_paper.SetActive(true);     // 일기장 보이기, ######일기장 UI는 짝수여야 제대로 작동함#####.
+            InitUIMode();
+            playerControler.enabled = false;        //유저 움직임 멈춤
+            Cursor.visible = true;                  // 마우스 보임
+            Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
+            book_paper.SetActive(true);     // 일기장 보이기, ######일기장 UI는 짝수여야 제대로 작동함#####.
 
-                can_Interact_Level1_Objects = true;     // 붕어빵, 목도리하고 상호작용 가능하게 한다.
-                //Debug.Log("Diary Open");
-            }
+            can_Interact_Level1_Objects = true;     // 붕어빵, 목도리하고 상호작용 가능하게 한다.
+            Debug.Log("Diary Open");
+        }
 
-            if(isInteract_FishBread && isInteract_Scarf && isInteract_Medicine_Envelope_A &&
-                isInteract_Medicine_Envelope_B && isInteract_MedicalSchool_Pic && 
-                isInteract_MedicalSchool_AcceptanceLetter)  // 모든 필요 오브젝트 상호작용을 하면
-            {                                               // 마네킹 상호작용 가능
-                mNQMove = true;
-                //Debug.Log("Can MNQ Move!"); 
-            }
-        }        
+        if (isInteract_FishBread && isInteract_Scarf && isInteract_Medicine_Envelope_A &&
+            isInteract_Medicine_Envelope_B && isInteract_MedicalSchool_Pic &&
+            isInteract_MedicalSchool_AcceptanceLetter)  // 모든 필요 오브젝트 상호작용을 하면
+        {                                               // 마네킹 상호작용 가능
+            mNQMove = true;
+            //Debug.Log("Can MNQ Move!"); 
+        }
     }
     void FirstMNQ_Interactive() //마네킹 1회 이상 상호작용 하기
     {
-        if (hit.collider.tag == "MNQ")
+        if (GameManager.instance.gameState == 0)
         {
-            if (diaryMax01)
-            {
-                Diary01();
-                diaryMax01 = false;
-                //Debug.Log("DiaryContent Can Open & Close");                
-            }
+            DropDiary();
+            GameManager.instance.gameState++;
+            //Debug.Log("DiaryContent Can Open & Close");                
+        }
 
-            if (haveSoju  && level_2_MNQ_Position.isPositionSoju)
-            {
-                //Debug.Log("SOJUMNQQQQ");
-                fallenLeaves.SetActive(true);
-                haveSoju = false;
-                Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
-                Position_fallenLeaves.SetActive(true);
-                //Destroy(level_2_MNQ_Position.soju_Position, 2.5f);
-                level_2_MNQ_Position.soju_Position.SetActive(false);
-            }
-            if (haveFallenLeaves && level_2_MNQ_Position.isPositionFallenLeaves)
-            {
-                //Debug.Log("FallllenenenenenLeaves");
-                acceptance_Mobile.SetActive(true);
-                haveFallenLeaves = false;
-                Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
-                Position_acceptance_Mobile.SetActive(true);
-                //Destroy(level_2_MNQ_Position.fallenLeaves_Position, 2.5f);
-                level_2_MNQ_Position.fallenLeaves_Position.SetActive(false);
-            }
-            if (haveAcceptance_Mobile && level_2_MNQ_Position.isPositionAcceptance_Mobile)
-            {
-                haveAcceptance_Mobile = false;
-                Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 1); // 생성된 오브젝트 삭제
-                player_MoveCtrl.enabled = false;
-                Invoke("Cant_Playermove", 1);
-                setMNQNewPosition.MobileAfterInteractive();                
-            }
+        if (haveSoju && level_2_MNQ_Position.isPositionSoju)
+        {
+            //Debug.Log("SOJUMNQQQQ");
+            fallenLeaves.SetActive(true);
+            haveSoju = false;
+            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
+            Position_fallenLeaves.SetActive(true);
+            //Destroy(level_2_MNQ_Position.soju_Position, 2.5f);
+            level_2_MNQ_Position.soju_Position.SetActive(false);
+        }
+        if (haveFallenLeaves && level_2_MNQ_Position.isPositionFallenLeaves)
+        {
+            //Debug.Log("FallllenenenenenLeaves");
+            acceptance_Mobile.SetActive(true);
+            haveFallenLeaves = false;
+            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
+            Position_acceptance_Mobile.SetActive(true);
+            //Destroy(level_2_MNQ_Position.fallenLeaves_Position, 2.5f);
+            level_2_MNQ_Position.fallenLeaves_Position.SetActive(false);
+        }
+        if (haveAcceptance_Mobile && level_2_MNQ_Position.isPositionAcceptance_Mobile)
+        {
+            haveAcceptance_Mobile = false;
+            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 1); // 생성된 오브젝트 삭제
+            playerControler.enabled = false;
+            Invoke("Cant_Playermove", 1);
+            setMNQNewPosition.MobileAfterInteractive();
         }
     }
 
-    private void Diary01() // 일기장 떨어지는 함수
+    private void DropDiary() // 일기장 떨어지는 함수
     {
         GameObject diary = GameObject.FindWithTag("Diary");
 
-        diary.transform.Translate(new Vector3(-1f, -0.2f, -0.3f));
+        diary.transform.localPosition = new Vector3(-3.422f, 1.446f, 5.548f);
         diary.transform.Rotate(0, 0, 90);
         diaryDropSound.Play();
     }
@@ -394,6 +488,6 @@ public class ObjectCheck : MonoBehaviour
 
     void Cant_Playermove()
     {
-        player_MoveCtrl.enabled = true;
+        playerControler.enabled = true;
     }
 }

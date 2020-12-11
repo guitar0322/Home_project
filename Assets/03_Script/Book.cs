@@ -14,6 +14,8 @@ public class Book : MonoBehaviour {
     RectTransform BookPanel;
     public Sprite background;
     public Sprite[] bookPages;
+    public GameObject leftBtn;
+    public GameObject rightBtn;
     public bool interactable=true;
     public bool enableShadowEffect=true;    
     //represent the index of the sprite shown in the right page
@@ -247,15 +249,24 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(0, 0);
         Left.transform.position = RightNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
+        if (currentPage <= GameManager.instance.gameState - 1)
+            Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
+        else
+            Left.sprite = null;
         Left.transform.SetAsFirstSibling();
         
         Right.gameObject.SetActive(true);
         Right.transform.position = RightNext.transform.position;
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
-        Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
+        if (currentPage + 1 <= GameManager.instance.gameState - 1)
+            Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
+        else
+            Right.sprite = null;
 
-        RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
+        if (currentPage + 2 <= GameManager.instance.gameState - 1)
+            RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
+        else
+            RightNext.sprite = null;
 
         LeftNext.transform.SetAsFirstSibling();
         if (enableShadowEffect) Shadow.gameObject.SetActive(true);
@@ -279,7 +290,11 @@ public class Book : MonoBehaviour {
 
         Right.gameObject.SetActive(true);
         Right.transform.position = LeftNext.transform.position;
-        Right.sprite = bookPages[currentPage - 1];
+        if (currentPage - 1 <= GameManager.instance.gameState - 1)
+            Right.sprite = bookPages[currentPage - 1];
+        else
+            Right.sprite = null;
+
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
         Right.transform.SetAsFirstSibling();
 
@@ -287,9 +302,15 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(1, 0);
         Left.transform.position = LeftNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
+        if (currentPage - 2 <= GameManager.instance.gameState - 1)
+            Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
+        else
+            Left.sprite = null;
 
-        LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
+        if (currentPage - 3 <= GameManager.instance.gameState - 1)
+            LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
+        else
+            LeftNext.sprite = null;
 
         RightNext.transform.SetAsFirstSibling();
         if (enableShadowEffect) ShadowLTR.gameObject.SetActive(true);
@@ -324,8 +345,25 @@ public class Book : MonoBehaviour {
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
-        LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
-        RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
+        if (currentPage > GameManager.instance.gameState - 1)
+        {
+            LeftNext.sprite = null;
+            RightNext.sprite = null;
+        }
+        else
+        {
+            LeftNext.sprite = (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage - 1] : background;
+            RightNext.sprite = (currentPage >= 0 && currentPage < bookPages.Length) ? bookPages[currentPage] : background;
+        }
+
+        if (currentPage == 0)
+            leftBtn.SetActive(false);
+        else
+            leftBtn.SetActive(true);
+        if (currentPage == bookPages.Length)
+            rightBtn.SetActive(false);
+        else
+            rightBtn.SetActive(true);
     }
     public void TweenForward()
     {

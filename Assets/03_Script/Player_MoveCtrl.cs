@@ -83,11 +83,19 @@ public class Player_MoveCtrl : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;//마우스 커서 고정
         Cursor.visible = false;//마우스 커서 보이기            
 
-        float rotX = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
-        float rotY = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
+        float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
+        float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
 
-        this.myTr.localRotation *= Quaternion.Euler(0, rotY, 0);           // 마우스 회전
-        fpsCam.transform.localRotation *= Quaternion.Euler(-rotX, 0, 0);    // 마우스 회전
+        this.myTr.localRotation *= Quaternion.Euler(0, rotHor, 0);           // 마우스 회전
+        fpsCam.transform.localRotation *= Quaternion.Euler(-rotVer, 0, 0);    // 마우스 회전
+
+        if (fpsCam.transform.localRotation.eulerAngles.x > 0 && fpsCam.transform.localRotation.eulerAngles.x < 180f)
+        {
+            fpsCam.transform.localRotation = Quaternion.Euler((Mathf.Clamp(fpsCam.transform.rotation.eulerAngles.x, 0, 65f)), 0f, 0f);
+        }
+
+        if (fpsCam.transform.localRotation.eulerAngles.x > 180 && fpsCam.transform.localRotation.eulerAngles.x < 360)
+            fpsCam.transform.localRotation = Quaternion.Euler((Mathf.Clamp(fpsCam.transform.rotation.eulerAngles.x, 290, 360f)), 0f, 0f);
     }
    
 }
