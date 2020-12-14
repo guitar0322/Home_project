@@ -89,9 +89,8 @@ public class ObjectCheck : MonoBehaviour
     public GameObject viewModeTargetObj;
     public GameObject viewModeCamArm;
     public GameObject UI;
-
     public GameObject rawImage;
-
+    public Camera viewModeCam;
     public void FlipSound()
     {
         diaryFilpSound.Play();
@@ -100,7 +99,7 @@ public class ObjectCheck : MonoBehaviour
     void Awake()
     {
         Book book_paper = GetComponent<Book>();
-        playerControler = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
+        playerControler = GetComponent<Player_MoveCtrl>();
         objectControler = GetComponent<ObjectControler>();
 
         mNQPsition = GameObject.FindWithTag("MNQNeedPosition").GetComponent<MNQPsitionCondition>();
@@ -140,13 +139,20 @@ public class ObjectCheck : MonoBehaviour
     }
     void InitViewMode(GameObject target)
     {
-        Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
-        viewModeTargetObj = Instantiate(target, targetPos, Quaternion.identity) as GameObject;
-        viewModeTargetObj.transform.parent = viewModeCamArm.transform;
+        //오브젝트 상호작용 연출을 위해 오브젝트를 화면 중심으로 옮기고 오브젝트 컨트롤 스크립트를 활성화
+        viewModeTargetObj = target;
+        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0.7f)));
+        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        //target.layer = LayerMask.NameToLayer("UI");
+        Vector3 targetScreenPos = Camera.main.WorldToScreenPoint(target.transform.position);
+        Vector3 targetWorldPos = viewModeCam.ScreenToWorldPoint(targetScreenPos);
+        //viewModeTargetObj = Instantiate(target, targetWorldPos, Quaternion.identity) as GameObject;
+        //viewModeTargetObj.transform.parent = viewModeCamArm.transform;
         //viewModeTargetObj.transform.localPosition = Vector3.zero;
-        viewModeTargetObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        objectControler.enabled = true;
+        //viewModeTargetObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
         playerControler.enabled = false;
+        objectControler.enabled = true;
         viewMode = true;
         rawImage.SetActive(true);
     }
@@ -163,12 +169,10 @@ public class ObjectCheck : MonoBehaviour
     private void ViewModeExit()
     {
         playerControler.enabled = true; // 유저 다시 움직인다.
-        objectControler.enabled = false;
-
+        GetComponent<CapsuleCollider>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
         rawImage.SetActive(false); // 렌더텍스처 없애기
         viewMode = false;
-        Destroy(viewModeTargetObj);
-        viewModeTargetObj = null;
         Debug.Log("Diary Close");
     }
 
@@ -201,21 +205,27 @@ public class ObjectCheck : MonoBehaviour
                     Diary_Interactive();//일기장 함수
                     break;
                 case "Scarf":
+                    InitViewMode(hit.transform.gameObject);
                     Scarf_Interactive();//목돌이 함수
                     break;
                 case "FishBread":
+                    InitViewMode(hit.transform.gameObject);
                     FishBread_Interactive();                        // 붕어빵 함수
                     break;
                 case "Medicine_Envelope_A":
+                    InitViewMode(hit.transform.gameObject);
                     Medicine_Envelope_A_Interactive();              // 약봉투 A 함수
                     break;
                 case "Medicine_Envelope_B":
+                    InitViewMode(hit.transform.gameObject);
                     Medicine_Envelope_B_Interactive();              // 약봉투 B 함수
                     break;
                 case "MedicalSchool_Pic":
+                    InitViewMode(hit.transform.gameObject);
                     MedicalSchool_Pic_Interactive();                // 의과대 사진 함수
                     break;
                 case "MedicalSchool_AcceptanceLetter":
+                    InitViewMode(hit.transform.gameObject);
                     MedicalSchool_AcceptanceLetter_Interactive();   // 의과대 합격장 함수
                     break;
                 case "Flower":
@@ -233,7 +243,7 @@ public class ObjectCheck : MonoBehaviour
                 case "Acceptance_Mobile":
                     Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
                     break;
-                default:
+                case "Test":
                     InitViewMode(hit.transform.gameObject);
                     break;
 

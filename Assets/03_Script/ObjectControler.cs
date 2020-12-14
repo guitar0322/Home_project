@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class ObjectControler : MonoBehaviour
 {
-    private float rotSpeed = 3;
-    public GameObject camArm;
+    private float rotSpeed = 3;             //오브젝트 회전 속도
+    private GameObject targetObj;           //상호작용 오브젝트
+    private Vector3 targetPosition;         //오브젝트가 이동할 카메라의 중심위치
+    private bool closeUpFlag;               //오브젝트 이동을 알리는 플래그
+    private bool ctrlFlag;
+    private float moveTimeInSeconds = 1f;   //오브젝트 이동속도
+    private Vector3 oldPosition;
+    private Vector3 oldRotate;
 
     void Start()
     {
@@ -16,20 +22,66 @@ public class ObjectControler : MonoBehaviour
     void Update()
     {
         RotCtrl();
+        if(closeUpFlag == true)
+        {
+            if (Vector3.Distance(targetObj.transform.position, targetPosition) < 0.01f)
+            {
+                ctrlFlag = true;
+            }
+            else
+            {
+                targetObj.transform.position = Vector3.MoveTowards(targetObj.transform.position, targetPosition, moveTimeInSeconds * Time.deltaTime);
+                Debug.Log("target : " + targetObj.transform.position + " old : " + oldPosition);
+
+            }
+        }
+        else if(closeUpFlag == false)
+        {
+            Debug.Log("recover");
+            Debug.Log("target : " + targetObj.transform.position + " old : " + oldPosition);
+            if (Vector3.Distance(targetObj.transform.position, oldPosition) < 0.01f)
+            {
+                ctrlFlag = false;
+                this.enabled = false;
+            }
+            else
+            {
+                targetObj.transform.position = Vector3.MoveTowards(targetObj.transform.position, oldPosition, moveTimeInSeconds * Time.deltaTime);
+                Vector3 targetDir = oldPosition - targetObj.transform.position;
+                float step = moveTimeInSeconds * Time.deltaTime;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+                targetObj.transform.rotation = Quaternion.LookRotation(newDir);
+            }
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            closeUpFlag = false;
+        }
+
+    }
+
+    public void SetProperty(GameObject obj, Vector3 position)
+    {
+        //오브젝트 이동을 위한 클래스의 속성값 SET.
+        oldPosition = obj.transform.position;
+        oldRotate = obj.transform.rotation.eulerAngles;
+        targetObj = obj;
+        targetPosition = position;
+        closeUpFlag = true;
     }
 
     void RotCtrl()
-    { //마우스 회전 시점이동 함수
-        Cursor.lockState = CursorLockMode.Locked;//마우스 커서 고정
-        Cursor.visible = false;//마우스 커서 보이기            
+    { 
+        if(ctrlFlag == true)
+        {
+            Cursor.lockState = CursorLockMode.Locked;//마우스 커서 고정
+            Cursor.visible = false;//마우스 커서 보이기            
 
-        float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
-        float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
-        //camArm.transform.localRotation *= Quaternion.Euler(-rotVer, -rotHor, 0);           // 마우스 회전
-        camArm.transform.Rotate(Vector3.forward, rotVer);
-        camArm.transform.Rotate(Vector3.up, rotHor);
+            float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 수직회전
+            float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 수평회전
+            targetObj.transform.Rotate(Vector3.forward, rotVer, Space.World);
+            targetObj.transform.Rotate(Vector3.up, rotHor, Space.World);
 
-
-        //fpsCam.transform.rotation *= Quaternion.Euler(-rotVer, 0, 0);    // 마우스 회전
+        }
     }
 }

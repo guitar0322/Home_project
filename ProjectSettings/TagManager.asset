@@ -28,6 +28,7 @@ TagManager:
   - Level_2_MNQ_Position
   - ShadowHands
   - DoorHinge
+  - Test
   layers:
   - Default
   - TransparentFX
