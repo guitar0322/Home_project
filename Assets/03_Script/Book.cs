@@ -249,7 +249,7 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(0, 0);
         Left.transform.position = RightNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        if (currentPage <= GameManager.instance.gameState - 1)
+        if (currentPage <= GameManager.instance.gameState)
             Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
         else
             Left.sprite = null;
@@ -258,12 +258,12 @@ public class Book : MonoBehaviour {
         Right.gameObject.SetActive(true);
         Right.transform.position = RightNext.transform.position;
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
-        if (currentPage + 1 <= GameManager.instance.gameState - 1)
+        if (currentPage + 1 <= GameManager.instance.gameState)
             Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
         else
             Right.sprite = null;
 
-        if (currentPage + 2 <= GameManager.instance.gameState - 1)
+        if (currentPage + 2 <= GameManager.instance.gameState)
             RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
         else
             RightNext.sprite = null;
@@ -290,7 +290,7 @@ public class Book : MonoBehaviour {
 
         Right.gameObject.SetActive(true);
         Right.transform.position = LeftNext.transform.position;
-        if (currentPage - 1 <= GameManager.instance.gameState - 1)
+        if (currentPage - 1 <= GameManager.instance.gameState)
             Right.sprite = bookPages[currentPage - 1];
         else
             Right.sprite = null;
@@ -302,12 +302,12 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(1, 0);
         Left.transform.position = LeftNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        if (currentPage - 2 <= GameManager.instance.gameState - 1)
+        if (currentPage - 2 <= GameManager.instance.gameState)
             Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
         else
             Left.sprite = null;
 
-        if (currentPage - 3 <= GameManager.instance.gameState - 1)
+        if (currentPage - 3 <= GameManager.instance.gameState)
             LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
         else
             LeftNext.sprite = null;
@@ -345,7 +345,7 @@ public class Book : MonoBehaviour {
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
-        if (currentPage > GameManager.instance.gameState - 1)
+        if (currentPage > GameManager.instance.gameState)
         {
             LeftNext.sprite = null;
             RightNext.sprite = null;

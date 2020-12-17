@@ -258,20 +258,18 @@ public class ObjectCheck : MonoBehaviour
         Debug.Log("Diary Open");
         if (GameManager.instance.gameState == 1)
         {
-            InitUIMode();
-            playerControler.enabled = false;        //유저 움직임 멈춤
-            Cursor.visible = true;                  // 마우스 보임
-            Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
-            book_paper.SetActive(true);     // 일기장 보이기, ######일기장 UI는 짝수여야 제대로 작동함#####.
+            GameManager.instance.gameState++;
+            can_Interact_Level1_Objects = true;
+            InitUIMode();//UI모드(퍼즐모드)로 전환.
 
-            can_Interact_Level1_Objects = true;     // 붕어빵, 목도리하고 상호작용 가능하게 한다.
             Debug.Log("Diary Open");
         }
 
         if (isInteract_FishBread && isInteract_Scarf && isInteract_Medicine_Envelope_A &&
             isInteract_Medicine_Envelope_B && isInteract_MedicalSchool_Pic &&
             isInteract_MedicalSchool_AcceptanceLetter)  // 모든 필요 오브젝트 상호작용을 하면
-        {                                               // 마네킹 상호작용 가능
+        {
+            Debug.Log("diary complete");// 마네킹 상호작용 가능
             mNQMove = true;
             //Debug.Log("Can MNQ Move!"); 
         }
@@ -327,7 +325,7 @@ public class ObjectCheck : MonoBehaviour
 
     void Scarf_Interactive() //목도리 상호작용 함수
     {
-        if(can_Interact_Level1_Objects == true)
+        if(GameManager.instance.gameState == 2)
         {
             if(hit.collider.tag == "Scarf")
             {

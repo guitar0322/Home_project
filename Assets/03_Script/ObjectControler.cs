@@ -11,7 +11,7 @@ public class ObjectControler : MonoBehaviour
     private bool ctrlFlag;
     private float moveTimeInSeconds = 1f;   //오브젝트 이동속도
     private Vector3 oldPosition;
-    private Vector3 oldRotate;
+    private Quaternion oldRotate;
 
     void Start()
     {
@@ -47,10 +47,10 @@ public class ObjectControler : MonoBehaviour
             else
             {
                 targetObj.transform.position = Vector3.MoveTowards(targetObj.transform.position, oldPosition, moveTimeInSeconds * Time.deltaTime);
-                Vector3 targetDir = oldPosition - targetObj.transform.position;
-                float step = moveTimeInSeconds * Time.deltaTime;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-                targetObj.transform.rotation = Quaternion.LookRotation(newDir);
+
+                //Vector3 targetDir = oldRotate - targetObj.transform.position;
+                float step = moveTimeInSeconds * Time.deltaTime * 500;
+                targetObj.transform.rotation = Quaternion.RotateTowards(targetObj.transform.rotation, oldRotate, step);
             }
         }
         if (Input.GetMouseButtonUp(1))
@@ -64,7 +64,7 @@ public class ObjectControler : MonoBehaviour
     {
         //오브젝트 이동을 위한 클래스의 속성값 SET.
         oldPosition = obj.transform.position;
-        oldRotate = obj.transform.rotation.eulerAngles;
+        oldRotate = obj.transform.rotation;
         targetObj = obj;
         targetPosition = position;
         closeUpFlag = true;

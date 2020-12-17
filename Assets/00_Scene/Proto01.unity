@@ -10030,7 +10030,7 @@ PrefabInstance:
     - target: {fileID: 8677857811841506440, guid: 06adcd3913b57544db5ee6c7931da873,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.21
       objectReference: {fileID: 0}
     - target: {fileID: 8677857811841506441, guid: 06adcd3913b57544db5ee6c7931da873,
         type: 3}
@@ -10197,6 +10197,11 @@ PrefabInstance:
       propertyPath: viewModeCam
       value: 
       objectReference: {fileID: 864731429}
+    - target: {fileID: 8677857812217442400, guid: 06adcd3913b57544db5ee6c7931da873,
+        type: 3}
+      propertyPath: mNQMove
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8677857812217442402, guid: 06adcd3913b57544db5ee6c7931da873,
         type: 3}
       propertyPath: m_LocalPosition.x
