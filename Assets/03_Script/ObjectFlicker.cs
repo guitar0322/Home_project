@@ -15,11 +15,11 @@ public class ObjectFlicker : MonoBehaviour
 
     private void Update()
     {
-        if(Time.time > 5 && objectCheck.isInteract_Scarf == false)
+        if(Time.time > 5)
         {
             StartCoroutine("CheckerLighting");
         }
-        else if (objectCheck.isInteract_Scarf)
+        else
         {
             StopCoroutine("CheckerLighting");
         }

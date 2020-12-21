@@ -6,6 +6,14 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public int gameState;
+    public bool middleGameState;
+    public bool fish,
+        scarf,
+        medicineA,
+        medicineB,
+        schoolA,
+        schoolB;
+
     Player_MoveCtrl player_MoveCtrl;
     public static GameManager instance
     {
@@ -23,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         player_MoveCtrl = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
         gameState = 0;
+        middleGameState = false;
     }
 
     public Player_MoveCtrl GetPlayerControler()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Gamesystem;
 
 public class ObjectCheck : MonoBehaviour
 {
@@ -17,25 +18,20 @@ public class ObjectCheck : MonoBehaviour
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
+    Book book;
 
     //###### 상호작용 오브젝트들 초기화 칸 ###################
     public GameObject scarf;
-    public bool isInteract_Scarf = false;
 
     public GameObject fishBread;
-    public bool isInteract_FishBread = false;
 
     public GameObject medicine_Envelope_A;
-    public bool isInteract_Medicine_Envelope_A;
 
     public GameObject medicine_Envelope_B;
-    public bool isInteract_Medicine_Envelope_B;
 
     public GameObject medicalSchool_Pic;
-    public bool isInteract_MedicalSchool_Pic;
     
     public GameObject medicalSchool_AcceptanceLetter;
-    public bool isInteract_MedicalSchool_AcceptanceLetter;
     //############ 일기장 이후 오브젝트 #######################
     public GameObject pianoFlower;
     public bool isInteract_PianoFlower;
@@ -83,12 +79,12 @@ public class ObjectCheck : MonoBehaviour
     Level_2_MNQ_Position level_2_MNQ_Position;
     DoorHinge doorHinge;
 
-    RaycastHit hit;
+    RaycastHit raycastHitObject;
     Ray ray;
 
     public GameObject viewModeTargetObj;
     public GameObject viewModeCamArm;
-    public GameObject UI;
+    public GameObject puzzleUI;
     public GameObject rawImage;
     public Camera viewModeCam;
     public void FlipSound()
@@ -119,13 +115,68 @@ public class ObjectCheck : MonoBehaviour
 
     void Start()
     {
-        diaryDropSound = transform.GetChild(2).GetComponent<AudioSource>(); // 자식 2 = DropSound        
+        diaryDropSound = transform.GetChild(2).GetComponent<AudioSource>(); // 자식 2 = DropSound   
+        book = book_paper.GetComponent<Book>();
     }
 
     void Update()
     {
         ObjectCheckByRay();
-        if (Input.GetMouseButtonDown(1))
+        PressMouseRightEventHandler();
+        PressKeyboardEventHandler();
+    }
+    void PressKeyboardEventHandler()
+    {
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            TakeViewModeObject();
+        }
+    }
+    void TakeViewModeObject()
+    {
+        if (viewMode == false)
+            return;
+        if (GameManager.instance.middleGameState == false)
+            GameManager.instance.middleGameState = true;
+        else
+        {
+            GameManager.instance.gameState++;
+            GameManager.instance.middleGameState = false;
+        }
+        switch (raycastHitObject.collider.tag)
+        {
+            case "FishBread":
+                //GameManager.instance.fish = true;
+                book.ChangeBookPage(0);
+                break;
+            case "Scarf":
+                //GameManager.instance.scarf = true;
+                book.ChangeBookPage(2);
+                break;
+            case "Medicine_Envelope_A":
+                book.ChangeBookPage(4);
+                //GameManager.instance.medicineA = true;
+                break;
+            case "Medicine_Envelope_B":
+                book.ChangeBookPage(6);
+                //GameManager.instance.medicineB = true;
+                break;
+            case "MedicalSchool_Pic":
+                book.ChangeBookPage(8);
+                //GameManager.instance.schoolA = true;
+                break;
+            case "MedicalSchool_AcceptanceLetter":
+                book.ChangeBookPage(10);
+                //GameManager.instance.schoolB = true;
+                break;
+
+        }
+        ViewModeExit();
+        raycastHitObject.collider.gameObject.SetActive(false);
+    }
+    void PressMouseRightEventHandler()
+    {
+        if (Input.GetMouseButtonUp(1))
         {
             if (viewMode == true)
             {
@@ -135,6 +186,7 @@ public class ObjectCheck : MonoBehaviour
             {
                 UIModeExit();
             }
+            Debug.Log(GameManager.instance.gameState);
         }
     }
     void InitViewMode(GameObject target)
@@ -163,7 +215,7 @@ public class ObjectCheck : MonoBehaviour
 
         Cursor.visible = true; // 마우스 보임 
         Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
-        UI.SetActive(true); // UI 보이기
+        puzzleUI.SetActive(true); // UI 보이기
     }
 
     private void ViewModeExit()
@@ -173,14 +225,13 @@ public class ObjectCheck : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         rawImage.SetActive(false); // 렌더텍스처 없애기
         viewMode = false;
-        Debug.Log("Diary Close");
     }
 
     private void UIModeExit()
     {
         playerControler.enabled = true;
 
-        UI.SetActive(false); //UI 숨기기
+        puzzleUI.SetActive(false); //UI 숨기기
         uiMode = false;
         Debug.Log("Diary Close");
     }
@@ -194,9 +245,9 @@ public class ObjectCheck : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(mouseDownPos);
         Debug.DrawRay(ray.origin, ray.direction * m_RayDistance, Color.red);
 
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, m_RayDistance))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
         {
-            switch (hit.collider.tag)
+            switch (raycastHitObject.collider.tag)
             {
                 case "MNQ":
                     FirstMNQ_Interactive();//첫 마네킹 상호작용
@@ -205,27 +256,21 @@ public class ObjectCheck : MonoBehaviour
                     Diary_Interactive();//일기장 함수
                     break;
                 case "Scarf":
-                    InitViewMode(hit.transform.gameObject);
                     Scarf_Interactive();//목돌이 함수
                     break;
                 case "FishBread":
-                    InitViewMode(hit.transform.gameObject);
                     FishBread_Interactive();                        // 붕어빵 함수
                     break;
                 case "Medicine_Envelope_A":
-                    InitViewMode(hit.transform.gameObject);
                     Medicine_Envelope_A_Interactive();              // 약봉투 A 함수
                     break;
                 case "Medicine_Envelope_B":
-                    InitViewMode(hit.transform.gameObject);
                     Medicine_Envelope_B_Interactive();              // 약봉투 B 함수
                     break;
                 case "MedicalSchool_Pic":
-                    InitViewMode(hit.transform.gameObject);
                     MedicalSchool_Pic_Interactive();                // 의과대 사진 함수
                     break;
                 case "MedicalSchool_AcceptanceLetter":
-                    InitViewMode(hit.transform.gameObject);
                     MedicalSchool_AcceptanceLetter_Interactive();   // 의과대 합격장 함수
                     break;
                 case "Flower":
@@ -244,11 +289,11 @@ public class ObjectCheck : MonoBehaviour
                     Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
                     break;
                 case "Test":
-                    InitViewMode(hit.transform.gameObject);
+                    InitViewMode(raycastHitObject.transform.gameObject);
                     break;
 
             }
-            Debug.Log(hit.collider.tag);
+            Debug.Log(raycastHitObject.collider.tag);
         }// 개별로 만든 이유는 나중에 각 오브젝트 별로 특별한 사운드 및 연출을 하기 위함.
     }
 
@@ -256,27 +301,28 @@ public class ObjectCheck : MonoBehaviour
     {
 
         Debug.Log("Diary Open");
-        if (GameManager.instance.gameState == 1)
+        if (GameManager.instance.gameState >= State.O_MNQ)
         {
-            GameManager.instance.gameState++;
+            if(GameManager.instance.gameState == State.O_MNQ)
+                GameManager.instance.gameState++;
             can_Interact_Level1_Objects = true;
             InitUIMode();//UI모드(퍼즐모드)로 전환.
 
             Debug.Log("Diary Open");
         }
 
-        if (isInteract_FishBread && isInteract_Scarf && isInteract_Medicine_Envelope_A &&
-            isInteract_Medicine_Envelope_B && isInteract_MedicalSchool_Pic &&
-            isInteract_MedicalSchool_AcceptanceLetter)  // 모든 필요 오브젝트 상호작용을 하면
+        //모든 오브젝트 상호작용하면
+        if(GameManager.instance.gameState == State.O_SCHOOL)
         {
             Debug.Log("diary complete");// 마네킹 상호작용 가능
             mNQMove = true;
             //Debug.Log("Can MNQ Move!"); 
         }
     }
+
     void FirstMNQ_Interactive() //마네킹 1회 이상 상호작용 하기
     {
-        if (GameManager.instance.gameState == 0)
+        if (GameManager.instance.gameState == State.START)
         {
             DropDiary();
             GameManager.instance.gameState++;
@@ -325,85 +371,57 @@ public class ObjectCheck : MonoBehaviour
 
     void Scarf_Interactive() //목도리 상호작용 함수
     {
-        if(GameManager.instance.gameState == 2)
+        if(GameManager.instance.gameState == State.O_DIARY)
         {
-            if(hit.collider.tag == "Scarf")
-            {
-                scarf.SetActive(false);
-                isInteract_Scarf = true;
-                
-               //Debug.Log("Scarf Clear");
-            }
+            InitViewMode(raycastHitObject.transform.gameObject);
         }
     }
 
     void FishBread_Interactive() //붕어빵 상호작용 함수
     {
-        if(can_Interact_Level1_Objects == true)
+        if(GameManager.instance.gameState == State.O_DIARY)
         {
-            if(hit.collider.tag == "FishBread")
-            {
-                fishBread.SetActive(false);
-                isInteract_FishBread = true;
+            InitViewMode(raycastHitObject.transform.gameObject);
 
-                //Debug.Log("FishBread Clear");
-            }
+            //Debug.Log("FishBread Clear");
         }
     }
 
     void Medicine_Envelope_A_Interactive() //약 봉투A 상호작용 함수
     {
-        if (can_Interact_Level1_Objects == true)
+        if (GameManager.instance.gameState == State.O_FISH_SCARF)
         {
-            if (hit.collider.tag == "Medicine_Envelope_A")
-            {
-                medicine_Envelope_A.SetActive(false);
-                isInteract_Medicine_Envelope_A = true;
-
-                //Debug.Log("Medicine_Envelope_A Clear");
-            }
+            InitViewMode(raycastHitObject.transform.gameObject);
+            //Debug.Log("FishBread Clear");
         }
     }
 
     void Medicine_Envelope_B_Interactive() //약 봉투A 상호작용 함수
     {
-        if (can_Interact_Level1_Objects == true)
+        if (GameManager.instance.gameState == State.O_FISH_SCARF)
         {
-            if (hit.collider.tag == "Medicine_Envelope_B")
-            {
-                medicine_Envelope_B.SetActive(false);
-                isInteract_Medicine_Envelope_B = true;
+            InitViewMode(raycastHitObject.transform.gameObject);
 
-                //Debug.Log("Medicine_Envelope_B Clear");
-            }
+            //Debug.Log("FishBread Clear");
         }
     }
 
     void MedicalSchool_Pic_Interactive() //약 봉투A 상호작용 함수
     {
-        if (can_Interact_Level1_Objects == true)
+        if (GameManager.instance.gameState == State.O_MEDICINE)
         {
-            if (hit.collider.tag == "MedicalSchool_Pic")
-            {
-                medicalSchool_Pic.SetActive(false);
-                isInteract_MedicalSchool_Pic = true;
-
-                //Debug.Log("MedicalSchool_Pic Clear");
-            }
+            InitViewMode(raycastHitObject.transform.gameObject);
+            //Debug.Log("FishBread Clear");
         }
     }
 
     void MedicalSchool_AcceptanceLetter_Interactive() //약 봉투A 상호작용 함수
     {
-        if (can_Interact_Level1_Objects == true)
+        if (GameManager.instance.gameState == State.O_MEDICINE)
         {
-            if (hit.collider.tag == "MedicalSchool_AcceptanceLetter")
-            {
-                medicalSchool_AcceptanceLetter.SetActive(false);
-                isInteract_MedicalSchool_AcceptanceLetter = true;
-                
-                //Debug.Log("MedicalSchool_AcceptanceLetter Clear");
-            }
+            InitViewMode(raycastHitObject.transform.gameObject);
+
+            //Debug.Log("FishBread Clear");
         }
     }
 
@@ -411,8 +429,6 @@ public class ObjectCheck : MonoBehaviour
     {
         if (mNQPsition.isFlower == true)
         {
-            if(hit.collider.tag == "Flower")
-            {
                 mirrorCrackingSound.Play();
                 
                 Invoke("PianoBGM_Player", 1f);
@@ -422,9 +438,6 @@ public class ObjectCheck : MonoBehaviour
                 
                 mirror.SetActive(false);
                 Cracking_mirror.SetActive(true);
-
-                //Debug.Log("PianoFlower Clear"); 
-            }
         }
     }
 
@@ -435,10 +448,7 @@ public class ObjectCheck : MonoBehaviour
 
     void Door_Interactive()
     {
-        if(hit.collider.tag == "Door" && isInteract_PianoFlower && doorHinge.canObjectCheck)
-        {
             doorHinge.transform.eulerAngles = new Vector3(0, -90, 0);
-        }      
     }
 
     void DestroyMNQ()
@@ -449,8 +459,6 @@ public class ObjectCheck : MonoBehaviour
 
     void Soju_Interactive()
     {
-        if(hit.collider.tag == "Soju")
-        {
             randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
             //Debug.Log(randomTime);
 
@@ -460,13 +468,10 @@ public class ObjectCheck : MonoBehaviour
             haveSoju = true;
             position_Soju.SetActive(true);
             soju.SetActive(false);
-        }
     }
 
     void FallenLeaves_Interactive()
     {
-        if (hit.collider.tag == "FallenLeaves")
-        {
             randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
             //Debug.Log(randomTime);
             haveSoju = false;
@@ -476,13 +481,10 @@ public class ObjectCheck : MonoBehaviour
             haveFallenLeaves = true;
 
             fallenLeaves.SetActive(false);
-        }
     }
 
     void Acceptance_Mobile_Interactive()
     {
-        if (hit.collider.tag == "Acceptance_Mobile")
-        {
             randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
             //Debug.Log(randomTime);
 
@@ -491,7 +493,6 @@ public class ObjectCheck : MonoBehaviour
             haveAcceptance_Mobile = true;
 
             acceptance_Mobile.SetActive(false);
-        }
     }
 
     void Cant_Playermove()

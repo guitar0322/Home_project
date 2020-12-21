@@ -31,14 +31,11 @@ public class ObjectControler : MonoBehaviour
             else
             {
                 targetObj.transform.position = Vector3.MoveTowards(targetObj.transform.position, targetPosition, moveTimeInSeconds * Time.deltaTime);
-                Debug.Log("target : " + targetObj.transform.position + " old : " + oldPosition);
 
             }
         }
         else if(closeUpFlag == false)
         {
-            Debug.Log("recover");
-            Debug.Log("target : " + targetObj.transform.position + " old : " + oldPosition);
             if (Vector3.Distance(targetObj.transform.position, oldPosition) < 0.01f)
             {
                 ctrlFlag = false;
@@ -56,6 +53,7 @@ public class ObjectControler : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             closeUpFlag = false;
+            ctrlFlag = false;
         }
 
     }
@@ -74,9 +72,6 @@ public class ObjectControler : MonoBehaviour
     { 
         if(ctrlFlag == true)
         {
-            Cursor.lockState = CursorLockMode.Locked;//마우스 커서 고정
-            Cursor.visible = false;//마우스 커서 보이기            
-
             float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 수직회전
             float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 수평회전
             targetObj.transform.Rotate(Vector3.forward, rotVer, Space.World);
