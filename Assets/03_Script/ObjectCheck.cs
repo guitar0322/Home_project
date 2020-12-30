@@ -15,6 +15,7 @@ public class ObjectCheck : MonoBehaviour
 
     public bool viewMode = false;
     public bool uiMode = false;
+    private int puzzleType;
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
@@ -22,15 +23,10 @@ public class ObjectCheck : MonoBehaviour
 
     //###### 상호작용 오브젝트들 초기화 칸 ###################
     public GameObject scarf;
-
     public GameObject fishBread;
-
     public GameObject medicine_Envelope_A;
-
     public GameObject medicine_Envelope_B;
-
     public GameObject medicalSchool_Pic;
-    
     public GameObject medicalSchool_AcceptanceLetter;
     //############ 일기장 이후 오브젝트 #######################
     public GameObject pianoFlower;
@@ -64,11 +60,11 @@ public class ObjectCheck : MonoBehaviour
     NavMeshAgent navMNQ;
     //#########################################################
 
-    AudioSource diaryDropSound;
-    AudioSource diaryOpenSound;
-    AudioSource diaryFilpSound;
-    AudioSource mirrorCrackingSound;
-    AudioSource pianoBGM;
+    public AudioSource diaryDropSound;
+    public AudioSource diaryOpenSound;
+    public AudioSource diaryFilpSound;
+    public AudioSource mirrorCrackingSound;
+    public AudioSource pianoBGM;
 
     Player_MoveCtrl playerControler;
     ObjectControler objectControler;
@@ -189,7 +185,7 @@ public class ObjectCheck : MonoBehaviour
             Debug.Log(GameManager.instance.gameState);
         }
     }
-    void InitViewMode(GameObject target)
+    public void InitViewMode(GameObject target)
     {
         //오브젝트 상호작용 연출을 위해 오브젝트를 화면 중심으로 옮기고 오브젝트 컨트롤 스크립트를 활성화
         viewModeTargetObj = target;
@@ -208,17 +204,19 @@ public class ObjectCheck : MonoBehaviour
         viewMode = true;
         rawImage.SetActive(true);
     }
-    void InitUIMode()
+    public void InitUIMode(int type)
     {
+        puzzleType = type;
         uiMode = true;
         playerControler.enabled = false; //유저 움직임 멈춤
 
         Cursor.visible = true; // 마우스 보임 
         Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
         puzzleUI.SetActive(true); // UI 보이기
+        puzzleUI.transform.GetChild(puzzleType).gameObject.SetActive(true);
     }
 
-    private void ViewModeExit()
+    public void ViewModeExit()
     {
         playerControler.enabled = true; // 유저 다시 움직인다.
         GetComponent<CapsuleCollider>().enabled = true;
@@ -227,13 +225,13 @@ public class ObjectCheck : MonoBehaviour
         viewMode = false;
     }
 
-    private void UIModeExit()
+    public void UIModeExit()
     {
         playerControler.enabled = true;
-
         puzzleUI.SetActive(false); //UI 숨기기
+        puzzleUI.transform.GetChild(puzzleType).gameObject.SetActive(false);
         uiMode = false;
-        Debug.Log("Diary Close");
+        Debug.Log("Puzzle Close");
     }
 
     private void ObjectCheckByRay()
@@ -305,8 +303,7 @@ public class ObjectCheck : MonoBehaviour
         {
             if(GameManager.instance.gameState == State.O_MNQ)
                 GameManager.instance.gameState++;
-            can_Interact_Level1_Objects = true;
-            InitUIMode();//UI모드(퍼즐모드)로 전환.
+            InitUIMode(Puzzle.Diary);//UI모드(퍼즐모드)로 전환.
 
             Debug.Log("Diary Open");
         }
@@ -427,17 +424,18 @@ public class ObjectCheck : MonoBehaviour
 
     void PianoFlower_Interactive() //피아노꽃 함수
     {
-        if (mNQPsition.isFlower == true)
+        if (GameManager.instance.gameState == State.O_MNQ_MOVE)
         {
-                mirrorCrackingSound.Play();
-                
-                Invoke("PianoBGM_Player", 1f);
+            InitUIMode(Puzzle.Piano);
+            //mirrorCrackingSound.Play();
 
-                pianoFlower.SetActive(false);
-                isInteract_PianoFlower = true;      
-                
-                mirror.SetActive(false);
-                Cracking_mirror.SetActive(true);
+            //Invoke("PianoBGM_Player", 1f);
+
+            //pianoFlower.SetActive(false);
+            //isInteract_PianoFlower = true;      
+
+            //mirror.SetActive(false);
+            //Cracking_mirror.SetActive(true);
         }
     }
 

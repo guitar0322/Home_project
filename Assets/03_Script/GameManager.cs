@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public int gameState;
     public bool middleGameState;
+    public GameObject leftDoor;
     public bool fish,
         scarf,
         medicineA,
@@ -34,6 +35,10 @@ public class GameManager : MonoBehaviour
         middleGameState = false;
     }
 
+    public void StageOneClear()
+    {
+        leftDoor.transform.eulerAngles = new Vector3(0, -90, 0);
+    }
     public Player_MoveCtrl GetPlayerControler()
     {
         return player_MoveCtrl;
@@ -42,7 +47,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StageOneClear();
     }
 
     // Update is called once per frame

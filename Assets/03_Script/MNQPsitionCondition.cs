@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gamesystem;
 
 public class MNQPsitionCondition : MonoBehaviour
 {
@@ -13,9 +14,9 @@ public class MNQPsitionCondition : MonoBehaviour
     {
         if (other.gameObject == mNQ_D)
         {
-            isFlower = true;
+            GameManager.instance.gameState = State.O_MNQ_MOVE;
             pianoFlower.SetActive(true);
-            Destroy(this.gameObject);
+            this.enabled = false;
         }
     }  
 }

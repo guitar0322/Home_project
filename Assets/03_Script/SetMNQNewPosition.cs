@@ -47,7 +47,7 @@ public class SetMNQNewPosition : MonoBehaviour
         for (i = 0; i < round_MNQ_Position.Length; i++)
         {
             mNQ_D_Prefabs =
-                Instantiate(mNQ_D, round_MNQ_Position[i].position, Quaternion.EulerAngles(0, i * randRotation, 0));
+                Instantiate(mNQ_D, round_MNQ_Position[i].position, Quaternion.Euler(0, i * randRotation, 0));
         }
         
     }

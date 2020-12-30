@@ -18,15 +18,34 @@ namespace Gamesystem
             O_DIARY = 2,
             O_FISH_SCARF = 3,
             O_MEDICINE = 4,
-            O_SCHOOL = 5;
+            O_SCHOOL = 5,
+            O_MNQ_MOVE = 6,
+            O_PIANO_PUZZLE = 7;
     }
 
-    //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 enum
-    public enum Puzzle
+    //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합
+    public static class Puzzle
     {
-        Diary = 0, // 일기장
-        Piano, // 피아노 퍼즐
-        Mask,
-        End
+        public const int Diary = 0, // 일기장
+            Piano = 1, // 피아노 퍼즐
+            Mask = 2,
+            End = 3;
     }
+
+    public class Pair<T, U>
+    {
+        public Pair()
+        {
+        }
+
+        public Pair(T first, U second)
+        {
+            this.First = first;
+            this.Second = second;
+        }
+
+        public T First { get; set; }
+        public U Second { get; set; }
+    };
+
 }
