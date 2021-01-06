@@ -15,11 +15,13 @@ public class ObjectCheck : MonoBehaviour
 
     public bool viewMode = false;
     public bool uiMode = false;
+    public bool takeFlag = false;
     private int puzzleType;
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
     Book book;
+    public AutoFlip flip;
 
     //###### 상호작용 오브젝트들 초기화 칸 ###################
     public GameObject scarf;
@@ -112,7 +114,6 @@ public class ObjectCheck : MonoBehaviour
     void Start()
     {
         diaryDropSound = transform.GetChild(2).GetComponent<AudioSource>(); // 자식 2 = DropSound   
-        book = book_paper.GetComponent<Book>();
     }
 
     void Update()
@@ -130,7 +131,7 @@ public class ObjectCheck : MonoBehaviour
     }
     void TakeViewModeObject()
     {
-        if (viewMode == false)
+        if (viewMode == false || takeFlag == false)
             return;
         if (GameManager.instance.middleGameState == false)
             GameManager.instance.middleGameState = true;
@@ -177,8 +178,9 @@ public class ObjectCheck : MonoBehaviour
             if (viewMode == true)
             {
                 ViewModeExit();
+                takeFlag = false;
             }
-            else if (uiMode == true)
+            else if (uiMode == true && flip.isFlipping == false)
             {
                 UIModeExit();
             }
@@ -370,56 +372,78 @@ public class ObjectCheck : MonoBehaviour
     {
         if(GameManager.instance.gameState == State.O_DIARY)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void FishBread_Interactive() //붕어빵 상호작용 함수
     {
         if(GameManager.instance.gameState == State.O_DIARY)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
-
-            //Debug.Log("FishBread Clear");
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void Medicine_Envelope_A_Interactive() //약 봉투A 상호작용 함수
     {
         if (GameManager.instance.gameState == State.O_FISH_SCARF)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
-            //Debug.Log("FishBread Clear");
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void Medicine_Envelope_B_Interactive() //약 봉투A 상호작용 함수
     {
         if (GameManager.instance.gameState == State.O_FISH_SCARF)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
-
-            //Debug.Log("FishBread Clear");
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void MedicalSchool_Pic_Interactive() //약 봉투A 상호작용 함수
     {
         if (GameManager.instance.gameState == State.O_MEDICINE)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
-            //Debug.Log("FishBread Clear");
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void MedicalSchool_AcceptanceLetter_Interactive() //약 봉투A 상호작용 함수
     {
         if (GameManager.instance.gameState == State.O_MEDICINE)
         {
-            InitViewMode(raycastHitObject.transform.gameObject);
-
-            //Debug.Log("FishBread Clear");
+            takeFlag = true;
         }
+        else
+        {
+            takeFlag = false;
+        }
+        InitViewMode(raycastHitObject.transform.gameObject);
     }
 
     void PianoFlower_Interactive() //피아노꽃 함수
@@ -427,15 +451,6 @@ public class ObjectCheck : MonoBehaviour
         if (GameManager.instance.gameState == State.O_MNQ_MOVE)
         {
             InitUIMode(Puzzle.Piano);
-            //mirrorCrackingSound.Play();
-
-            //Invoke("PianoBGM_Player", 1f);
-
-            //pianoFlower.SetActive(false);
-            //isInteract_PianoFlower = true;      
-
-            //mirror.SetActive(false);
-            //Cracking_mirror.SetActive(true);
         }
     }
 

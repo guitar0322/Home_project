@@ -63,7 +63,7 @@ public class Book : MonoBehaviour {
     Vector3 ebl;
     //follow point 
     Vector3 f;
-    bool pageDragging = false;
+    public bool pageDragging = false;
     //current flip mode
     FlipMode mode;
 

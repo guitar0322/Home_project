@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public void StageInit()
     {
         player_MoveCtrl = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
-        gameState = 0;
+        //gameState = 0;
         middleGameState = false;
     }
 
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StageOneClear();
     }
 
     // Update is called once per frame

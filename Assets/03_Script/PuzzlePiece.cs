@@ -25,12 +25,14 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IEndDragHandler
                 if (pianoPuzzle.piecePosSet.transform.GetChild(i).childCount == 0)
                 {
                     transform.SetParent(pianoPuzzle.piecePosSet.transform.GetChild(i).transform);
+                    transform.localPosition = Vector3.zero;
                     return true;
                 }
             }
         }
         return false;
     }
+
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!CheckPuzzleSocketSnap())
@@ -38,7 +40,11 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IEndDragHandler
             transform.SetParent(pianoPuzzle.pieceSet.transform);
         }
 
-        pianoPuzzle.IsClear();
+
+        if (pianoPuzzle.IsClear())
+        {
+            GameManager.instance.StageOneClear();
+        }
     }
 
     // Start is called before the first frame update
