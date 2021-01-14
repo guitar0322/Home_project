@@ -9,7 +9,7 @@ public class Player_MoveCtrl : MonoBehaviour
     public float rotSpeed = 3.0f;
     public float backMove = 0.7f;
 
-    public Camera fpsCam;
+    public GameObject fpsCam;
     GameObject playerEquipPoint;    
     bool  isEquip = false;
     public bool isSee = false;

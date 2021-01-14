@@ -16,6 +16,7 @@ public class ObjectCheck : MonoBehaviour
     public bool viewMode = false;
     public bool uiMode = false;
     public bool takeFlag = false;
+
     private int puzzleType;
 
     public GameObject mNQ_DPrefabs;
@@ -85,6 +86,7 @@ public class ObjectCheck : MonoBehaviour
     public GameObject puzzleUI;
     public GameObject rawImage;
     public Camera viewModeCam;
+
     public void FlipSound()
     {
         diaryFilpSound.Play();
@@ -189,18 +191,12 @@ public class ObjectCheck : MonoBehaviour
     }
     public void InitViewMode(GameObject target)
     {
+        //렌더텍스처를 활용하지 않은 구현
         //오브젝트 상호작용 연출을 위해 오브젝트를 화면 중심으로 옮기고 오브젝트 컨트롤 스크립트를 활성화
-        viewModeTargetObj = target;
-        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0.7f)));
+        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
         GetComponent<CapsuleCollider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
-        //target.layer = LayerMask.NameToLayer("UI");
-        Vector3 targetScreenPos = Camera.main.WorldToScreenPoint(target.transform.position);
-        Vector3 targetWorldPos = viewModeCam.ScreenToWorldPoint(targetScreenPos);
-        //viewModeTargetObj = Instantiate(target, targetWorldPos, Quaternion.identity) as GameObject;
-        //viewModeTargetObj.transform.parent = viewModeCamArm.transform;
-        //viewModeTargetObj.transform.localPosition = Vector3.zero;
-        //viewModeTargetObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
         playerControler.enabled = false;
         objectControler.enabled = true;
         viewMode = true;
@@ -223,7 +219,6 @@ public class ObjectCheck : MonoBehaviour
         playerControler.enabled = true; // 유저 다시 움직인다.
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
-        rawImage.SetActive(false); // 렌더텍스처 없애기
         viewMode = false;
     }
 
