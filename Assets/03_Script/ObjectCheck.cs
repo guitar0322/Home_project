@@ -197,6 +197,7 @@ public class ObjectCheck : MonoBehaviour
         GetComponent<CapsuleCollider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
 
+        target.layer = LayerMask.NameToLayer("UI");
         playerControler.enabled = false;
         objectControler.enabled = true;
         viewMode = true;

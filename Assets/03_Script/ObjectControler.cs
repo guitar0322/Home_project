@@ -14,7 +14,6 @@ public class ObjectControler : MonoBehaviour
     private float rotateSpeedPerSceond;
     private Vector3 oldPosition;
     private Quaternion oldRotate;
-
     void Start()
     {
         
@@ -29,7 +28,6 @@ public class ObjectControler : MonoBehaviour
             if (Vector3.Distance(targetObj.transform.position, targetPosition) < 0.01f)
             {
                 ctrlFlag = true;
-                targetObj.layer = LayerMask.NameToLayer("UI");
             }
             else
             {
@@ -78,8 +76,8 @@ public class ObjectControler : MonoBehaviour
         {
             float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 수직회전
             float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 수평회전
-            targetObj.transform.Rotate(Vector3.forward, rotVer, Space.World);
-            targetObj.transform.Rotate(Vector3.up, rotHor, Space.World);
+            targetObj.transform.Rotate(transform.right, rotVer, Space.World);
+            targetObj.transform.Rotate(transform.up, rotHor, Space.World);
 
         }
     }

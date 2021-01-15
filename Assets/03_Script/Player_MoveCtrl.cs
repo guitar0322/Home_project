@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player_MoveCtrl : MonoBehaviour
-{    
-    public float moveSpeed = 5.0f;
+{
+    public float moveSpeed;
     public float rotSpeed = 3.0f;
     public float backMove = 0.7f;
 
@@ -13,40 +13,50 @@ public class Player_MoveCtrl : MonoBehaviour
     GameObject playerEquipPoint;    
     bool  isEquip = false;
     public bool isSee = false;
-
-    Transform myTr;
+    Rigidbody rigidbody;
 
     void Start()
     {
-        Rigidbody rigid = GetComponent<Rigidbody>();
-        myTr = GetComponent<Transform>();
+        rigidbody = GetComponent<Rigidbody>();
         playerEquipPoint = GameObject.FindGameObjectWithTag("EquipPoint");
     }
     
     void Update()
     {
-        MoveCtrl(); // 캐릭터 움직임
         RotCtrl();  // 마우스 포인터를 통한 시점 변화
     }
-   
+
+    void FixedUpdate()
+    {
+        MoveCtrl(); // 캐릭터 움직임
+    }
     public void MoveCtrl()
     { //키보드 W,S,A,D Player 이동
-        if (Input.GetKey(KeyCode.W))
-        {
-            this.myTr.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            this.myTr.Translate(Vector3.back * moveSpeed * backMove * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.myTr.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.myTr.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-        }
+        float hor = Input.GetAxis("Horizontal") * moveSpeed;
+        float ver = Input.GetAxis("Vertical") * moveSpeed;
+
+
+        Vector3 pos = transform.forward * Time.fixedDeltaTime * ver + transform.right * Time.fixedDeltaTime * hor;
+
+        pos += transform.position;
+
+        rigidbody.MovePosition(pos);
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    this.transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    this.transform.Translate(Vector3.back * moveSpeed * backMove * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    this.transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    this.transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        //}
         if (Input.GetMouseButtonDown(1) && isEquip == true)
         {
             Drop();
@@ -86,7 +96,7 @@ public class Player_MoveCtrl : MonoBehaviour
         float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
         float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
 
-        this.myTr.localRotation *= Quaternion.Euler(0, rotHor, 0);           // 마우스 회전
+        this.transform.localRotation *= Quaternion.Euler(0, rotHor, 0);           // 마우스 회전
         fpsCam.transform.localRotation *= Quaternion.Euler(-rotVer, 0, 0);    // 마우스 회전
 
         if (fpsCam.transform.localRotation.eulerAngles.x > 0 && fpsCam.transform.localRotation.eulerAngles.x < 180f)
