@@ -82,7 +82,7 @@ public class ObjectCheck : MonoBehaviour
     Ray ray;
 
     public GameObject viewModeTargetObj;
-    public GameObject viewModeCamArm;
+    public GameObject blur;
     public GameObject puzzleUI;
     public GameObject rawImage;
     public Camera viewModeCam;
@@ -198,6 +198,7 @@ public class ObjectCheck : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = true;
 
         target.layer = LayerMask.NameToLayer("UI");
+        blur.SetActive(true);
         playerControler.enabled = false;
         objectControler.enabled = true;
         viewMode = true;
@@ -221,6 +222,7 @@ public class ObjectCheck : MonoBehaviour
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
         viewMode = false;
+        blur.SetActive(false);
     }
 
     public void UIModeExit()
