@@ -21,7 +21,7 @@ public class ObjectCheck : MonoBehaviour
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
-    Book book;
+    public Book book;
     public AutoFlip flip;
 
     //###### 상호작용 오브젝트들 초기화 칸 ###################

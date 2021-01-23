@@ -24,10 +24,10 @@ MonoBehaviour:
     value: 2.5
   focalLength:
     overrideState: 1
-    value: 228
+    value: 148
   kernelSize:
     overrideState: 1
-    value: 0
+    value: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
