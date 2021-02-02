@@ -21,7 +21,7 @@ public class ObjectCheck : MonoBehaviour
 
     public GameObject mNQ_DPrefabs;
     public GameObject book_paper;
-    Book book;
+    public Book book;
     public AutoFlip flip;
 
     //###### 상호작용 오브젝트들 초기화 칸 ###################
@@ -71,6 +71,7 @@ public class ObjectCheck : MonoBehaviour
 
     Player_MoveCtrl playerControler;
     ObjectControler objectControler;
+    MNQSpawn mnqSpawner;
 
     MNQPsitionCondition mNQPsition;
     OKMeshChange oKMesh;
@@ -94,7 +95,6 @@ public class ObjectCheck : MonoBehaviour
 
     void Awake()
     {
-        Book book_paper = GetComponent<Book>();
         playerControler = GetComponent<Player_MoveCtrl>();
         objectControler = GetComponent<ObjectControler>();
 
@@ -359,7 +359,6 @@ public class ObjectCheck : MonoBehaviour
     private void DropDiary() // 일기장 떨어지는 함수
     {
         GameObject diary = GameObject.FindWithTag("Diary");
-
         diary.transform.localPosition = new Vector3(-3.422f, 1.446f, 5.548f);
         diary.transform.Rotate(0, 0, 90);
         diaryDropSound.Play();
@@ -470,15 +469,15 @@ public class ObjectCheck : MonoBehaviour
 
     void Soju_Interactive()
     {
-            randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
-            //Debug.Log(randomTime);
+        randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
+        //Debug.Log(randomTime);
 
-            setMNQNewPosition.Instantiate_MNQ();
-            isCanMNQMove = true;
-            
-            haveSoju = true;
-            position_Soju.SetActive(true);
-            soju.SetActive(false);
+        setMNQNewPosition.Instantiate_MNQ();
+        isCanMNQMove = true;
+
+        haveSoju = true;
+        position_Soju.SetActive(true);
+        soju.SetActive(false);
     }
 
     void FallenLeaves_Interactive()

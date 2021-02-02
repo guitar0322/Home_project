@@ -8,7 +8,7 @@ public class MNQMoveControl : MonoBehaviour
     bool isPlayerEnter;
     public bool isMove;
            
-    GameObject player;
+    public GameObject player;
     GameObject playerEquipPoint;
     
     public NavMeshAgent nav;
@@ -22,7 +22,6 @@ public class MNQMoveControl : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         playerEquipPoint = GameObject.FindGameObjectWithTag("EquipPoint");
         moveCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_MoveCtrl>();        
         nav = GetComponent<NavMeshAgent>();
