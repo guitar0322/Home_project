@@ -95,6 +95,7 @@ public class Player_MoveCtrl : MonoBehaviour
 
         float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
         float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
+        Debug.Log(rotHor + " , " + rotVer);
 
         this.transform.localRotation *= Quaternion.Euler(0, rotHor, 0);           // 마우스 회전
         fpsCam.transform.localRotation *= Quaternion.Euler(-rotVer, 0, 0);    // 마우스 회전
