@@ -6,31 +6,40 @@ using Gamesystem;
 
 public class ObjectCheck : MonoBehaviour
 {
+    [Header("Property")]
     public float m_RayDistance = 100f;
-    public bool diaryMax01 = true;
+    public GameObject equipPoint;
 
+    [Header ("Flags")]
     public bool mNQMove = false;
-    public bool can_Interact_Level1_Objects = false;
-
-
     public bool viewMode = false;
     public bool uiMode = false;
     public bool takeFlag = false;
 
-    private int puzzleType;
+    [Header("Interaction")]
+    RaycastHit raycastHitObject;
+    Ray ray;
 
-    public GameObject mNQ_DPrefabs;
-    public GameObject book_paper;
+    [Header("Object")]
+    public GameObject blackHand;
+    public GameObject[] TtargetPoint;
+
+    [Header("Viewmode")]
+    public GameObject viewModeTargetObj;
+    public GameObject blur;
+    public Camera viewModeCam;
+
+    [Header("Puzzle")]
+    private int puzzleType;
+    public GameObject puzzleUI;
     public Book book;
     public AutoFlip flip;
 
-    //###### 상호작용 오브젝트들 초기화 칸 ###################
-    public GameObject scarf;
-    public GameObject fishBread;
-    public GameObject medicine_Envelope_A;
-    public GameObject medicine_Envelope_B;
-    public GameObject medicalSchool_Pic;
-    public GameObject medicalSchool_AcceptanceLetter;
+    [Header("External Component")]
+    public MNQSpawn mnqSpawner;
+
+    [Header("Debug")]
+    public Vector3 equipMNQPosition;
     //############ 일기장 이후 오브젝트 #######################
     public GameObject pianoFlower;
     public bool isInteract_PianoFlower;
@@ -39,26 +48,6 @@ public class ObjectCheck : MonoBehaviour
 
     public GameObject mirror;
     public GameObject Cracking_mirror;
-    //#########################################################
-
-    //################### Level 02 ############################
-    public bool isCanMNQMove = false;
-
-    public GameObject soju;
-    public GameObject position_Soju;
-    bool haveSoju = false;
-
-    public GameObject fallenLeaves;
-    public GameObject Position_fallenLeaves;
-    bool haveFallenLeaves = false;
-
-    public GameObject acceptance_Mobile;
-    public GameObject Position_acceptance_Mobile;
-    bool haveAcceptance_Mobile = false;
-
-    public int randomInt_Min_Time = 1;
-    public int randomInt_Max_Time = 5;
-    public int randomTime;
 
     NavMeshAgent navMNQ;
     //#########################################################
@@ -69,24 +58,11 @@ public class ObjectCheck : MonoBehaviour
     public AudioSource mirrorCrackingSound;
     public AudioSource pianoBGM;
 
+    //component
     Player_MoveCtrl playerControler;
     ObjectControler objectControler;
-    MNQSpawn mnqSpawner;
 
-    MNQPsitionCondition mNQPsition;
-    OKMeshChange oKMesh;
-    SetMNQNewPosition setMNQNewPosition;
-    Level_2_MNQ_Position level_2_MNQ_Position;
-    DoorHinge doorHinge;
 
-    RaycastHit raycastHitObject;
-    Ray ray;
-
-    public GameObject viewModeTargetObj;
-    public GameObject blur;
-    public GameObject puzzleUI;
-    public GameObject rawImage;
-    public Camera viewModeCam;
 
     public void FlipSound()
     {
@@ -97,12 +73,6 @@ public class ObjectCheck : MonoBehaviour
     {
         playerControler = GetComponent<Player_MoveCtrl>();
         objectControler = GetComponent<ObjectControler>();
-
-        mNQPsition = GameObject.FindWithTag("MNQNeedPosition").GetComponent<MNQPsitionCondition>();
-        oKMesh = GameObject.Find("RenderChangeManager").GetComponent<OKMeshChange>();
-        setMNQNewPosition = GameObject.FindWithTag("SetMNQNewPosition").GetComponent<SetMNQNewPosition>();
-        level_2_MNQ_Position = GameObject.Find("Level_2_MNQ_Set(Need)_Position").GetComponent<Level_2_MNQ_Position>();
-        doorHinge = GameObject.FindWithTag("DoorHinge").GetComponent<DoorHinge>();
 
         diaryOpenSound = GameObject.Find("DiaryOpenSound").GetComponent<AudioSource>(); // 자식 0 = OpenSound
         diaryFilpSound = GameObject.Find("DiaryFilpSound").GetComponent<AudioSource>(); // 자식 1 = FilpSound 
@@ -115,7 +85,7 @@ public class ObjectCheck : MonoBehaviour
 
     void Start()
     {
-        diaryDropSound = transform.GetChild(2).GetComponent<AudioSource>(); // 자식 2 = DropSound   
+        diaryDropSound = transform.GetChild(1).GetComponent<AudioSource>(); // 자식 2 = DropSound   
     }
 
     void Update()
@@ -202,7 +172,6 @@ public class ObjectCheck : MonoBehaviour
         playerControler.enabled = false;
         objectControler.enabled = true;
         viewMode = true;
-        rawImage.SetActive(true);
     }
     public void InitUIMode(int type)
     {
@@ -248,7 +217,7 @@ public class ObjectCheck : MonoBehaviour
             switch (raycastHitObject.collider.tag)
             {
                 case "MNQ":
-                    FirstMNQ_Interactive();//첫 마네킹 상호작용
+                    MNQ_Interactive();//마네킹 상호작용
                     break;
                 case "Diary":
                     Diary_Interactive();//일기장 함수
@@ -280,11 +249,20 @@ public class ObjectCheck : MonoBehaviour
                 case "Soju":
                     Soju_Interactive();                             // 소주 함수
                     break;
+                case "Sheet":
+                    Sheet_Interactive();
+                    break;
                 case "FallenLeaves":
                     FallenLeaves_Interactive();                     // 낙엽 함수
                     break;
                 case "Acceptance_Mobile":
                     Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
+                    break;
+                case "Candle":
+                    Candle_Interactive();
+                    break;
+                case "RightDoor":
+                    RightDoor_Interactive();
                     break;
                 case "Test":
                     InitViewMode(raycastHitObject.transform.gameObject);
@@ -294,31 +272,44 @@ public class ObjectCheck : MonoBehaviour
             Debug.Log(raycastHitObject.collider.tag);
         }// 개별로 만든 이유는 나중에 각 오브젝트 별로 특별한 사운드 및 연출을 하기 위함.
     }
-
+    void RightDoor_Interactive()
+    {
+        if (GameManager.instance.gameState == State.T_CANDLE)
+        {
+            raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, 215);
+        }
+    }
+    void Candle_Interactive()
+    {
+        if(GameManager.instance.gameState == State.O_PIANO_PUZZLE)
+        {
+            GameManager.instance.gameState++;
+            //equip candle
+        }
+    }
     void Diary_Interactive() //일기장 상호작용
     {
-
-        Debug.Log("Diary Open");
+        Debug.Log(GameManager.instance.gameState);
         if (GameManager.instance.gameState >= State.O_MNQ)
         {
-            if(GameManager.instance.gameState == State.O_MNQ)
+            if (GameManager.instance.gameState == State.O_MNQ)
+                GameManager.instance.gameState++;
+            else if (GameManager.instance.gameState == State.O_FISH_SCARF)
+                GameManager.instance.gameState++;
+            else if (GameManager.instance.gameState == State.O_MEDICINE)
+                GameManager.instance.gameState++;
+            else if (GameManager.instance.gameState == State.O_SCHOOL)
                 GameManager.instance.gameState++;
             InitUIMode(Puzzle.Diary);//UI모드(퍼즐모드)로 전환.
+            Debug.Log(GameManager.instance.gameState);
 
             Debug.Log("Diary Open");
         }
-
-        //모든 오브젝트 상호작용하면
-        if(GameManager.instance.gameState == State.O_SCHOOL)
-        {
-            Debug.Log("diary complete");// 마네킹 상호작용 가능
-            mNQMove = true;
-            //Debug.Log("Can MNQ Move!"); 
-        }
     }
 
-    void FirstMNQ_Interactive() //마네킹 1회 이상 상호작용 하기
+    void MNQ_Interactive()
     {
+        Debug.Log(GameManager.instance.gameState);
         if (GameManager.instance.gameState == State.START)
         {
             DropDiary();
@@ -326,40 +317,21 @@ public class ObjectCheck : MonoBehaviour
             //Debug.Log("DiaryContent Can Open & Close");                
         }
 
-        if (haveSoju && level_2_MNQ_Position.isPositionSoju)
+        else if(GameManager.instance.gameState == State.O_DIARY_COMPLETE)
         {
-            //Debug.Log("SOJUMNQQQQ");
-            fallenLeaves.SetActive(true);
-            haveSoju = false;
-            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
-            Position_fallenLeaves.SetActive(true);
-            //Destroy(level_2_MNQ_Position.soju_Position, 2.5f);
-            level_2_MNQ_Position.soju_Position.SetActive(false);
+            Debug.Log("test");
+            raycastHitObject.transform.SetParent(equipPoint.transform);
+            raycastHitObject.transform.localPosition = equipMNQPosition;
+            raycastHitObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+            playerControler.PickUp(raycastHitObject.transform.gameObject);
         }
-        if (haveFallenLeaves && level_2_MNQ_Position.isPositionFallenLeaves)
-        {
-            //Debug.Log("FallllenenenenenLeaves");
-            acceptance_Mobile.SetActive(true);
-            haveFallenLeaves = false;
-            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 2); // 생성된 오브젝트 삭제
-            Position_acceptance_Mobile.SetActive(true);
-            //Destroy(level_2_MNQ_Position.fallenLeaves_Position, 2.5f);
-            level_2_MNQ_Position.fallenLeaves_Position.SetActive(false);
-        }
-        if (haveAcceptance_Mobile && level_2_MNQ_Position.isPositionAcceptance_Mobile)
-        {
-            haveAcceptance_Mobile = false;
-            Destroy(GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)"), 1); // 생성된 오브젝트 삭제
-            playerControler.enabled = false;
-            Invoke("Cant_Playermove", 1);
-            setMNQNewPosition.MobileAfterInteractive();
-        }
+
     }
 
     private void DropDiary() // 일기장 떨어지는 함수
     {
         GameObject diary = GameObject.FindWithTag("Diary");
-        diary.transform.localPosition = new Vector3(-3.422f, 1.446f, 5.548f);
+        diary.transform.localPosition += new Vector3(0, -1.181f, -0.965f);
         diary.transform.Rotate(0, 0, 90);
         diaryDropSound.Play();
     }
@@ -393,7 +365,7 @@ public class ObjectCheck : MonoBehaviour
 
     void Medicine_Envelope_A_Interactive() //약 봉투A 상호작용 함수
     {
-        if (GameManager.instance.gameState == State.O_FISH_SCARF)
+        if (GameManager.instance.gameState == State.O_SECOND_DIARY)
         {
             takeFlag = true;
         }
@@ -406,7 +378,7 @@ public class ObjectCheck : MonoBehaviour
 
     void Medicine_Envelope_B_Interactive() //약 봉투A 상호작용 함수
     {
-        if (GameManager.instance.gameState == State.O_FISH_SCARF)
+        if (GameManager.instance.gameState == State.O_SECOND_DIARY)
         {
             takeFlag = true;
         }
@@ -419,7 +391,7 @@ public class ObjectCheck : MonoBehaviour
 
     void MedicalSchool_Pic_Interactive() //약 봉투A 상호작용 함수
     {
-        if (GameManager.instance.gameState == State.O_MEDICINE)
+        if (GameManager.instance.gameState == State.O_THIRD_DIARY)
         {
             takeFlag = true;
         }
@@ -432,7 +404,7 @@ public class ObjectCheck : MonoBehaviour
 
     void MedicalSchool_AcceptanceLetter_Interactive() //약 봉투A 상호작용 함수
     {
-        if (GameManager.instance.gameState == State.O_MEDICINE)
+        if (GameManager.instance.gameState == State.O_THIRD_DIARY)
         {
             takeFlag = true;
         }
@@ -458,51 +430,41 @@ public class ObjectCheck : MonoBehaviour
 
     void Door_Interactive()
     {
-            doorHinge.transform.eulerAngles = new Vector3(0, -90, 0);
-    }
-
-    void DestroyMNQ()
-    {
-        setMNQNewPosition.mNQ_D.SetActive(false);
-       // Debug.Log("Destart");
+        Debug.Log("test");
+        if(GameManager.instance.gameState == State.O_PIANO_PUZZLE)
+        {
+            raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, -145);
+        }
     }
 
     void Soju_Interactive()
     {
-        randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
+        if(GameManager.instance.gameState == State.T_CANDLE)
+        {
+            GameManager.instance.gameState++;
+            mnqSpawner.SpawnMNQ(1);
+            blackHand.SetActive(true);
+            TtargetPoint[0].SetActive(true);
+            GameManager.instance.SwapLightSetting(true);
+        }
         //Debug.Log(randomTime);
-
-        setMNQNewPosition.Instantiate_MNQ();
-        isCanMNQMove = true;
-
-        haveSoju = true;
-        position_Soju.SetActive(true);
-        soju.SetActive(false);
     }
 
+    void Sheet_Interactive()
+    {
+        if(GameManager.instance.gameState == State.T_SPOT_FIRST)
+        {
+            GameManager.instance.gameState++;
+            GameManager.instance.DisableMainLight();
+            //악보 소유 UI 활성화
+        }
+    }
     void FallenLeaves_Interactive()
     {
-            randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
-            //Debug.Log(randomTime);
-            haveSoju = false;
-            setMNQNewPosition.Instantiate_MNQ();
-            isCanMNQMove = true;
-            
-            haveFallenLeaves = true;
-
-            fallenLeaves.SetActive(false);
     }
 
     void Acceptance_Mobile_Interactive()
     {
-            randomTime = Random.Range(randomInt_Min_Time, randomInt_Max_Time);
-            //Debug.Log(randomTime);
-
-            setMNQNewPosition.Instantiate_MNQ();
-            isCanMNQMove = true;
-            haveAcceptance_Mobile = true;
-
-            acceptance_Mobile.SetActive(false);
     }
 
     void Cant_Playermove()

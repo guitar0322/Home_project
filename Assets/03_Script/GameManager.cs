@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public int gameState;
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void StageOneClear()
     {
-        leftDoor.transform.eulerAngles = new Vector3(0, -90, 0);
+        leftDoor.transform.eulerAngles = new Vector3(0, -10, 0);
     }
     public Player_MoveCtrl GetPlayerControler()
     {

@@ -19,7 +19,7 @@ public class Level_2_ColliderChecker : MonoBehaviour
 
         private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("MNQ") && objectCheck.isCanMNQMove)
+        if (other.gameObject.CompareTag("MNQ"))
         {
             mNQMoveControl = GameObject.Find(setMNQNewPosition.mNQ_D.name + "(Clone)").GetComponent<MNQMoveControl>();
             //Debug.Log("MNQ Move Stop");

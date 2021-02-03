@@ -29,6 +29,10 @@ TagManager:
   - ShadowHands
   - DoorHinge
   - Test
+  - Candle
+  - RightDoor
+  - TMNQ
+  - Sheet
   layers:
   - Default
   - TransparentFX

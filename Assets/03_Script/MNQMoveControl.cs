@@ -111,18 +111,13 @@ public class MNQMoveControl : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Invoke("MNQ_Follow_Player", objectCheck.randomTime);       
         }
     }
 
     void MNQ_Follow_Player()
     {
         Debug.Log("Follow!");
-
-        if(objectCheck.isCanMNQMove && !level_2_MNQ_Position.isPositionAcceptance_Mobile)
-        {
             nav.SetDestination(player.transform.position);            
-        }
 
         //if((level_2_MNQ_Position.isPositionSoju || level_2_MNQ_Position.isPositionFallenLeaves) && isMove)
         //{

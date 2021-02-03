@@ -8,18 +8,18 @@ public class MNQSpawn : MonoBehaviour
     public Transform MNQSet;
     public Transform MNQPosSet;
     private GameObject SpawnedMNQ;
-    int IsValidMNQ()
+    private int IsValidMNQ()
     {
         for(int i = 0; i < MNQSet.childCount; i++)
         {
-            if (MNQSet.GetChild(i).gameObject.activeSelf)
+            if (MNQSet.GetChild(i).gameObject.activeSelf == false)
             {
                 return i;
             }
         }
         return -1;
     }
-    void SpawnMNQ(int num)
+    public void SpawnMNQ(int num)
     {
         int MNQ_Idx, MNQ_Pos_Idx;
         for(int i = 0; i < num; i++)

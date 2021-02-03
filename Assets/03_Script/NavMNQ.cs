@@ -6,6 +6,7 @@ public class NavMNQ : MonoBehaviour
 {
     public Transform playerTransform;
     NavMeshAgent agent;
+    public bool followFlag;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,7 @@ public class NavMNQ : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(playerTransform.position);
+        if(followFlag == true)
+            agent.SetDestination(playerTransform.position);
     }
 }

@@ -17,10 +17,17 @@ namespace Gamesystem
             O_MNQ = 1,
             O_DIARY = 2,
             O_FISH_SCARF = 3,
-            O_MEDICINE = 4,
-            O_SCHOOL = 5,
-            O_MNQ_MOVE = 6,
-            O_PIANO_PUZZLE = 7;
+            O_SECOND_DIARY = 4,
+            O_MEDICINE = 5,
+            O_THIRD_DIARY = 6,
+            O_SCHOOL = 7,
+            O_DIARY_COMPLETE = 8,
+            O_MNQ_MOVE = 9,
+            O_PIANO_PUZZLE = 10,
+            T_CANDLE = 11,
+            T_SOJU = 12,
+            T_SPOT_FIRST = 13,
+            T_SHEET = 14;
     }
 
     //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합
