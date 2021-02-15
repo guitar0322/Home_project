@@ -33,6 +33,8 @@ TagManager:
   - RightDoor
   - TMNQ
   - Sheet
+  - Piano
+  - PianoFlower
   layers:
   - Default
   - TransparentFX

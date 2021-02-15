@@ -95,7 +95,8 @@ public class Book : MonoBehaviour {
     }
     private void OnEnable()
     {
-        if ((currentPage + 2) / 4 == GameManager.instance.gameState - 1)
+        Debug.Log("open book. page = " + currentPage);
+        if(CheckBtnEnable() == false)
         {
             rightBtn.GetComponent<Button>().interactable = false;
             //rightBtn.GetComponent<Image>().sprite = unActiveArrow;
@@ -103,8 +104,8 @@ public class Book : MonoBehaviour {
         else
         {
             rightBtn.GetComponent<Button>().interactable = true;
+            //rightBtn.GetComponent<Image>().sprite = ActiveArrow;
         }
-
         if (currentPage <= 6)
         {
             background = bookPages[0];
@@ -357,6 +358,26 @@ public class Book : MonoBehaviour {
                 TweenForward();
         }
     }
+    bool CheckBtnEnable()
+    {
+        if (GameManager.instance.gameState == State.O_DIARY && currentPage == 2)
+        {
+            return false;
+        }
+        else if (GameManager.instance.gameState <= State.O_SECOND_DIARY && currentPage == 6)
+        {
+            return false;
+        }
+        else if (GameManager.instance.gameState <= State.O_THIRD_DIARY && currentPage == 10)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+        return true;
+    }
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
@@ -373,7 +394,7 @@ public class Book : MonoBehaviour {
         else
             rightBtn.SetActive(true);
 
-        if((currentPage + 2) / 4 == GameManager.instance.gameState - 1)
+        if (CheckBtnEnable() == false)
         {
             rightBtn.GetComponent<Button>().interactable = false;
             //rightBtn.GetComponent<Image>().sprite = unActiveArrow;
@@ -381,9 +402,10 @@ public class Book : MonoBehaviour {
         else
         {
             rightBtn.GetComponent<Button>().interactable = true;
+            //rightBtn.GetComponent<Image>().sprite = ActiveArrow;
         }
 
-        if(currentPage <= 6)
+        if (currentPage <= 6)
         {
             background = bookPages[0];
         }

@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class TMNQ : MonoBehaviour
 {
+    private int minTime;
+    private int maxTime;
     private float _WaitTime;
     private float waitTime;
     NavMNQ navMNQ;
     private void OnEnable()
     {
-        _WaitTime = Random.Range(1, 5);
+        _WaitTime = Random.Range(minTime, maxTime);
         waitTime = 0;
     }
-    public void SetProperty()
+    public void SetProperty(int waitMinTime, int waitMaxTime)
     {
-        
+        minTime = waitMinTime;
+        maxTime = waitMaxTime;
     }
     // Start is called before the first frame update
     void Start()

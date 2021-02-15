@@ -27,7 +27,15 @@ namespace Gamesystem
             T_CANDLE = 11,
             T_SOJU = 12,
             T_SPOT_FIRST = 13,
-            T_SHEET = 14;
+            T_SHEET = 14,
+            T_MNQ_FIRST = 15,
+            T_PIANO = 16,
+            T_LEAVES = 17,
+            T_SPOT_SECOND = 18,
+            T_FLOWER = 19,
+            T_MNQ_SECOND = 20,
+            T_ACCEPTANCE = 21,
+            T_MNQ_THIRD = 22;
     }
 
     //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합

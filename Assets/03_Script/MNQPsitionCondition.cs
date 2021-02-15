@@ -12,9 +12,9 @@ public class MNQPsitionCondition : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == mNQ_D)
+        if (other.gameObject == mNQ_D && GameManager.instance.gameState == State.O_DIARY_COMPLETE)
         {
-            GameManager.instance.gameState = State.O_MNQ_MOVE;
+            GameManager.instance.gameState++;
             pianoFlower.SetActive(true);
             this.enabled = false;
         }

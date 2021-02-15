@@ -7,6 +7,7 @@ using UnityEngine.Video;
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager _instance;
+
     public static SoundManager instance
     {
         get
@@ -18,9 +19,14 @@ public class SoundManager : MonoBehaviour
             return _instance;
         }
     }
+    public AudioSource diaryDropSound;
+    public AudioSource diaryOpenSound;
+    public AudioSource diaryFilpSound;
+    public AudioSource mirrorCrackingSound;
+    public AudioSource pianoBGM;
 
     private AudioSource bgmAudioSource;
-    private bool onEffectSound;//효과음은 거리감을 느끼도록 표현될것인가??
+    private bool onEffectSound;
     private bool onBGMSound;
 
     public AudioClip BGM;
@@ -49,6 +55,11 @@ public class SoundManager : MonoBehaviour
     public float GetBGMVolume()
     {
         return bgmAudioSource.volume;
+    }
+
+    public void FlipSound()
+    {
+        diaryFilpSound.Play();
     }
     // Update is called once per frame
     void Update()

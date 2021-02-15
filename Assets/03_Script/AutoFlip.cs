@@ -17,7 +17,7 @@ public class AutoFlip : MonoBehaviour {
         if (AutoStartFlip)
             StartFlipping();
         ControledBook.OnFlip.AddListener(new UnityEngine.Events.UnityAction(PageFlipped));
-	}
+    }
     void PageFlipped()
     {
         isFlipping = false;
@@ -28,7 +28,9 @@ public class AutoFlip : MonoBehaviour {
     }
     public void FlipRightPage()
     {
+        Debug.Log("is flipping in autoflip : " + isFlipping);
         if (isFlipping) return;
+        SoundManager.instance.FlipSound();
         if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
         isFlipping = true;
         float frameTime = PageFlipTime / AnimationFramesCount;
@@ -41,7 +43,10 @@ public class AutoFlip : MonoBehaviour {
     }
     public void FlipLeftPage()
     {
+        Debug.Log("is flipping in autoflip : " + isFlipping);
+
         if (isFlipping) return;
+        SoundManager.instance.FlipSound();
         if (ControledBook.currentPage <= 0) return;
         isFlipping = true;
         float frameTime = PageFlipTime / AnimationFramesCount;

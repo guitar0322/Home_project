@@ -4,6 +4,7 @@ using UnityEngine;
 
 public partial class GameManager
 {
+    [Header ("LightManager")]
     public Light light;
     // Start is called before the first frame update
     public void PartialTest()

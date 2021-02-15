@@ -22,6 +22,9 @@ public class ObjectCheck : MonoBehaviour
 
     [Header("Object")]
     public GameObject blackHand;
+    public GameObject fallenLeaves;
+    public GameObject acceptance;
+    public GameObject insence;
     public GameObject[] TtargetPoint;
 
     [Header("Viewmode")]
@@ -40,6 +43,7 @@ public class ObjectCheck : MonoBehaviour
 
     [Header("Debug")]
     public Vector3 equipMNQPosition;
+    public Vector3[] blackHandPosition;
     //############ 일기장 이후 오브젝트 #######################
     public GameObject pianoFlower;
     public bool isInteract_PianoFlower;
@@ -50,13 +54,6 @@ public class ObjectCheck : MonoBehaviour
     public GameObject Cracking_mirror;
 
     NavMeshAgent navMNQ;
-    //#########################################################
-
-    public AudioSource diaryDropSound;
-    public AudioSource diaryOpenSound;
-    public AudioSource diaryFilpSound;
-    public AudioSource mirrorCrackingSound;
-    public AudioSource pianoBGM;
 
     //component
     Player_MoveCtrl playerControler;
@@ -64,33 +61,24 @@ public class ObjectCheck : MonoBehaviour
 
 
 
-    public void FlipSound()
-    {
-        diaryFilpSound.Play();
-    }
 
     void Awake()
     {
         playerControler = GetComponent<Player_MoveCtrl>();
         objectControler = GetComponent<ObjectControler>();
 
-        diaryOpenSound = GameObject.Find("DiaryOpenSound").GetComponent<AudioSource>(); // 자식 0 = OpenSound
-        diaryFilpSound = GameObject.Find("DiaryFilpSound").GetComponent<AudioSource>(); // 자식 1 = FilpSound 
-
-        mirrorCrackingSound = GameObject.Find("CrackingSound").GetComponent<AudioSource>();
-        pianoBGM = GameObject.Find("PianoBGM").GetComponent<AudioSource>();
 
 
     }
 
     void Start()
     {
-        diaryDropSound = transform.GetChild(1).GetComponent<AudioSource>(); // 자식 2 = DropSound   
     }
 
     void Update()
     {
-        ObjectCheckByRay();
+        if(Input.GetMouseButtonUp(0))
+            ObjectCheckByRay();
         PressMouseRightEventHandler();
         PressKeyboardEventHandler();
     }
@@ -99,6 +87,46 @@ public class ObjectCheck : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F))
         {
             TakeViewModeObject();
+            InteractMNQ();
+        }
+    }
+    void InteractMNQ()
+    {
+        if (viewMode == true)
+            return;
+        Vector3 mouseDownPos;
+        RaycastHit raycastHitObject;
+        Ray ray;
+        mouseDownPos = Input.mousePosition;
+        ray = Camera.main.ScreenPointToRay(mouseDownPos);
+        if(Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
+        {
+            Debug.Log(raycastHitObject.collider.tag);
+            if (!raycastHitObject.collider.tag.Equals("TMNQ"))
+            {
+                return;
+            }
+
+            switch (GameManager.instance.gameState)
+            {
+                case State.T_SHEET:
+                    GameManager.instance.gameState++;
+                    GameManager.instance.UnActiveUI("Sheet");
+                    break;
+                case State.T_FLOWER:
+                    GameManager.instance.gameState++;
+                    GameManager.instance.UnActiveUI("Flower");
+                    blackHand.SetActive(false);
+                    insence.SetActive(false);
+                    acceptance.SetActive(true);
+                    break;
+                case State.T_ACCEPTANCE:
+                    break;
+            }
+        }
+        else
+        {
+            Debug.Log("ray fail");
         }
     }
     void TakeViewModeObject()
@@ -111,6 +139,10 @@ public class ObjectCheck : MonoBehaviour
         {
             GameManager.instance.gameState++;
             GameManager.instance.middleGameState = false;
+        }
+        if(takeFlag == true)
+        {
+            //show ui press f key
         }
         switch (raycastHitObject.collider.tag)
         {
@@ -156,7 +188,6 @@ public class ObjectCheck : MonoBehaviour
             {
                 UIModeExit();
             }
-            Debug.Log(GameManager.instance.gameState);
         }
     }
     public void InitViewMode(GameObject target)
@@ -207,12 +238,12 @@ public class ObjectCheck : MonoBehaviour
     {
         if (viewMode || uiMode)
             return;
-        Vector3 mouseDownPos;        
-        mouseDownPos = Input.mousePosition;
-        ray = Camera.main.ScreenPointToRay(mouseDownPos);
+        Vector3 mouseUpPos;        
+        mouseUpPos = Input.mousePosition;
+        ray = Camera.main.ScreenPointToRay(mouseUpPos);
         Debug.DrawRay(ray.origin, ray.direction * m_RayDistance, Color.red);
 
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
+        if (Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
         {
             switch (raycastHitObject.collider.tag)
             {
@@ -240,7 +271,7 @@ public class ObjectCheck : MonoBehaviour
                 case "MedicalSchool_AcceptanceLetter":
                     MedicalSchool_AcceptanceLetter_Interactive();   // 의과대 합격장 함수
                     break;
-                case "Flower":
+                case "PianoFlower":
                     PianoFlower_Interactive();                      // 피아노 꽃 함수
                     break;
                 case "Door":
@@ -252,8 +283,14 @@ public class ObjectCheck : MonoBehaviour
                 case "Sheet":
                     Sheet_Interactive();
                     break;
+                case "Piano":
+                    Piano_Interactive();
+                    break;
                 case "FallenLeaves":
                     FallenLeaves_Interactive();                     // 낙엽 함수
+                    break;
+                case "Flower":
+                    Flower_Interactive();
                     break;
                 case "Acceptance_Mobile":
                     Acceptance_Mobile_Interactive();                // 모바일 합격장 함수            
@@ -270,8 +307,13 @@ public class ObjectCheck : MonoBehaviour
 
             }
             Debug.Log(raycastHitObject.collider.tag);
-        }// 개별로 만든 이유는 나중에 각 오브젝트 별로 특별한 사운드 및 연출을 하기 위함.
+        }
+        else
+        {
+            Debug.Log("object ray fail");
+        }
     }
+
     void RightDoor_Interactive()
     {
         if (GameManager.instance.gameState == State.T_CANDLE)
@@ -279,6 +321,7 @@ public class ObjectCheck : MonoBehaviour
             raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, 215);
         }
     }
+
     void Candle_Interactive()
     {
         if(GameManager.instance.gameState == State.O_PIANO_PUZZLE)
@@ -287,9 +330,9 @@ public class ObjectCheck : MonoBehaviour
             //equip candle
         }
     }
+
     void Diary_Interactive() //일기장 상호작용
     {
-        Debug.Log(GameManager.instance.gameState);
         if (GameManager.instance.gameState >= State.O_MNQ)
         {
             if (GameManager.instance.gameState == State.O_MNQ)
@@ -301,9 +344,7 @@ public class ObjectCheck : MonoBehaviour
             else if (GameManager.instance.gameState == State.O_SCHOOL)
                 GameManager.instance.gameState++;
             InitUIMode(Puzzle.Diary);//UI모드(퍼즐모드)로 전환.
-            Debug.Log(GameManager.instance.gameState);
 
-            Debug.Log("Diary Open");
         }
     }
 
@@ -333,9 +374,8 @@ public class ObjectCheck : MonoBehaviour
         GameObject diary = GameObject.FindWithTag("Diary");
         diary.transform.localPosition += new Vector3(0, -1.181f, -0.965f);
         diary.transform.Rotate(0, 0, 90);
-        diaryDropSound.Play();
+        SoundManager.instance.diaryDropSound.Play();
     }
-
 
     void Scarf_Interactive() //목도리 상호작용 함수
     {
@@ -423,11 +463,6 @@ public class ObjectCheck : MonoBehaviour
         }
     }
 
-    void PianoBGM_Player()
-    {
-        pianoBGM.Play();
-    }
-
     void Door_Interactive()
     {
         Debug.Log("test");
@@ -444,6 +479,7 @@ public class ObjectCheck : MonoBehaviour
             GameManager.instance.gameState++;
             mnqSpawner.SpawnMNQ(1);
             blackHand.SetActive(true);
+            blackHand.transform.position = blackHandPosition[0];
             TtargetPoint[0].SetActive(true);
             GameManager.instance.SwapLightSetting(true);
         }
@@ -456,15 +492,57 @@ public class ObjectCheck : MonoBehaviour
         {
             GameManager.instance.gameState++;
             GameManager.instance.DisableMainLight();
-            //악보 소유 UI 활성화
+            GameManager.instance.ActiveUI("Sheet");
+            raycastHitObject.transform.gameObject.SetActive(false);
         }
     }
+
+    void Piano_Interactive()
+    {
+        if(GameManager.instance.gameState == State.T_MNQ_FIRST)
+        {
+            GameManager.instance.gameState++;
+            fallenLeaves.SetActive(true);
+            blackHand.SetActive(false);
+        }
+    }
+
     void FallenLeaves_Interactive()
     {
+        if (GameManager.instance.gameState == State.T_PIANO)
+        {
+            GameManager.instance.gameState++;
+            mnqSpawner.SpawnMNQ(1);
+            blackHand.SetActive(true);
+            blackHand.transform.position = blackHandPosition[1];
+            TtargetPoint[1].SetActive(true);
+            //GameManager.instance.SwapLightSetting(true);
+        }
+    }
+
+    void Flower_Interactive()
+    {
+        if (GameManager.instance.gameState == State.T_SPOT_SECOND)
+        {
+            GameManager.instance.gameState++;
+            GameManager.instance.DisableMainLight();
+            GameManager.instance.ActiveUI("Flower");
+            raycastHitObject.transform.gameObject.SetActive(false);
+            //카메라 물이 일렁이는 듯한 화면 효과
+        }
     }
 
     void Acceptance_Mobile_Interactive()
     {
+        if (GameManager.instance.gameState == State.T_MNQ_SECOND)
+        {
+            GameManager.instance.gameState++;
+            mnqSpawner.SpawnMNQ(1);
+            blackHand.SetActive(true);
+            blackHand.transform.position = blackHandPosition[2];
+            TtargetPoint[2].SetActive(true);
+            //GameManager.instance.SwapLightSetting(true);
+        }
     }
 
     void Cant_Playermove()

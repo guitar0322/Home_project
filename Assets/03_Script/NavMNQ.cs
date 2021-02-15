@@ -13,6 +13,10 @@ public class NavMNQ : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    public void StopFollow()
+    {
+        agent.isStopped = true;
+    }
     // Update is called once per frame
     void Update()
     {

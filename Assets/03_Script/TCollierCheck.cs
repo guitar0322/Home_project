@@ -5,25 +5,40 @@ using Gamesystem;
 public class TCollierCheck : MonoBehaviour
 {
     public GameObject sheet;
-    public GameObject fallenLeaf;
-    public GameObject acceptance;
+    public GameObject flower;
+    public GameObject lasso;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GameManager.instance.gameState == State.T_SOJU && other.tag.Equals("TMNQ"))
+        Debug.Log(other.tag + " , " + GameManager.instance.gameState);
+        if (other.tag.Equals("TMNQ"))
         {
-            GameManager.instance.SwapLightSetting(false);
-            sheet.SetActive(true);
+            if (GameManager.instance.gameState == State.T_SOJU)
+            {
+                sheet.SetActive(true);
+            }
+            else if (GameManager.instance.gameState == State.T_LEAVES)
+            {
+                flower.SetActive(true);
+            }
+            else if(GameManager.instance.gameState == State.T_ACCEPTANCE)
+            {
+                lasso.SetActive(true);
+            }
             GameManager.instance.gameState++;
+            GameManager.instance.SwapLightSetting(false);
+            other.isTrigger = false;
+            other.GetComponent<NavMNQ>().StopFollow();
+            other.GetComponent<NavMNQ>().enabled = false;
+            this.enabled = false;
         }
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

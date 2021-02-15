@@ -5,6 +5,10 @@ using UnityEngine;
 public class MNQSpawn : MonoBehaviour
 {
     // Start is called before the first frame update
+    [Header("Debug")]
+    public int waitMinTime;
+    public int waitMaxTime;
+
     public Transform MNQSet;
     public Transform MNQPosSet;
     private GameObject SpawnedMNQ;
@@ -27,6 +31,7 @@ public class MNQSpawn : MonoBehaviour
             MNQ_Idx = IsValidMNQ();
             MNQ_Pos_Idx = Random.Range(0, 4);
             SpawnedMNQ = MNQSet.GetChild(MNQ_Idx).gameObject;
+            SpawnedMNQ.GetComponent<TMNQ>().SetProperty(waitMinTime, waitMaxTime);
             SpawnedMNQ.SetActive(true);
             SpawnedMNQ.transform.position = MNQPosSet.GetChild(MNQ_Pos_Idx).transform.position;
         }
