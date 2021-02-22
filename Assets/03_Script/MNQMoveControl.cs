@@ -17,7 +17,6 @@ public class MNQMoveControl : MonoBehaviour
     Player_MoveCtrl moveCtrl;
     ObjectCheck objectCheck;
     //MNQ_Follow_Trigger mNQ_Follow_Trigger;
-    is_Level_Clear level_Clear;
     Level_2_MNQ_Position level_2_MNQ_Position;
 
     void Awake()
@@ -27,7 +26,6 @@ public class MNQMoveControl : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();
         //mNQ_Follow_Trigger = GameObject.FindGameObjectWithTag("MNQ_Follow_Trigger").GetComponent<MNQ_Follow_Trigger>();
-        level_Clear = GameObject.FindGameObjectWithTag("ClearTrigger").GetComponent<is_Level_Clear>();
         objectCheck = GameObject.FindGameObjectWithTag("Player").GetComponent<ObjectCheck>();
         level_2_MNQ_Position = GameObject.FindWithTag("Level_2_MNQ_Position").GetComponent<Level_2_MNQ_Position>();
     }
@@ -44,23 +42,19 @@ public class MNQMoveControl : MonoBehaviour
         mouseDownPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mouseDownPos);
 
-        if (level_Clear.isClear_1 == false)
-        {
-            if (objectCheck.mNQMove == true && Input.GetMouseButtonDown(0) && isPlayerEnter)
-            {
-                transform.SetParent(playerEquipPoint.transform);
-                transform.localPosition = Vector3.zero;
-                transform.rotation = new Quaternion(0, 0, 0, 0);
+        //if (level_Clear.isClear_1 == false)
+        //{
+        //    if (objectCheck.mNQMove == true && Input.GetMouseButtonDown(0) && isPlayerEnter)
+        //    {
+        //        transform.SetParent(playerEquipPoint.transform);
+        //        transform.localPosition = Vector3.zero;
+        //        transform.rotation = new Quaternion(0, 0, 0, 0);
 
-                moveCtrl.PickUp(gameObject);
-                isPlayerEnter = false;
-            }
-        }
-        else
-        {
-
-        }
-        
+        //        moveCtrl.PickUp(gameObject);
+        //        isPlayerEnter = false;
+        //    }
+        //}
+      
     }
 
     // 콜리아더 충돌 시, MNQ 정지

@@ -9,14 +9,16 @@ public class ObjectControler : MonoBehaviour
     private Vector3 targetPosition;         //오브젝트가 이동할 카메라의 중심위치
     private bool closeUpFlag;               //오브젝트 이동을 알리는 플래그
     private bool ctrlFlag;
-    public float moveTime;
     private float moveSpeedPerSecond;   //오브젝트 이동속도
     private float rotateSpeedPerSceond;
     private Vector3 oldPosition;
     private Quaternion oldRotate;
+    private ObjectCheck objectCheck;
+    [Header ("Debug")]
+    public float moveTime;
     void Start()
     {
-        
+        objectCheck = this.GetComponent<ObjectCheck>();
     }
 
     // Update is called once per frame
@@ -40,9 +42,9 @@ public class ObjectControler : MonoBehaviour
             if (Vector3.Distance(targetObj.transform.position, oldPosition) < 0.01f &&
                 Quaternion.Angle(oldRotate, targetObj.transform.rotation) < 0.01f)
             {
-                ctrlFlag = false;
                 targetObj.layer = LayerMask.NameToLayer("Default");
                 this.enabled = false;
+                objectCheck.viewMode = false;
             }
             else
             {
@@ -50,15 +52,13 @@ public class ObjectControler : MonoBehaviour
                 targetObj.transform.rotation = Quaternion.RotateTowards(targetObj.transform.rotation, oldRotate, rotateSpeedPerSceond * Time.deltaTime);
             }
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            closeUpFlag = false;
-            ctrlFlag = false;
-            rotateSpeedPerSceond = Quaternion.Angle(targetObj.transform.rotation, oldRotate) / moveTime;
-        }
-
     }
-
+    public void Rollback()
+    {
+        closeUpFlag = false;
+        ctrlFlag = false;
+        rotateSpeedPerSceond = Quaternion.Angle(targetObj.transform.rotation, oldRotate) / moveTime;
+    }
     public void SetProperty(GameObject obj, Vector3 position)
     {
         //오브젝트 이동을 위한 클래스의 속성값 SET.

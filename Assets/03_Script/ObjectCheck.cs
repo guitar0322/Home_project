@@ -45,15 +45,6 @@ public class ObjectCheck : MonoBehaviour
     public Vector3 equipMNQPosition;
     public Vector3[] blackHandPosition;
     //############ 일기장 이후 오브젝트 #######################
-    public GameObject pianoFlower;
-    public bool isInteract_PianoFlower;
-
-    public GameObject level_1_Door01;
-
-    public GameObject mirror;
-    public GameObject Cracking_mirror;
-
-    NavMeshAgent navMNQ;
 
     //component
     Player_MoveCtrl playerControler;
@@ -192,9 +183,6 @@ public class ObjectCheck : MonoBehaviour
     }
     public void InitViewMode(GameObject target)
     {
-        //렌더텍스처를 활용하지 않은 구현
-        //오브젝트 상호작용 연출을 위해 오브젝트를 화면 중심으로 옮기고 오브젝트 컨트롤 스크립트를 활성화
-        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
         GetComponent<CapsuleCollider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
 
@@ -202,6 +190,7 @@ public class ObjectCheck : MonoBehaviour
         blur.SetActive(true);
         playerControler.enabled = false;
         objectControler.enabled = true;
+        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
         viewMode = true;
     }
     public void InitUIMode(int type)
@@ -221,8 +210,8 @@ public class ObjectCheck : MonoBehaviour
         playerControler.enabled = true; // 유저 다시 움직인다.
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
-        viewMode = false;
         blur.SetActive(false);
+        objectControler.Rollback();
     }
 
     public void UIModeExit()
