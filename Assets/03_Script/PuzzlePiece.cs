@@ -7,7 +7,6 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IEndDragHandler
     private int clampOffset;
     public PianoPuzzle pianoPuzzle;
     public int puzzle_no;
-    public ObjectCheck objectCheck;
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = eventData.position;

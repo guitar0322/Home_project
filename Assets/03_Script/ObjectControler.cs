@@ -13,12 +13,12 @@ public class ObjectControler : MonoBehaviour
     private float rotateSpeedPerSceond;
     private Vector3 oldPosition;
     private Quaternion oldRotate;
-    private ObjectCheck objectCheck;
+    private ViewMode viewMode;
     [Header ("Debug")]
     public float moveTime;
     void Start()
     {
-        objectCheck = this.GetComponent<ObjectCheck>();
+        viewMode = this.GetComponent<ViewMode>();
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class ObjectControler : MonoBehaviour
             {
                 targetObj.layer = LayerMask.NameToLayer("Default");
                 this.enabled = false;
-                objectCheck.viewMode = false;
+                viewMode.viewMode = false;
             }
             else
             {

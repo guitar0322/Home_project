@@ -10,7 +10,6 @@ public class PianoPuzzle : MonoBehaviour
     public GameObject pianoFlower;
     public GameObject mirror;
     public GameObject Cracking_mirror;
-    public ObjectCheck objectCheck;
     
     // Start is called before the first frame update
 
@@ -29,7 +28,7 @@ public class PianoPuzzle : MonoBehaviour
         }
 
         GameManager.instance.gameState = State.O_PIANO_PUZZLE;
-        objectCheck.UIModeExit();
+        GameManager.instance.ExitUIMode();
         SoundManager.instance.mirrorCrackingSound.Play();
         SoundManager.instance.pianoBGM.Play();
 

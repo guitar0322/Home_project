@@ -8,14 +8,8 @@ public partial class GameManager : MonoBehaviour
     public int gameState;
     public bool middleGameState;
     public GameObject leftDoor;
-    public bool fish,
-        scarf,
-        medicineA,
-        medicineB,
-        schoolA,
-        schoolB;
 
-    Player_MoveCtrl player_MoveCtrl;
+    public PlayerControler playerControler;
     public static GameManager instance
     {
         get
@@ -30,7 +24,6 @@ public partial class GameManager : MonoBehaviour
 
     public void StageInit()
     {
-        player_MoveCtrl = GameObject.FindWithTag("Player").GetComponent<Player_MoveCtrl>();
         //gameState = 0;
         middleGameState = false;
     }
@@ -38,10 +31,6 @@ public partial class GameManager : MonoBehaviour
     public void StageOneClear()
     {
         leftDoor.transform.eulerAngles = new Vector3(0, -10, 0);
-    }
-    public Player_MoveCtrl GetPlayerControler()
-    {
-        return player_MoveCtrl;
     }
 
     // Start is called before the first frame update

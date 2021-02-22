@@ -10,15 +10,9 @@ TagManager:
   - ClearTrigger
   - EquipPoint
   - SetMNQNewPosition
-  - Scarf
-  - FishBread
   - MNQNeedPosition
   - MNQ
   - Flashing_Light
-  - Medicine_Envelope_A
-  - Medicine_Envelope_B
-  - MedicalSchool_Pic
-  - MedicalSchool_AcceptanceLetter
   - Flower
   - Soju
   - MNQ_Normal
@@ -35,6 +29,7 @@ TagManager:
   - Sheet
   - Piano
   - PianoFlower
+  - ViewModeObj
   layers:
   - Default
   - TransparentFX

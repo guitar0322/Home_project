@@ -10,7 +10,7 @@ public class TCloseDoor : MonoBehaviour
     {
         if (GameManager.instance.gameState == State.T_CANDLE)
         {
-            rightDoor.transform.eulerAngles = new Vector3(-90, 0, 180);
+            rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 180);
         }
     }
     // Start is called before the first frame update
