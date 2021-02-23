@@ -5,10 +5,11 @@ using UnityEngine;
 public partial class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+    [Header ("Other")]
     public int gameState;
     public bool middleGameState;
     public GameObject leftDoor;
-
+    public float slowWeight = 1;
     public PlayerControler playerControler;
     public static GameManager instance
     {
@@ -26,6 +27,16 @@ public partial class GameManager : MonoBehaviour
     {
         //gameState = 0;
         middleGameState = false;
+    }
+    IEnumerator DisableControler(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        playerControler.enabled = true;
+    }
+    public void DisableControlerInSec(int seconds)
+    {
+        playerControler.enabled = false;
+        StartCoroutine("DisableControler", seconds);
     }
 
     public void StageOneClear()

@@ -13,6 +13,10 @@ public class NavMNQ : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    public void SetSpeed()
+    {
+        agent.speed = Random.Range(GameManager.instance.TMNQMinSpeed, GameManager.instance.TMNQMaxSpeed) * GameManager.instance.slowWeight;
+    }
     public void StopFollow()
     {
         agent.isStopped = true;

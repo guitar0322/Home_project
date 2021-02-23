@@ -10,11 +10,6 @@ public class ObjectManager : MonoBehaviour
     ObjectInfo targetInfo;
     PlayerControler playerControler;
 
-    [Header("Debug")]
-    public Vector3 candleEquipPostion;
-    public Vector3 mnqEquipPostion;
-    public Transform diaryDropPosition;
-
     [Header("Level1 Object")]
     public GameObject diary;
 
@@ -146,7 +141,7 @@ public class ObjectManager : MonoBehaviour
     {
         if (GameManager.instance.gameState == State.T_CANDLE)
         {
-            raycastHitObject.transform.localEulerAngles = new Vector3(-90, 0, 215);
+            raycastHitObject.transform.localEulerAngles = new Vector3(-90, 225, 45);
         }
     }
 
@@ -155,7 +150,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
             GameManager.instance.gameState++;
-            playerControler.EquipItem(raycastHitObject.transform.gameObject, candleEquipPostion);
+            playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.candleEquipPostion);
             //equip candle
         }
     }
@@ -181,7 +176,7 @@ public class ObjectManager : MonoBehaviour
         Debug.Log(GameManager.instance.gameState);
         if (GameManager.instance.gameState == State.START)
         {
-            diary.transform.position = diaryDropPosition.position;
+            diary.transform.position = GameManager.instance.diaryDropPosition.position;
             diary.transform.Rotate(0, 0, 90);
             SoundManager.instance.diaryDropSound.Play();
             GameManager.instance.gameState++;
@@ -191,7 +186,7 @@ public class ObjectManager : MonoBehaviour
         else if (GameManager.instance.gameState == State.O_DIARY_COMPLETE)
         {
             Debug.Log("test");
-            playerControler.EquipItem(raycastHitObject.transform.gameObject, mnqEquipPostion);
+            playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.mnqEquipPostion);
         }
     }
 
@@ -205,10 +200,9 @@ public class ObjectManager : MonoBehaviour
 
     void Door_Interactive()
     {
-        Debug.Log("test");
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
-            raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, -145);
+            raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, -180);
         }
     }
 
@@ -222,6 +216,7 @@ public class ObjectManager : MonoBehaviour
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[0].position;
             TtargetPoint[0].SetActive(true);
             GameManager.instance.SwapLightSetting(true);
+            SoundManager.instance.pianoBGM.Stop();
         }
         //Debug.Log(randomTime);
     }
@@ -244,6 +239,8 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             fallenLeaves.SetActive(true);
             blackHand.SetActive(false);
+            mnqSpawner.DisableMNQ(0);
+            TtargetPoint[0].SetActive(false);
         }
     }
 
@@ -256,6 +253,7 @@ public class ObjectManager : MonoBehaviour
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[1].position;
             TtargetPoint[1].SetActive(true);
+            raycastHitObject.transform.gameObject.SetActive(false);
             //GameManager.instance.SwapLightSetting(true);
         }
     }
@@ -277,10 +275,12 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_MNQ_SECOND)
         {
             GameManager.instance.gameState++;
+            mnqSpawner.DisableMNQ(0);
             mnqSpawner.SpawnMNQ(1);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
             TtargetPoint[2].SetActive(true);
+            TtargetPoint[1].SetActive(false);
             //GameManager.instance.SwapLightSetting(true);
         }
     }

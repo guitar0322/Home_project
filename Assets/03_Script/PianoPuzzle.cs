@@ -27,7 +27,7 @@ public class PianoPuzzle : MonoBehaviour
             }
         }
 
-        GameManager.instance.gameState = State.O_PIANO_PUZZLE;
+        GameManager.instance.gameState++;
         GameManager.instance.ExitUIMode();
         SoundManager.instance.mirrorCrackingSound.Play();
         SoundManager.instance.pianoBGM.Play();

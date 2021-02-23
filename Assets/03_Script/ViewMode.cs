@@ -27,6 +27,10 @@ public class ViewMode : MonoBehaviour
         viewModeTargetObj = target;
         targetInfo = viewModeTargetObj.GetComponent<ObjectInfo>();
         takeFlag = flag;
+        if(takeFlag == true)
+        {
+            GameManager.instance.fKeyUI.SetActive(true);
+        }
         viewMode = true;
 
         GetComponent<CapsuleCollider>().enabled = false;
@@ -71,6 +75,7 @@ public class ViewMode : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         blur.SetActive(false);
         objectControler.Rollback();
+        GameManager.instance.fKeyUI.SetActive(false);
     }
 
     // Update is called once per frame

@@ -13,11 +13,17 @@ public class TMNQ : MonoBehaviour
     {
         _WaitTime = Random.Range(minTime, maxTime);
         waitTime = 0;
+        if(navMNQ != null)
+            navMNQ.enabled = true;
     }
-    public void SetProperty(int waitMinTime, int waitMaxTime)
+    public void SetProperty(int waitMinTime, int waitMaxTime, bool flag)
     {
         minTime = waitMinTime;
         maxTime = waitMaxTime;
+        if(flag == true)
+        {
+            navMNQ.SetSpeed();
+        }
     }
     // Start is called before the first frame update
     void Start()

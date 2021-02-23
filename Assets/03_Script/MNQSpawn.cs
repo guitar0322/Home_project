@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gamesystem;
 
 public class MNQSpawn : MonoBehaviour
 {
     // Start is called before the first frame update
-    [Header("Debug")]
-    public int waitMinTime;
-    public int waitMaxTime;
 
     public Transform MNQSet;
     public Transform MNQPosSet;
@@ -25,16 +23,29 @@ public class MNQSpawn : MonoBehaviour
     }
     public void SpawnMNQ(int num)
     {
+        bool setSpeedFlag;
         int MNQ_Idx, MNQ_Pos_Idx;
+        setSpeedFlag = GameManager.instance.gameState < State.T_MNQ_THIRD ? false : true;
         for(int i = 0; i < num; i++)
         {
             MNQ_Idx = IsValidMNQ();
-            MNQ_Pos_Idx = Random.Range(0, 4);
+            if(MNQ_Idx == -1)
+            {
+                Debug.Log("invalid mnq num");
+                return;
+            }
+            Debug.Log(MNQ_Idx);
+            MNQ_Pos_Idx = Random.Range(0, MNQPosSet.transform.childCount);
             SpawnedMNQ = MNQSet.GetChild(MNQ_Idx).gameObject;
-            SpawnedMNQ.GetComponent<TMNQ>().SetProperty(waitMinTime, waitMaxTime);
+            SpawnedMNQ.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag);
             SpawnedMNQ.SetActive(true);
             SpawnedMNQ.transform.position = MNQPosSet.GetChild(MNQ_Pos_Idx).transform.position;
         }
+    }
+
+    public void DisableMNQ(int idx)
+    {
+        MNQSet.GetChild(idx).gameObject.SetActive(false);
     }
     void Start()
     {

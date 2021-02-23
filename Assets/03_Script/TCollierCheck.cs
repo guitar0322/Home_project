@@ -8,11 +8,15 @@ public class TCollierCheck : MonoBehaviour
     public GameObject flower;
     public GameObject lasso;
 
+    public MNQSpawn mnqSpawner;
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag + " , " + GameManager.instance.gameState);
-        if (other.tag.Equals("TMNQ"))
+        if (other.tag.Equals("TMNQ") && GameManager.instance.gameState < State.T_MNQ_THIRD)
         {
+            other.isTrigger = false;
+            other.GetComponent<NavMNQ>().StopFollow();
+            other.GetComponent<NavMNQ>().enabled = false;
+            this.enabled = false;
             if (GameManager.instance.gameState == State.T_SOJU)
             {
                 sheet.SetActive(true);
@@ -24,13 +28,12 @@ public class TCollierCheck : MonoBehaviour
             else if(GameManager.instance.gameState == State.T_ACCEPTANCE)
             {
                 lasso.SetActive(true);
+                GameManager.instance.DisableControlerInSec(GameManager.instance.disableControlSec);
+                mnqSpawner.SpawnMNQ(GameManager.instance.TMNQSpawnNum);
+                GameManager.instance.slowWeight = GameManager.instance.slowScale;
             }
             GameManager.instance.gameState++;
             GameManager.instance.SwapLightSetting(false);
-            other.isTrigger = false;
-            other.GetComponent<NavMNQ>().StopFollow();
-            other.GetComponent<NavMNQ>().enabled = false;
-            this.enabled = false;
         }
     }
 

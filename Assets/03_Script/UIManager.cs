@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Gamesystem;
 public partial class GameManager
 {
+    public GameObject fKeyUI;
     [Header ("ItemUI")]
     public GameObject ItemUISet;
     public Sprite sheet;

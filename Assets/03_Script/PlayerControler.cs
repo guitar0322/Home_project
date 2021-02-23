@@ -81,8 +81,8 @@ public class PlayerControler : MonoBehaviour
     { //키보드 W,S,A,D Player 이동
         if (controlFlag == false)
             return;
-        float hor = Input.GetAxis("Horizontal") * moveSpeed;
-        float ver = Input.GetAxis("Vertical") * moveSpeed;
+        float hor = Input.GetAxis("Horizontal") * moveSpeed * GameManager.instance.slowWeight;
+        float ver = Input.GetAxis("Vertical") * moveSpeed * GameManager.instance.slowWeight; 
 
         Vector3 pos = transform.forward * Time.fixedDeltaTime * ver + transform.right * Time.fixedDeltaTime * hor;
 
@@ -140,8 +140,8 @@ public class PlayerControler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;        
 
-        float rotHor = Input.GetAxis("Mouse X") * rotSpeed;   // 마우스 회전
-        float rotVer = Input.GetAxis("Mouse Y") * rotSpeed;   // 마우스 회전
+        float rotHor = Input.GetAxis("Mouse X") * rotSpeed * GameManager.instance.slowWeight;   // 마우스 회전
+        float rotVer = Input.GetAxis("Mouse Y") * rotSpeed * GameManager.instance.slowWeight;   // 마우스 회전
 
         this.transform.localRotation *= Quaternion.Euler(0, rotHor, 0);           // 마우스 회전
         fpsCam.transform.localRotation *= Quaternion.Euler(-rotVer, 0, 0);    // 마우스 회전
