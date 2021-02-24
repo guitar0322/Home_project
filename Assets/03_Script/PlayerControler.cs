@@ -8,7 +8,8 @@ public class PlayerControler : MonoBehaviour
     public float moveSpeed;
     public float rotSpeed = 3.0f;
     public float backMove = 0.7f;
-    public bool controlFlag;
+    public bool moveControlFlag;
+    public bool rotateControlFlag;
 
     public GameObject fpsCam;
     bool isEquip = false;
@@ -24,7 +25,8 @@ public class PlayerControler : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        controlFlag = true;
+        moveControlFlag = true;
+        rotateControlFlag = true;
     }
 
     // Update is called once per frame
@@ -79,7 +81,7 @@ public class PlayerControler : MonoBehaviour
 
     public void MoveCtrl()
     { //키보드 W,S,A,D Player 이동
-        if (controlFlag == false)
+        if (moveControlFlag == false)
             return;
         float hor = Input.GetAxis("Horizontal") * moveSpeed * GameManager.instance.slowWeight;
         float ver = Input.GetAxis("Vertical") * moveSpeed * GameManager.instance.slowWeight; 
@@ -112,7 +114,7 @@ public class PlayerControler : MonoBehaviour
         isEquip = true;
         item.transform.SetParent(equipPoint.transform);
         item.transform.localPosition = equipPosition;
-        item.transform.localRotation = Quaternion.identity;
+        item.transform.localEulerAngles = Vector3.zero;
         SetEquip(item, true);
     }
     void DropItem()
@@ -134,7 +136,7 @@ public class PlayerControler : MonoBehaviour
 
     void RotCtrl()
     {
-        if (controlFlag == false)
+        if (rotateControlFlag == false)
             return;
         //마우스 회전 시점이동 함수
         Cursor.lockState = CursorLockMode.Locked;

@@ -21,7 +21,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] TtargetPoint;
 
     [Header ("Component")]
-    public MNQSpawn mnqSpawner;
+    public MNQSpawner mnqSpawner;
+    public EyeSpawner eyeSpawner;
     public void InteractionObject(RaycastHit target)
     {
         raycastHitObject = target;
@@ -141,18 +142,18 @@ public class ObjectManager : MonoBehaviour
     {
         if (GameManager.instance.gameState == State.T_CANDLE)
         {
+            GameManager.instance.gameState++;
             raycastHitObject.transform.localEulerAngles = new Vector3(-90, 225, 45);
         }
     }
 
     void Candle_Interactive()
     {
-        if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
+        if (GameManager.instance.gameState == State.O_DOOR)
         {
             GameManager.instance.gameState++;
-            playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.candleEquipPostion);
-            //equip candle
         }
+        playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.candleEquipPostion);
     }
 
     void Diary_Interactive() //일기장 상호작용
@@ -202,13 +203,14 @@ public class ObjectManager : MonoBehaviour
     {
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
+            GameManager.instance.gameState++;
             raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, -180);
         }
     }
 
     void Soju_Interactive()
     {
-        if (GameManager.instance.gameState == State.T_CANDLE)
+        if (GameManager.instance.gameState == State.T_DOOR)
         {
             GameManager.instance.gameState++;
             mnqSpawner.SpawnMNQ(1);
@@ -283,5 +285,20 @@ public class ObjectManager : MonoBehaviour
             TtargetPoint[1].SetActive(false);
             //GameManager.instance.SwapLightSetting(true);
         }
+    }
+
+    public void SpawnMNQ(int num)
+    {
+        mnqSpawner.SpawnMNQ(num);
+    }
+
+    public void StopMNQ()
+    {
+        mnqSpawner.StopMNQ();
+    }
+
+    public void SpawnEye()
+    {
+        eyeSpawner.SpawnEye();
     }
 }

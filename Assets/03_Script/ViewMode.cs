@@ -40,7 +40,8 @@ public class ViewMode : MonoBehaviour
         blur.SetActive(true);
         objectControler.enabled = true;
         objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
-        playerControler.controlFlag = false;
+        playerControler.moveControlFlag = false;
+        playerControler.rotateControlFlag = false;
         return true;
     }
 
@@ -70,7 +71,8 @@ public class ViewMode : MonoBehaviour
         if (viewMode == false)
             return;
 
-        playerControler.controlFlag = true; // 유저 다시 움직인다.
+        playerControler.moveControlFlag = true;
+        playerControler.rotateControlFlag = true;
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
         blur.SetActive(false);

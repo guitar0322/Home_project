@@ -28,12 +28,12 @@ public partial class GameManager : MonoBehaviour
         //gameState = 0;
         middleGameState = false;
     }
-    IEnumerator DisableControler(int seconds)
+    IEnumerator DisableControler(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         playerControler.enabled = true;
     }
-    public void DisableControlerInSec(int seconds)
+    public void DisableControlerInSec(float seconds)
     {
         playerControler.enabled = false;
         StartCoroutine("DisableControler", seconds);

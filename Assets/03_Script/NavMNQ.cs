@@ -5,12 +5,12 @@ using UnityEngine.AI;
 public class NavMNQ : MonoBehaviour
 {
     public Transform playerTransform;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     public bool followFlag;
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        
     }
 
     public void SetSpeed()
@@ -20,6 +20,7 @@ public class NavMNQ : MonoBehaviour
     public void StopFollow()
     {
         agent.isStopped = true;
+        followFlag = false;
     }
     // Update is called once per frame
     void Update()

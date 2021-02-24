@@ -8,7 +8,7 @@ public class TCloseDoor : MonoBehaviour
     public GameObject rightDoor;
     private void OnTriggerEnter(Collider other)
     {
-        if (GameManager.instance.gameState == State.T_CANDLE)
+        if (GameManager.instance.gameState == State.T_DOOR)
         {
             rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 180);
         }

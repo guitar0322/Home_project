@@ -15,27 +15,29 @@ namespace Gamesystem
     {
         public const int START = 0,
             O_MNQ = 1,
-            O_DIARY = 2,
-            O_FISH_SCARF = 3,
-            O_SECOND_DIARY = 4,
-            O_MEDICINE = 5,
-            O_THIRD_DIARY = 6,
-            O_SCHOOL = 7,
-            O_DIARY_COMPLETE = 8,
-            O_MNQ_MOVE = 9,
-            O_PIANO_PUZZLE = 10,
-            T_CANDLE = 11,
-            T_SOJU = 12,
-            T_SPOT_FIRST = 13,
-            T_SHEET = 14,
-            T_MNQ_FIRST = 15,
-            T_PIANO = 16,
-            T_LEAVES = 17,
-            T_SPOT_SECOND = 18,
-            T_FLOWER = 19,
-            T_MNQ_SECOND = 20,
-            T_ACCEPTANCE = 21,
-            T_MNQ_THIRD = 22;
+            O_DIARY = O_MNQ+1,
+            O_FISH_SCARF = O_DIARY + 1,
+            O_SECOND_DIARY = O_FISH_SCARF + 1,
+            O_MEDICINE = O_SECOND_DIARY + 1,//5
+            O_THIRD_DIARY = O_MEDICINE + 1,
+            O_SCHOOL = O_THIRD_DIARY + 1,
+            O_DIARY_COMPLETE = O_SCHOOL + 1,
+            O_MNQ_MOVE = O_DIARY_COMPLETE + 1,
+            O_PIANO_PUZZLE = O_MNQ_MOVE + 1,//10
+            O_DOOR = O_PIANO_PUZZLE + 1,
+            T_CANDLE = O_DOOR + 1,
+            T_DOOR = T_CANDLE + 1,
+            T_SOJU = T_DOOR + 1,
+            T_SPOT_FIRST = T_SOJU + 1,//15
+            T_SHEET = T_SPOT_FIRST + 1,
+            T_MNQ_FIRST = T_SHEET + 1,
+            T_PIANO = T_MNQ_FIRST + 1,
+            T_LEAVES = T_PIANO + 1,
+            T_SPOT_SECOND = T_LEAVES + 1,//20
+            T_FLOWER = T_SPOT_SECOND + 1,
+            T_MNQ_SECOND = T_FLOWER + 1,
+            T_ACCEPTANCE = T_MNQ_SECOND + 1,//23
+            T_MNQ_THIRD = T_ACCEPTANCE + 1;//24
     }
 
     //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합

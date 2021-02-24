@@ -26,7 +26,10 @@ public partial class GameManager
         if (uiMode == true)
             return;
         uiMode = true;
-        playerControler.controlFlag = false; //유저 움직임 멈춤
+        playerControler.moveControlFlag = false; //유저 움직임 멈춤
+        playerControler.rotateControlFlag = false; //유저 움직임 멈춤
+
+
 
         Cursor.visible = true; // 마우스 보임 
         Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
@@ -43,7 +46,8 @@ public partial class GameManager
             return;
         puzzleUI.SetActive(false); //UI 숨기기
         puzzleUI.transform.GetChild(activatedPuzzle).gameObject.SetActive(false);
-        playerControler.controlFlag = true;
+        playerControler.moveControlFlag = true; //유저 움직임 멈춤
+        playerControler.rotateControlFlag = true; //유저 움직임 멈춤
         uiMode = false;
         Debug.Log("Puzzle Close");
     }

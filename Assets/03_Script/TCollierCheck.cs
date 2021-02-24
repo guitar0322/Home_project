@@ -8,7 +8,7 @@ public class TCollierCheck : MonoBehaviour
     public GameObject flower;
     public GameObject lasso;
 
-    public MNQSpawn mnqSpawner;
+    public ObjectManager objectManager;
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("TMNQ") && GameManager.instance.gameState < State.T_MNQ_THIRD)
@@ -29,14 +29,28 @@ public class TCollierCheck : MonoBehaviour
             {
                 lasso.SetActive(true);
                 GameManager.instance.DisableControlerInSec(GameManager.instance.disableControlSec);
-                mnqSpawner.SpawnMNQ(GameManager.instance.TMNQSpawnNum);
                 GameManager.instance.slowWeight = GameManager.instance.slowScale;
+                StartCoroutine("SpawnMNQ");
             }
             GameManager.instance.gameState++;
             GameManager.instance.SwapLightSetting(false);
         }
     }
-
+    IEnumerator SpawnMNQ()
+    {
+        yield return new WaitForSeconds(GameManager.instance.disableControlSec);
+        objectManager.SpawnMNQ(GameManager.instance.TMNQSpawnNum);
+        StartCoroutine("SpawnEye");
+    }
+    IEnumerator SpawnEye()
+    {
+        yield return new WaitForSeconds(GameManager.instance.waitSpawnEyeTime);
+        objectManager.SpawnEye();
+        yield return new WaitForSeconds(GameManager.instance.waitSpawnEyeTime + GameManager.instance.eyeScalingTime + GameManager.instance.waitLookPlayerTime);
+        objectManager.StopMNQ();
+        GameManager.instance.slowWeight = 1;
+        GameManager.instance.playerControler.moveControlFlag = false;
+    }
     void Start()
     {
         
