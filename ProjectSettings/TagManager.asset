@@ -30,6 +30,8 @@ TagManager:
   - Piano
   - PianoFlower
   - ViewModeObj
+  - Lasso
+  - Electronic
   layers:
   - Default
   - TransparentFX
