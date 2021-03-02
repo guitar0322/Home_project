@@ -28,7 +28,7 @@ public class TCollierCheck : MonoBehaviour
             else if(GameManager.instance.gameState == State.T_ACCEPTANCE)
             {
                 lasso.SetActive(true);
-                GameManager.instance.DisableControlerInSec(GameManager.instance.disableControlSec);
+                GameManager.instance.playerControler.moveControlFlag = false;
                 GameManager.instance.slowWeight = GameManager.instance.slowScale;
                 StartCoroutine("SpawnMNQ");
             }
