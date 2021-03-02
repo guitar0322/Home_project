@@ -15,7 +15,7 @@ namespace Gamesystem
     {
         public const int START = 0,
             O_MNQ = 1,
-            O_DIARY = O_MNQ+1,
+            O_DIARY = O_MNQ + 1,
             O_FISH_SCARF = O_DIARY + 1,
             O_SECOND_DIARY = O_FISH_SCARF + 1,
             O_MEDICINE = O_SECOND_DIARY + 1,//5
@@ -36,8 +36,12 @@ namespace Gamesystem
             T_SPOT_SECOND = T_LEAVES + 1,//20
             T_FLOWER = T_SPOT_SECOND + 1,
             T_MNQ_SECOND = T_FLOWER + 1,
-            T_ACCEPTANCE = T_MNQ_SECOND + 1,//23
-            T_MNQ_THIRD = T_ACCEPTANCE + 1;//24
+            T_ACCEPTANCE = T_MNQ_SECOND + 1,
+            T_MNQ_THIRD = T_ACCEPTANCE + 1,
+            T_LASSO = T_MNQ_THIRD + 1,//25
+            T_TELEVISION = T_LASSO + 1,
+            T_END_DOOR = T_TELEVISION + 1,
+            TH_START_DOOR = T_END_DOOR + 1;
     }
 
     //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합

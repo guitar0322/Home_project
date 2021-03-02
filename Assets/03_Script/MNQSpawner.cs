@@ -16,7 +16,18 @@ public class MNQSpawner : Spawner
             spawnedObject.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag);
         }
     }
+    public void DisableMNQ(int idx)
+    {
+        DisableObject(idx);
+    }
 
+    public void DisableMNQ(int startIdx, int endIdx)
+    {
+        for(int i = startIdx; i < endIdx; i++)
+        {
+            DisableObject(i);
+        }
+    }
     public void StopMNQ()
     {
         for (int i = 0; i < spawnedObjectSet.transform.childCount; i++)

@@ -39,11 +39,6 @@ public partial class GameManager : MonoBehaviour
         StartCoroutine("DisableControler", seconds);
     }
 
-    public void StageOneClear()
-    {
-        leftDoor.transform.eulerAngles = new Vector3(0, -10, 0);
-    }
-
     // Start is called before the first frame update
     void Start()
     {

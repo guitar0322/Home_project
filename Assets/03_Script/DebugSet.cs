@@ -30,5 +30,9 @@ public partial class GameManager
     [Tooltip("눈 스케일 조절")]
     public float eyeScalingTime;
     public float eyeScaleSize;
+    [Tooltip("전자제품 생성 대기시간")]
+    public float waitSpawnElectronicTime;
+    [Tooltip("거실문 열리는 대기시간")]
+    public float waitOpenRightDoor;
 
 }

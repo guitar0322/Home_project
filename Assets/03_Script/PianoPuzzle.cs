@@ -5,11 +5,9 @@ using Gamesystem;
 
 public class PianoPuzzle : MonoBehaviour
 {
+    public ObjectManager objectManager;
     public GameObject piecePosSet;
     public GameObject pieceSet;
-    public GameObject pianoFlower;
-    public GameObject mirror;
-    public GameObject Cracking_mirror;
     
     // Start is called before the first frame update
 
@@ -32,10 +30,12 @@ public class PianoPuzzle : MonoBehaviour
         SoundManager.instance.mirrorCrackingSound.Play();
         SoundManager.instance.pianoBGM.Play();
 
-        pianoFlower.SetActive(false);
+        objectManager.pianoFlower.SetActive(false);
 
-        mirror.SetActive(false);
-        Cracking_mirror.SetActive(true);
+        objectManager.mirror.SetActive(false);
+        objectManager.crackingMirror.SetActive(true);
+        objectManager.OpenLeftDoor();
+        
         return true;
     }
     void Start()

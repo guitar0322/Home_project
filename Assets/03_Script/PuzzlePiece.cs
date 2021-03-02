@@ -38,12 +38,7 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             transform.SetParent(pianoPuzzle.pieceSet.transform);
         }
-
-
-        if (pianoPuzzle.IsClear())
-        {
-            GameManager.instance.StageOneClear();
-        }
+        pianoPuzzle.IsClear();
     }
 
     // Start is called before the first frame update

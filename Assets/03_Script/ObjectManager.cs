@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using Gamesystem;
 
 public class ObjectManager : MonoBehaviour
@@ -12,6 +13,12 @@ public class ObjectManager : MonoBehaviour
 
     [Header("Level1 Object")]
     public GameObject diary;
+    public GameObject leftDoor;
+    public GameObject rightDoor;
+    public GameObject pianoFlower;
+    public GameObject mirror;
+    public GameObject crackingMirror;
+    public GameObject mnq;
 
     [Header("Level2 Object")]
     public GameObject blackHand;
@@ -19,6 +26,12 @@ public class ObjectManager : MonoBehaviour
     public GameObject insence;
     public GameObject acceptance;
     public GameObject[] TtargetPoint;
+    public GameObject chair;
+    public Transform photoFrameSet;
+    public Transform photoSet;
+    public Transform electronicSet;
+    public GameObject television;
+
 
     [Header ("Component")]
     public MNQSpawner mnqSpawner;
@@ -43,7 +56,7 @@ public class ObjectManager : MonoBehaviour
                 PianoFlower_Interactive();                      // 피아노 꽃 함수
                 break;
             case "Door":
-                Door_Interactive();                             // 문 열고 닫기 함수
+                LeftDoor_Interactive();                             // 문 열고 닫기 함수
                 break;
             case "Soju":
                 Soju_Interactive();                             // 소주 함수
@@ -68,6 +81,12 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "RightDoor":
                 RightDoor_Interactive();
+                break;
+            case "Lasso":
+                Lasso_Interactive();
+                break;
+            case "Electronic":
+                Electronic_Interactive();
                 break;
             case "Test":
                 viewMode.InitViewMode(target.transform.gameObject, false);
@@ -143,7 +162,12 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_CANDLE)
         {
             GameManager.instance.gameState++;
-            raycastHitObject.transform.localEulerAngles = new Vector3(-90, 225, 45);
+            rightDoor.transform.localEulerAngles = new Vector3(-90, 225, 45);
+        }
+        else if(GameManager.instance.gameState == State.T_TELEVISION)
+        {
+            GameManager.instance.gameState++;
+            rightDoor.transform.localEulerAngles = new Vector3(-90, 135, -45);
         }
     }
 
@@ -199,12 +223,17 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    void Door_Interactive()
+    void LeftDoor_Interactive()
     {
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
             GameManager.instance.gameState++;
-            raycastHitObject.transform.eulerAngles = new Vector3(-90, 0, -180);
+            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -180);
+        }
+        else if(GameManager.instance.gameState == State.T_END_DOOR)
+        {
+            GameManager.instance.gameState++;
+            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
         }
     }
 
@@ -241,7 +270,7 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             fallenLeaves.SetActive(true);
             blackHand.SetActive(false);
-            mnqSpawner.DisableMNQ(0);
+            mnqSpawner.DisableObject(0);
             TtargetPoint[0].SetActive(false);
         }
     }
@@ -277,7 +306,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_MNQ_SECOND)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.DisableMNQ(0);
+            mnqSpawner.DisableObject(0);
             mnqSpawner.SpawnMNQ(1);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
@@ -285,6 +314,95 @@ public class ObjectManager : MonoBehaviour
             TtargetPoint[1].SetActive(false);
             //GameManager.instance.SwapLightSetting(true);
         }
+    }
+
+    void Lasso_Interactive()
+    {
+        //마네킹 플래시
+        if(GameManager.instance.gameState == State.T_MNQ_THIRD)
+        {
+            GameManager.instance.gameState++;
+            playerControler.moveControlFlag = true;
+            mnqSpawner.DisableMNQ(1, GameManager.instance.TMNQSpawnNum + 1);
+            eyeSpawner.DisableEye(0, eyeSpawner.spawnedObjectSet.childCount);
+            chair.SetActive(false);
+            SpawnObjectSet(photoFrameSet);
+            SpawnObjectSet(photoSet);
+            StartCoroutine("WaitAndSpawn", GameManager.instance.waitSpawnElectronicTime);
+        }
+    }
+
+    void Electronic_Interactive()
+    {
+        if (GameManager.instance.gameState == State.T_LASSO)
+        {
+            raycastHitObject.transform.GetChild(0).gameObject.SetActive(false);
+            raycastHitObject.transform.GetChild(1).gameObject.SetActive(true);
+            if (Check_AllInteract_Electronic())
+            {
+                GameManager.instance.gameState++;
+                television.transform.GetChild(0).gameObject.SetActive(true);
+                StartCoroutine("WaitAndOpenDoor", GameManager.instance.waitOpenRightDoor);
+            }
+        }
+    }
+
+    bool Check_AllInteract_Electronic()
+    {
+        for(int i = 0; i < electronicSet.childCount; i++)
+        {
+            if (electronicSet.GetChild(i).GetChild(0).gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void SpawnObjectSet(Transform objectSet)
+    {
+        for (int i = 0; i < objectSet.childCount; i++)
+        {
+            objectSet.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
+    void DisableObjectSet(Transform objectSet)
+    {
+        for (int i = 0; i < objectSet.childCount; i++)
+        {
+            objectSet.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator WaitAndOpenDoor(float time)
+    {
+        yield return new WaitForSeconds(time);
+        OpenRightDoor();
+    }
+
+    IEnumerator WaitAndSpawn(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SpawnObjectSet(electronicSet);
+    }
+
+    public void OpenLeftDoor()
+    {
+        leftDoor.transform.localEulerAngles = new Vector3(0, -10, 0);
+    }
+
+    public void OpenRightDoor()
+    {
+        rightDoor.transform.localEulerAngles = new Vector3(-90, 180, -10);
+    }
+
+    public void DisableTObject()
+    {
+        DisableObjectSet(electronicSet);
+        DisableObjectSet(photoSet);
+        DisableObjectSet(photoFrameSet);
+        mnqSpawner.DisableMNQ(0);
     }
 
     public void SpawnMNQ(int num)

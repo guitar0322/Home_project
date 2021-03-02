@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour
         spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
     }
 
-    public void DisableMNQ(int idx)
+    public void DisableObject(int idx)
     {
         spawnedObjectSet.GetChild(idx).gameObject.SetActive(false);
     }

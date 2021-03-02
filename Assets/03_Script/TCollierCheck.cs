@@ -32,7 +32,8 @@ public class TCollierCheck : MonoBehaviour
                 GameManager.instance.slowWeight = GameManager.instance.slowScale;
                 StartCoroutine("SpawnMNQ");
             }
-            GameManager.instance.gameState++;
+            if (GameManager.instance.gameState == State.T_ACCEPTANCE == false)
+                GameManager.instance.gameState++;
             GameManager.instance.SwapLightSetting(false);
         }
     }
@@ -49,7 +50,7 @@ public class TCollierCheck : MonoBehaviour
         yield return new WaitForSeconds(GameManager.instance.waitSpawnEyeTime + GameManager.instance.eyeScalingTime + GameManager.instance.waitLookPlayerTime);
         objectManager.StopMNQ();
         GameManager.instance.slowWeight = 1;
-        GameManager.instance.playerControler.moveControlFlag = false;
+        GameManager.instance.gameState++;
     }
     void Start()
     {
