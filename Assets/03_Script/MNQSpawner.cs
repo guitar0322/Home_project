@@ -5,17 +5,21 @@ using Gamesystem;
 
 public class MNQSpawner : Spawner
 {
-    // Start is called before the first frame update
-    public void SpawnMNQ(int num)
+    public Transform THMNQPosSet;
+    public Transform THMNQSet;
+    public bool THspawnFlag;
+    float spawnCoolTime;
+    float time = 0;
+    public void SpawnMNQ(int num, bool setSpeedFlag)
     {
-        bool setSpeedFlag;
-        setSpeedFlag = GameManager.instance.gameState < State.T_MNQ_THIRD ? false : true;
         for(int i = 0; i < num; i++)
         {
             SpawnObject();
-            spawnedObject.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag);
+            if(GameManager.instance.gameState < State.T_END_DOOR)
+                spawnedObject.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag);
         }
     }
+
     public void DisableMNQ(int idx)
     {
         DisableObject(idx);
@@ -28,11 +32,34 @@ public class MNQSpawner : Spawner
             DisableObject(i);
         }
     }
+
     public void StopMNQ()
     {
         for (int i = 0; i < spawnedObjectSet.transform.childCount; i++)
         {
             spawnedObjectSet.transform.GetChild(i).GetComponent<NavMNQ>().StopFollow();
+        }
+    }
+
+    public void SwapTHMNQ()
+    {
+        spawnedObjectSet = THMNQSet;
+        spawnedPosSet = THMNQPosSet;
+        THspawnFlag = true;
+        spawnCoolTime = Random.Range(GameManager.instance.waitSpawnMNQMinTime, GameManager.instance.waitSpawnMNQMaxTime);
+    }
+
+    private void Update()
+    {
+        if(THspawnFlag == true)
+        {
+            time += Time.deltaTime;
+            if(time >= spawnCoolTime)
+            {
+                SpawnMNQ(Random.Range(GameManager.instance.spawnMNQMinNum, GameManager.instance.spawnMNQMaxNum), false);
+                time = 0;
+                spawnCoolTime = Random.Range(GameManager.instance.waitSpawnMNQMinTime, GameManager.instance.waitSpawnMNQMaxTime);
+            }
         }
     }
 }

@@ -32,6 +32,9 @@ TagManager:
   - ViewModeObj
   - Lasso
   - Electronic
+  - THMNQ
+  - Bed
+  - MakeupDesk
   layers:
   - Default
   - TransparentFX

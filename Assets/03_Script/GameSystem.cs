@@ -41,7 +41,16 @@ namespace Gamesystem
             T_LASSO = T_MNQ_THIRD + 1,//25
             T_TELEVISION = T_LASSO + 1,
             T_END_DOOR = T_TELEVISION + 1,
-            TH_START_DOOR = T_END_DOOR + 1;
+            TH_START_DOOR = T_END_DOOR + 1,
+            TH_FIRST_TRAP = TH_START_DOOR + 1,
+            TH_FIRST_MNQ = TH_FIRST_TRAP + 1,//30
+            TH_DRUM = TH_FIRST_MNQ + 1,
+            TH_SECOND_TRAP = TH_DRUM + 1,
+            TH_SECOND_MNQ = TH_SECOND_TRAP + 1,
+            TH_MASK = TH_SECOND_MNQ + 1,
+            TH_THIRD_TRAP = TH_MASK + 1,
+            TH_THIRD_MNQ = TH_THIRD_TRAP + 1,
+            TH_ALL_MNQ = TH_THIRD_MNQ + 1;
     }
 
     //Puzzle : 렌더링 할 타겟  퍼즐 UI 종류를 구분짓기 위한 상수집합
@@ -49,8 +58,9 @@ namespace Gamesystem
     {
         public const int Diary = 0, // 일기장
             Piano = 1, // 피아노 퍼즐
-            Mask = 2,
-            End = 3;
+            Drum = Piano + 1,
+            Mask = Drum + 1,
+            End = Mask + 1;
     }
 
     public class Pair<T, U>

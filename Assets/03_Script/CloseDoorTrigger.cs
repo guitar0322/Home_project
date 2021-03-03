@@ -33,11 +33,6 @@ public class CloseDoorTrigger : MonoBehaviour
             case State.T_END_DOOR:
                 rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 180);
                 objectManager.DisableTObject();
-                this.transform.position = THCloseDoor.position;
-                this.transform.localEulerAngles = new Vector3(0, 90, 0);
-                break;
-            case State.TH_START_DOOR:
-                leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -90);
                 Destroy(this);
                 break;
         }
@@ -50,15 +45,10 @@ public class CloseDoorTrigger : MonoBehaviour
             this.transform.position = TCloseDoor.position;
             this.transform.localEulerAngles = new Vector3(0, 90, 0);
         }
-        else if (GameManager.instance.gameState < State.T_END_DOOR)
+        else if (GameManager.instance.gameState > State.T_DOOR && GameManager.instance.gameState < State.T_END_DOOR)
         {
             this.transform.position = TEndCloseDoor.position;
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else if (GameManager.instance.gameState < State.TH_START_DOOR)
-        {
-            this.transform.position = THCloseDoor.position;
-            this.transform.localEulerAngles = new Vector3(0, 90, 0);
         }
     }
 }

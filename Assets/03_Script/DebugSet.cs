@@ -35,4 +35,21 @@ public partial class GameManager
     [Tooltip("거실문 열리는 대기시간")]
     public float waitOpenRightDoor;
 
+    [Header("Level3 Property")]
+    [Tooltip("회전통 회전속도")]
+    public float caseBoxSpeed;
+    [Tooltip("사진으로 줌인시, 카메라 위치")]
+    public Transform zoomCamPos;
+    public float zoomTime;
+    [Tooltip("캐릭터 이동 위치")]
+    public Transform playerTargetPos;
+    [Tooltip("마네킹 소환 대기시간")]
+    public float waitSpawnMNQMinTime;
+    public float waitSpawnMNQMaxTime;
+    [Tooltip("마네킹 소환 수")]
+    public int spawnMNQMinNum;
+    public int spawnMNQMaxNum;
+    [Tooltip("촬영해야할 마네킹 수")]
+    public int interactMNQNum;
+
 }

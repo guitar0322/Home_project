@@ -6,11 +6,12 @@ using Gamesystem;
 
 public class ObjectManager : MonoBehaviour
 {
+    public Camera mainCam;
+    Vector3 beforePos;
     public ViewMode viewMode;
     RaycastHit raycastHitObject;
     ObjectInfo targetInfo;
     PlayerControler playerControler;
-
     [Header("Level1 Object")]
     public GameObject diary;
     public GameObject leftDoor;
@@ -32,10 +33,26 @@ public class ObjectManager : MonoBehaviour
     public Transform electronicSet;
     public GameObject television;
 
+    [Header("Level3 Object")]
+    public GameObject firstTrapWall;
+    public GameObject THMNQ;
+    public GameObject pill;
+    public GameObject water;
+    [Space (10f)]
+    public GameObject secondTrapWall;
+    public GameObject cosmetics;
+    public GameObject mask;
+    [Space (10f)]
+    public GameObject thirdTrapWall;
+    public GameObject photo;
 
     [Header ("Component")]
     public MNQSpawner mnqSpawner;
     public EyeSpawner eyeSpawner;
+    void Start()
+    {
+        playerControler = GameManager.instance.playerControler;
+    }
     public void InteractionObject(RaycastHit target)
     {
         raycastHitObject = target;
@@ -87,6 +104,15 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "Electronic":
                 Electronic_Interactive();
+                break;
+            case "THMNQ":
+                THMNQ_Interactive();
+                break;
+            case "Bed":
+                Bed_Interactive();
+                break;
+            case "MakeupDesk":
+                MakeupDesk_Interactive();
                 break;
             case "Test":
                 viewMode.InitViewMode(target.transform.gameObject, false);
@@ -146,10 +172,6 @@ public class ObjectManager : MonoBehaviour
         }
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        playerControler = GameManager.instance.playerControler;   
-    }
 
     // Update is called once per frame
     void Update()
@@ -182,7 +204,7 @@ public class ObjectManager : MonoBehaviour
 
     void Diary_Interactive() //일기장 상호작용
     {
-        if (GameManager.instance.gameState >= State.O_MNQ)
+        if (GameManager.instance.gameState >= State.O_MNQ && GameManager.instance.gameState <= State.O_DOOR)
         {
             if (GameManager.instance.gameState == State.O_MNQ)
                 GameManager.instance.gameState++;
@@ -198,8 +220,7 @@ public class ObjectManager : MonoBehaviour
 
     void MNQ_Interactive()
     {
-        Debug.Log(GameManager.instance.gameState);
-        if (GameManager.instance.gameState == State.START)
+        if (CompareGamestate(State.START))
         {
             diary.transform.position = GameManager.instance.diaryDropPosition.position;
             diary.transform.Rotate(0, 0, 90);
@@ -233,6 +254,7 @@ public class ObjectManager : MonoBehaviour
         else if(GameManager.instance.gameState == State.T_END_DOOR)
         {
             GameManager.instance.gameState++;
+            THMNQ.SetActive(true);
             leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
         }
     }
@@ -242,7 +264,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_DOOR)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.SpawnMNQ(1);
+            mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[0].position;
             TtargetPoint[0].SetActive(true);
@@ -280,7 +302,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_PIANO)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.SpawnMNQ(1);
+            mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[1].position;
             TtargetPoint[1].SetActive(true);
@@ -307,7 +329,7 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             mnqSpawner.DisableObject(0);
-            mnqSpawner.SpawnMNQ(1);
+            mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
             TtargetPoint[2].SetActive(true);
@@ -347,6 +369,72 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    void THMNQ_Interactive()
+    {
+        if(CompareGamestate(State.TH_FIRST_TRAP))
+        {
+            GameManager.instance.gameState++;
+            pill.SetActive(true);
+            water.SetActive(true);
+        }
+        else if (CompareGamestate(State.TH_SECOND_TRAP))
+        {
+            GameManager.instance.gameState++;
+            mask.SetActive(true);
+            cosmetics.SetActive(true);
+        }
+        else if (CompareGamestate(State.TH_THIRD_TRAP))
+        {
+            GameManager.instance.gameState++;
+            raycastHitObject.transform.gameObject.SetActive(false);
+            thirdTrapWall.SetActive(false);
+            photo.SetActive(true);
+            beforePos = mainCam.transform.position;
+            StartCoroutine("WaitAndRollBackCam", GameManager.instance.zoomTime);
+            mainCam.transform.position = GameManager.instance.zoomCamPos.position;
+            mainCam.transform.eulerAngles = GameManager.instance.zoomCamPos.eulerAngles;
+            playerControler.enabled = false;
+            //카메라 사진으로 줌인
+        }
+        else if (CompareGamestate(State.TH_THIRD_MNQ))
+        {
+            raycastHitObject.transform.GetChild(0).gameObject.SetActive(false);
+            raycastHitObject.transform.GetChild(1).gameObject.SetActive(true);
+            GameManager.instance.interactMNQNum--;
+            if(GameManager.instance.interactMNQNum == 0)
+            {
+                GameManager.instance.gameState++;
+                mnqSpawner.THspawnFlag = false;
+                mnqSpawner.DisableMNQ(0, mnqSpawner.spawnedObjectSet.childCount);
+            }
+        }
+    }
+    
+    IEnumerator WaitAndRollBackCam(float zoomTime)
+    {
+        yield return new WaitForSeconds(zoomTime);
+        mainCam.transform.position = beforePos;
+        mainCam.transform.localEulerAngles = Vector3.zero;
+        playerControler.enabled = true;
+        playerControler.transform.position = GameManager.instance.playerTargetPos.position;
+        mnqSpawner.SwapTHMNQ();
+    }
+    void Bed_Interactive()
+    {
+        if (CompareGamestate(State.TH_FIRST_MNQ))
+        {
+            GameManager.instance.InitUIMode(Puzzle.Drum);
+        }
+    }
+
+    void MakeupDesk_Interactive()
+    {
+        if (CompareGamestate(State.TH_SECOND_MNQ))
+        {
+            Debug.Log("interact makeupDesk");
+            GameManager.instance.InitUIMode(Puzzle.Mask);
+        }
+    }
     bool Check_AllInteract_Electronic()
     {
         for(int i = 0; i < electronicSet.childCount; i++)
@@ -389,7 +477,7 @@ public class ObjectManager : MonoBehaviour
 
     public void OpenLeftDoor()
     {
-        leftDoor.transform.localEulerAngles = new Vector3(0, -10, 0);
+        leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -120);
     }
 
     public void OpenRightDoor()
@@ -405,9 +493,9 @@ public class ObjectManager : MonoBehaviour
         mnqSpawner.DisableMNQ(0);
     }
 
-    public void SpawnMNQ(int num)
+    public void SpawnMNQ(int num, bool setSpeedFlag)
     {
-        mnqSpawner.SpawnMNQ(num);
+        mnqSpawner.SpawnMNQ(num, setSpeedFlag);
     }
 
     public void StopMNQ()
@@ -418,5 +506,13 @@ public class ObjectManager : MonoBehaviour
     public void SpawnEye()
     {
         eyeSpawner.SpawnEye();
+    }
+
+    bool CompareGamestate(int state)
+    {
+        if (GameManager.instance.gameState == state)
+            return true;
+
+        return false;
     }
 }

@@ -40,7 +40,7 @@ public class TCollierCheck : MonoBehaviour
     IEnumerator SpawnMNQ()
     {
         yield return new WaitForSeconds(GameManager.instance.disableControlSec);
-        objectManager.SpawnMNQ(GameManager.instance.TMNQSpawnNum);
+        objectManager.SpawnMNQ(GameManager.instance.TMNQSpawnNum, true);
         StartCoroutine("SpawnEye");
     }
     IEnumerator SpawnEye()
