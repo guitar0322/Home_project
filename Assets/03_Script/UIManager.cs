@@ -6,6 +6,7 @@ using Gamesystem;
 public partial class GameManager
 {
     public GameObject fKeyUI;
+    public GameObject camUI;
     [Header ("ItemUI")]
     public GameObject ItemUISet;
     public Sprite sheet;
@@ -25,6 +26,8 @@ public partial class GameManager
     {
         if (uiMode == true)
             return;
+        if (camUI.activeSelf)
+            camUI.SetActive(false);
         uiMode = true;
         playerControler.moveControlFlag = false; //유저 움직임 멈춤
         playerControler.rotateControlFlag = false; //유저 움직임 멈춤
@@ -44,6 +47,10 @@ public partial class GameManager
             return;
         if (activatedPuzzle == Puzzle.Diary && diaryFlip.isFlipping == true)
             return;
+        if(gameState >= State.TH_CAM)
+        {
+            camUI.SetActive(true);
+        }
         puzzleUI.SetActive(false); //UI 숨기기
         puzzleUI.transform.GetChild(activatedPuzzle).gameObject.SetActive(false);
         playerControler.moveControlFlag = true; //유저 움직임 멈춤

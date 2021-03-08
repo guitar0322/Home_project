@@ -34,6 +34,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject television;
 
     [Header("Level3 Object")]
+    public GameObject playerCam;
+    public GameObject picture;
     public GameObject firstTrapWall;
     public GameObject THMNQ;
     public GameObject pill;
@@ -49,6 +51,7 @@ public class ObjectManager : MonoBehaviour
     [Header ("Component")]
     public MNQSpawner mnqSpawner;
     public EyeSpawner eyeSpawner;
+    public Spawner pictureSpawner;
     void Start()
     {
         playerControler = GameManager.instance.playerControler;
@@ -104,6 +107,12 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "Electronic":
                 Electronic_Interactive();
+                break;
+            case "PlayerCam":
+                PlayerCam_Interactive();
+                break;
+            case "Picture":
+                Picture_Interactive();
                 break;
             case "THMNQ":
                 THMNQ_Interactive();
@@ -189,6 +198,8 @@ public class ObjectManager : MonoBehaviour
         else if(GameManager.instance.gameState == State.T_TELEVISION)
         {
             GameManager.instance.gameState++;
+            playerCam.SetActive(true);
+            picture.SetActive(true);
             rightDoor.transform.localEulerAngles = new Vector3(-90, 135, -45);
         }
     }
@@ -250,12 +261,6 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -180);
-        }
-        else if(GameManager.instance.gameState == State.T_END_DOOR)
-        {
-            GameManager.instance.gameState++;
-            THMNQ.SetActive(true);
-            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
         }
     }
 
@@ -369,6 +374,25 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    void PlayerCam_Interactive()
+    {
+        if (CompareGamestate(State.T_END_DOOR))
+        {
+            GameManager.instance.gameState++;
+            playerCam.SetActive(false);
+            GameManager.instance.camUI.SetActive(true);
+        }
+    }
+
+    void Picture_Interactive()
+    {
+        if (CompareGamestate(State.TH_CAM))
+        {
+            GameManager.instance.gameState++;
+            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
+        }
+    }
+
     void THMNQ_Interactive()
     {
         if(CompareGamestate(State.TH_FIRST_TRAP))
@@ -398,12 +422,15 @@ public class ObjectManager : MonoBehaviour
         }
         else if (CompareGamestate(State.TH_THIRD_MNQ))
         {
-            raycastHitObject.transform.GetChild(0).gameObject.SetActive(false);
-            raycastHitObject.transform.GetChild(1).gameObject.SetActive(true);
+            raycastHitObject.transform.gameObject.SetActive(false);
+            Debug.Log(raycastHitObject.transform.GetSiblingIndex());
+            pictureSpawner.SpawnObject();
+            pictureSpawner.SetObjectTransform(raycastHitObject.transform);
             GameManager.instance.interactMNQNum--;
             if(GameManager.instance.interactMNQNum == 0)
             {
                 GameManager.instance.gameState++;
+                GameManager.instance.camUI.SetActive(false);
                 mnqSpawner.THspawnFlag = false;
                 mnqSpawner.DisableMNQ(0, mnqSpawner.spawnedObjectSet.childCount);
             }

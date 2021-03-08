@@ -120,6 +120,10 @@ public class PlayerControler : MonoBehaviour
     void DropItem()
     {
         GameObject item = equipPoint.GetComponentInChildren<Rigidbody>().gameObject;
+        if (item.tag.Equals("Candle"))
+        {
+            return;
+        }
         SetEquip(item, false);
         equipPoint.transform.DetachChildren();
         isEquip = false;

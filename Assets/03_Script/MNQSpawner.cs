@@ -8,10 +8,19 @@ public class MNQSpawner : Spawner
     public Transform THMNQPosSet;
     public Transform THMNQSet;
     public bool THspawnFlag;
+    private int THSpawnNum = 0;
     float spawnCoolTime;
     float time = 0;
     public void SpawnMNQ(int num, bool setSpeedFlag)
     {
+        if(THspawnFlag)
+        {
+            if (THSpawnNum >= spawnedObjectSet.childCount)
+            {
+                return;
+            }
+            THSpawnNum += num;
+        }
         for(int i = 0; i < num; i++)
         {
             SpawnObject();

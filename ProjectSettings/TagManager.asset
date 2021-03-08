@@ -35,6 +35,8 @@ TagManager:
   - THMNQ
   - Bed
   - MakeupDesk
+  - PlayerCam
+  - Picture
   layers:
   - Default
   - TransparentFX

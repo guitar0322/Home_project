@@ -25,6 +25,7 @@ public class ViewMode : MonoBehaviour
         if (viewMode == true)
             return false;
         viewModeTargetObj = target;
+        viewModeTargetObj.GetComponent<Rigidbody>().isKinematic = true;
         targetInfo = viewModeTargetObj.GetComponent<ObjectInfo>();
         takeFlag = flag;
         if(takeFlag == true)

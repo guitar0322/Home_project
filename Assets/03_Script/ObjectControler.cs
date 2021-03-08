@@ -43,6 +43,7 @@ public class ObjectControler : MonoBehaviour
                 Quaternion.Angle(oldRotate, targetObj.transform.rotation) < 0.01f)
             {
                 targetObj.layer = LayerMask.NameToLayer("Default");
+                targetObj.GetComponent<Rigidbody>().isKinematic = false;
                 this.enabled = false;
                 viewMode.viewMode = false;
             }

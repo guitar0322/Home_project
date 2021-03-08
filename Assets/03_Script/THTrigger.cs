@@ -15,10 +15,11 @@ public class THTrigger : MonoBehaviour
     {
         switch (GameManager.instance.gameState)
         {
-            case State.TH_START_DOOR:
+            case State.TH_PICTURE:
                 leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -90);
                 GameManager.instance.gameState++;
                 objectManager.firstTrapWall.SetActive(true);
+                objectManager.THMNQ.SetActive(true);
                 break;
             case State.TH_DRUM:
                 GameManager.instance.gameState++;

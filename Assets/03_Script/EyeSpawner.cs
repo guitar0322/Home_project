@@ -8,6 +8,7 @@ public class EyeSpawner : Spawner
 
     public void SpawnEye()
     {
+        InitSpawn();
         for (int i = 0; i < spawnedObjectSet.transform.childCount; i++)
         {
             SpawnObject();
