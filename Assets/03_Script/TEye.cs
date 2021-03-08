@@ -9,6 +9,7 @@ public class TEye : MonoBehaviour
     private float scalesize;
     private float scalePerFrame;
     private Vector3 scale;
+    public int posIdx;
 
     // Start is called before the first frame update
     void Start()

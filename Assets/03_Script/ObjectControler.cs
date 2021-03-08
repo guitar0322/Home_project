@@ -42,8 +42,12 @@ public class ObjectControler : MonoBehaviour
             if (Vector3.Distance(targetObj.transform.position, oldPosition) < 0.01f &&
                 Quaternion.Angle(oldRotate, targetObj.transform.rotation) < 0.01f)
             {
+                Rigidbody rigidbody;
                 targetObj.layer = LayerMask.NameToLayer("Default");
-                targetObj.GetComponent<Rigidbody>().isKinematic = false;
+                if(targetObj.TryGetComponent<Rigidbody>(out rigidbody))
+                {
+                    rigidbody.isKinematic = false;
+                }
                 this.enabled = false;
                 viewMode.viewMode = false;
             }

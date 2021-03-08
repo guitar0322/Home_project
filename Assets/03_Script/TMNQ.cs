@@ -8,10 +8,12 @@ public class TMNQ : MonoBehaviour
     private float maxTime;
     private float _WaitTime;
     public NavMNQ navMNQ;
-    public void SetProperty(float waitMinTime, float waitMaxTime, bool flag)
+    public int posIdx;
+    public void SetProperty(float waitMinTime, float waitMaxTime, bool flag, int _posIdx)
     {
         if (navMNQ != null)
             navMNQ.enabled = true;
+        posIdx = _posIdx;
         minTime = waitMinTime;
         maxTime = waitMaxTime;
         _WaitTime = Random.Range(minTime, maxTime);

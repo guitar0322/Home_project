@@ -21,14 +21,14 @@ public class Spawner : MonoBehaviour
         return -1;
     }
 
-    public void SpawnObject()
+    public int SpawnObject()
     {
         int objectIdx, objectPosIdx;
         objectIdx = IsValidObject();
         if (objectIdx == -1)
         {
             Debug.Log("invalid spawn num");
-            return;
+            return -1;
         }
         objectPosIdx = Random.Range(0, spawnedPosSet.transform.childCount);
         while(isSpawnPos[objectPosIdx] == true)
@@ -39,6 +39,11 @@ public class Spawner : MonoBehaviour
         spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
         spawnedObject.SetActive(true);
         spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
+        for (int i = 0; i < spawnedObjectSet.childCount; i++)
+        {
+            Debug.Log(isSpawnPos[i]);
+        }
+        return objectPosIdx;
     }
 
     public void InitSpawn()
@@ -52,6 +57,10 @@ public class Spawner : MonoBehaviour
     public void DisableObject(int idx)
     {
         spawnedObjectSet.GetChild(idx).gameObject.SetActive(false);
+        for (int i = 0; i < spawnedObjectSet.childCount; i++)
+        {
+            Debug.Log(isSpawnPos[i]);
+        }
     }
 
     public void SetObjectTransform(Transform target)

@@ -13,6 +13,7 @@ public class MNQSpawner : Spawner
     float time = 0;
     public void SpawnMNQ(int num, bool setSpeedFlag)
     {
+        int posIdx;
         if(THspawnFlag)
         {
             if (THSpawnNum >= spawnedObjectSet.childCount)
@@ -23,21 +24,32 @@ public class MNQSpawner : Spawner
         }
         for(int i = 0; i < num; i++)
         {
-            SpawnObject();
-            if(GameManager.instance.gameState < State.T_END_DOOR)
-                spawnedObject.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag);
+            posIdx = SpawnObject();
+            Debug.Log("posIdx : " + posIdx);
+            if (posIdx == -1)
+                return;
+            if (GameManager.instance.gameState < State.T_END_DOOR)
+                spawnedObject.GetComponent<TMNQ>().SetProperty(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime, setSpeedFlag, posIdx);
+            else
+                spawnedObject.GetComponent<TMNQ>().posIdx = posIdx;
         }
     }
 
     public void DisableMNQ(int idx)
     {
+        int posIdx = spawnedObjectSet.GetChild(idx).GetComponent<TMNQ>().posIdx;
+        Debug.Log("posIdx : " + posIdx);
+        isSpawnPos[posIdx] = false;
         DisableObject(idx);
     }
 
     public void DisableMNQ(int startIdx, int endIdx)
     {
-        for(int i = startIdx; i < endIdx; i++)
+        int posIdx;
+        for (int i = startIdx; i < endIdx; i++)
         {
+            posIdx = spawnedObjectSet.GetChild(i).GetComponent<TMNQ>().posIdx;
+            isSpawnPos[posIdx] = false;
             DisableObject(i);
         }
     }

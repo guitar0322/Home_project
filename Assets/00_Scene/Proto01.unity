@@ -3820,6 +3820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 1590513473}
+  posIdx: 0
 --- !u!135 &309987240
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4908,6 +4909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMNQ: {fileID: 451334442}
+  posIdx: 0
 --- !u!195 &451334444
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8250,6 +8252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 1590513473}
+  posIdx: 0
 --- !u!135 &818948084
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9224,6 +9227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 891435141}
   - component: {fileID: 891435142}
+  - component: {fileID: 891435143}
   m_Layer: 0
   m_Name: THMNQ
   m_TagString: THMNQ
@@ -9261,6 +9265,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &891435143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891435140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bdbf06bb95df842835f5cb4b548364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMNQ: {fileID: 0}
+  posIdx: 0
 --- !u!1 &892362171
 GameObject:
   m_ObjectHideFlags: 0
@@ -10477,6 +10495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 1590513473}
+  posIdx: 0
 --- !u!135 &1015137511
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10712,6 +10731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1028902888}
   - component: {fileID: 1028902889}
+  - component: {fileID: 1028902890}
   m_Layer: 0
   m_Name: THMNQ (2)
   m_TagString: THMNQ
@@ -10749,6 +10769,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1028902890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028902887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bdbf06bb95df842835f5cb4b548364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMNQ: {fileID: 0}
+  posIdx: 0
 --- !u!1 &1034887091
 GameObject:
   m_ObjectHideFlags: 0
@@ -11197,6 +11231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1061244517}
   - component: {fileID: 1061244518}
+  - component: {fileID: 1061244519}
   m_Layer: 0
   m_Name: THMNQ (4)
   m_TagString: THMNQ
@@ -11234,6 +11269,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1061244519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061244516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bdbf06bb95df842835f5cb4b548364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMNQ: {fileID: 0}
+  posIdx: 0
 --- !u!1 &1062820566
 GameObject:
   m_ObjectHideFlags: 0
@@ -11737,6 +11786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMNQ: {fileID: 1121589801}
+  posIdx: 0
 --- !u!195 &1121589803
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12365,6 +12415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1187781031}
   - component: {fileID: 1187781032}
+  - component: {fileID: 1187781033}
   m_Layer: 0
   m_Name: THMNQ (3)
   m_TagString: THMNQ
@@ -12402,6 +12453,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1187781033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187781030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bdbf06bb95df842835f5cb4b548364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMNQ: {fileID: 0}
+  posIdx: 0
 --- !u!1 &1197512812
 GameObject:
   m_ObjectHideFlags: 0
@@ -13105,6 +13170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMNQ: {fileID: 1259390797}
+  posIdx: 0
 --- !u!195 &1259390799
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -13310,7 +13376,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
@@ -15419,6 +15485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1480336872}
   - component: {fileID: 1480336873}
+  - component: {fileID: 1480336874}
   m_Layer: 0
   m_Name: THMNQ (1)
   m_TagString: THMNQ
@@ -15456,6 +15523,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1480336874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480336871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bdbf06bb95df842835f5cb4b548364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMNQ: {fileID: 0}
+  posIdx: 0
 --- !u!1001 &1481448711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18283,6 +18364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMNQ: {fileID: 1657291417}
+  posIdx: 0
 --- !u!23 &1657291419
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18355,6 +18437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 1590513473}
+  posIdx: 0
 --- !u!135 &1659662156
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20312,6 +20395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 1590513473}
+  posIdx: 0
 --- !u!135 &1883571340
 SphereCollider:
   m_ObjectHideFlags: 0

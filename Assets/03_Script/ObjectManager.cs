@@ -297,7 +297,7 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             fallenLeaves.SetActive(true);
             blackHand.SetActive(false);
-            mnqSpawner.DisableObject(0);
+            mnqSpawner.DisableMNQ(0);
             TtargetPoint[0].SetActive(false);
         }
     }
@@ -333,7 +333,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_MNQ_SECOND)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.DisableObject(0);
+            mnqSpawner.DisableMNQ(0);
             mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
@@ -423,7 +423,6 @@ public class ObjectManager : MonoBehaviour
         else if (CompareGamestate(State.TH_THIRD_MNQ))
         {
             raycastHitObject.transform.gameObject.SetActive(false);
-            Debug.Log(raycastHitObject.transform.GetSiblingIndex());
             pictureSpawner.SpawnObject();
             pictureSpawner.SetObjectTransform(raycastHitObject.transform);
             GameManager.instance.interactMNQNum--;
