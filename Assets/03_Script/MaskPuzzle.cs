@@ -17,6 +17,7 @@ public class MaskPuzzle : MonoBehaviour
         GameManager.instance.ExitUIMode();
         GameManager.instance.gameState++;
         objectManager.secondTrapWall.SetActive(false);
+        objectManager.THMNQ.SetActive(false);
         thTrigger.Next();
     }
     // Update is called once per frame

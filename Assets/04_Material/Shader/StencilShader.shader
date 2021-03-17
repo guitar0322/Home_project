@@ -7,16 +7,15 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque+1" }
+        Tags { "Queue" = "Geometry" }
         LOD 100
 
         Pass
         {
-            Tags{"RenderType"="Opaque+1"}
             Stencil
             {
-                Ref 1
-                Comp always
+                Ref 0
+                Comp Equal
                 Pass keep
                 ZFail keep
             }
@@ -62,10 +61,9 @@
             }
             ENDCG
         }
+
         Pass
         {
-            Tags{"RenderType"="Opaque+2"}
-            Ztest GEqual
             Stencil
             {
                 Ref 1

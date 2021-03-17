@@ -33,6 +33,8 @@ public class ObjectManager : MonoBehaviour
     public Transform electronicSet;
     public GameObject television;
 
+    public GameObject candle;
+
     [Header("Level3 Object")]
     public GameObject playerCam;
     public GameObject picture;
@@ -346,13 +348,16 @@ public class ObjectManager : MonoBehaviour
     void Lasso_Interactive()
     {
         //마네킹 플래시
-        if(GameManager.instance.gameState == State.T_MNQ_THIRD)
+        if(GameManager.instance.gameState == State.T_SPOT_THIRD)
         {
             GameManager.instance.gameState++;
             playerControler.moveControlFlag = true;
             mnqSpawner.DisableMNQ(1, GameManager.instance.TMNQSpawnNum + 1);
             eyeSpawner.DisableEye(0, eyeSpawner.spawnedObjectSet.childCount);
             chair.SetActive(false);
+            candle.SetActive(false);
+            raycastHitObject.collider.gameObject.SetActive(false);
+            TtargetPoint[2].SetActive(false);
             SpawnObjectSet(photoFrameSet);
             SpawnObjectSet(photoSet);
             StartCoroutine("WaitAndSpawn", GameManager.instance.waitSpawnElectronicTime);

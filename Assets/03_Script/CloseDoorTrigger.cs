@@ -40,7 +40,7 @@ public class CloseDoorTrigger : MonoBehaviour
 
     private void Start()
     {
-        if(GameManager.instance.gameState > State.O_DOOR && GameManager.instance.gameState < State.T_DOOR)
+        if(GameManager.instance.gameState > State.O_DOOR && GameManager.instance.gameState <= State.T_DOOR)
         {
             this.transform.position = TCloseDoor.position;
             this.transform.localEulerAngles = new Vector3(0, 90, 0);

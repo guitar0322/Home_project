@@ -26,6 +26,7 @@ public class DrumbingoPuzzle : MonoBehaviour
         GameManager.instance.ExitUIMode();
         GameManager.instance.gameState++;
         objectManager.firstTrapWall.SetActive(false);
+        objectManager.THMNQ.SetActive(false);
         thTrigger.Next();
     }
     // Update is called once per frame

@@ -25,6 +25,9 @@ public class ViewMode : MonoBehaviour
         if (viewMode == true)
             return false;
         viewModeTargetObj = target;
+        playerControler.moveControlFlag = false;
+        playerControler.rotateControlFlag = false;
+        playerControler.raycastControlFlag = false;
         Rigidbody objRigidbody;
         if(viewModeTargetObj.TryGetComponent<Rigidbody>(out objRigidbody))
         {
@@ -40,13 +43,11 @@ public class ViewMode : MonoBehaviour
 
         GetComponent<CapsuleCollider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
-        target.layer = LayerMask.NameToLayer("UI");
+        viewModeTargetObj.layer = LayerMask.NameToLayer("UI");
 
         blur.SetActive(true);
         objectControler.enabled = true;
-        objectControler.SetProperty(target, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
-        playerControler.moveControlFlag = false;
-        playerControler.rotateControlFlag = false;
+        objectControler.SetProperty(viewModeTargetObj, Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 1f)));
         return true;
     }
 
@@ -78,6 +79,7 @@ public class ViewMode : MonoBehaviour
 
         playerControler.moveControlFlag = true;
         playerControler.rotateControlFlag = true;
+        playerControler.raycastControlFlag = true;
         GetComponent<CapsuleCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
         blur.SetActive(false);

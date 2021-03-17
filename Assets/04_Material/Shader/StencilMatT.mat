@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MaskMat
-  m_Shader: {fileID: 4800000, guid: f2f43ff5a82012a4a880f875d9483641, type: 3}
+  m_Name: StencilMatT
+  m_Shader: {fileID: 4800000, guid: 882d514ff5587834b9d21e13192c166b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b38f1555bc2bc5246a7c1a87e231e51c, type: 3}
+        m_Texture: {fileID: 2800000, guid: e999420e469897c409f9021a59f55808, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -56,11 +56,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StencilTex:
-        m_Texture: {fileID: 2800000, guid: ebc09a64cf83f8142a52ec282fb00cfc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 29e3118d113f7a24ab4d055198316c8f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

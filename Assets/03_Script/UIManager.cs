@@ -22,6 +22,28 @@ public partial class GameManager
     [Header("Flag")]
     private bool uiMode;
 
+    public void CheckFKeyUI(GameObject target)
+    {
+        if (target.tag.Equals("TMNQ"))
+        {
+            if (gameState == State.T_SHEET || gameState == State.T_FLOWER)
+            {
+                if (fKeyUI.activeSelf == false)
+                    fKeyUI.SetActive(true);
+            }
+            else
+            {
+                if (fKeyUI.activeSelf == true)
+                    fKeyUI.SetActive(false);
+            }
+        }
+        else
+        {
+            if (fKeyUI.activeSelf == true)
+                fKeyUI.SetActive(false);
+        }
+    }
+
     public void InitUIMode(int type)
     {
         if (uiMode == true)
@@ -31,8 +53,6 @@ public partial class GameManager
         uiMode = true;
         playerControler.moveControlFlag = false; //유저 움직임 멈춤
         playerControler.rotateControlFlag = false; //유저 움직임 멈춤
-
-
 
         Cursor.visible = true; // 마우스 보임 
         Cursor.lockState = CursorLockMode.None; // 마우스 커서 이동 가능
@@ -58,6 +78,7 @@ public partial class GameManager
         uiMode = false;
         Debug.Log("Puzzle Close");
     }
+
     public void ActiveItemUI(string tag)
     {
         GameObject itemUI;
@@ -71,6 +92,7 @@ public partial class GameManager
             }
         }
     }
+
     public void UnActiveItemUI(string tag)
     {
         GameObject itemUI;

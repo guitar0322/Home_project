@@ -24,10 +24,12 @@ public class THTrigger : MonoBehaviour
             case State.TH_DRUM:
                 GameManager.instance.gameState++;
                 objectManager.secondTrapWall.SetActive(true);
+                objectManager.THMNQ.SetActive(true);
                 break;
             case State.TH_MASK:
                 GameManager.instance.gameState++;
                 objectManager.thirdTrapWall.SetActive(true);
+                objectManager.THMNQ.SetActive(true);
                 break;
         }
     }

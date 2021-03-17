@@ -11,7 +11,7 @@ public class TCollierCheck : MonoBehaviour
     public ObjectManager objectManager;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("TMNQ") && GameManager.instance.gameState < State.T_MNQ_THIRD)
+        if (other.tag.Equals("TMNQ") && GameManager.instance.gameState < State.T_SPOT_THIRD)
         {
             other.isTrigger = false;
             other.GetComponent<NavMNQ>().StopFollow();

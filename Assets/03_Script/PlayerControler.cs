@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
-    public float m_RayDistance = 100f;
+    Vector3 mouseUpPos;
+    Ray ray;
+    RaycastHit raycastHitObject;
+
+    public float m_RayDistance = 1f;
     public float moveSpeed;
     public float rotSpeed = 3.0f;
     public float backMove = 0.7f;
     public bool moveControlFlag;
     public bool rotateControlFlag;
+    public bool raycastControlFlag;
 
     public GameObject fpsCam;
     bool isEquip = false;
@@ -27,12 +32,14 @@ public class PlayerControler : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         moveControlFlag = true;
         rotateControlFlag = true;
+        raycastControlFlag = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         RotCtrl();
+        RaycastCheck();
         if(Input.GetMouseButtonUp(0))
             PressMouseLHandler();
         if (Input.GetMouseButtonUp(1))
@@ -44,6 +51,18 @@ public class PlayerControler : MonoBehaviour
         MoveCtrl(); // 캐릭터 움직임
     }
 
+    void RaycastCheck()
+    {
+        if(raycastControlFlag == false)
+            return;
+        mouseUpPos = Input.mousePosition;
+        ray = Camera.main.ScreenPointToRay(mouseUpPos);
+        Debug.DrawRay(ray.origin, ray.direction , Color.red);
+        if (Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
+        {
+            GameManager.instance.CheckFKeyUI(raycastHitObject.collider.gameObject);
+        }
+    }
     void PressKeyBoardHandler()
     {
         if (Input.GetKeyUp(KeyCode.F))
@@ -56,12 +75,6 @@ public class PlayerControler : MonoBehaviour
 
     void PressMouseLHandler()
     {
-        Vector3 mouseUpPos;
-        mouseUpPos = Input.mousePosition;
-        Ray ray = Camera.main.ScreenPointToRay(mouseUpPos);
-        RaycastHit raycastHitObject;
-        Debug.DrawRay(ray.origin, ray.direction * m_RayDistance, Color.red);
-
         if (Physics.Raycast(ray, out raycastHitObject, m_RayDistance))
         {
             objectManager.InteractionObject(raycastHitObject);
@@ -115,6 +128,7 @@ public class PlayerControler : MonoBehaviour
         item.transform.SetParent(equipPoint.transform);
         item.transform.localPosition = equipPosition;
         item.transform.localEulerAngles = Vector3.zero;
+        item.layer = LayerMask.NameToLayer("UI");
         SetEquip(item, true);
     }
     void DropItem()

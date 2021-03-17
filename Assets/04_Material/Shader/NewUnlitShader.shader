@@ -1,4 +1,4 @@
-﻿Shader "Unlit/MaskShader"
+﻿Shader "Unlit/NewUnlitShader"
 {
     Properties
     {
@@ -11,13 +11,6 @@
 
         Pass
         {
-            Stencil
-            {
-                Ref 1
-                Comp never
-                Fail replace
-                ZFail keep
-            }
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -54,8 +47,9 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = (0,0,0,0);
+                fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
+                UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG

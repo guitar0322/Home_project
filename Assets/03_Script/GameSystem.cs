@@ -37,8 +37,8 @@ namespace Gamesystem
             T_FLOWER = T_SPOT_SECOND + 1,
             T_MNQ_SECOND = T_FLOWER + 1,
             T_ACCEPTANCE = T_MNQ_SECOND + 1,
-            T_MNQ_THIRD = T_ACCEPTANCE + 1,
-            T_LASSO = T_MNQ_THIRD + 1,//25
+            T_SPOT_THIRD = T_ACCEPTANCE + 1,
+            T_LASSO = T_SPOT_THIRD + 1,//25
             T_TELEVISION = T_LASSO + 1,
             T_END_DOOR = T_TELEVISION + 1,
             TH_CAM = T_END_DOOR + 1,
