@@ -21,6 +21,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject crackingMirror;
     public GameObject mnq;
 
+    public MNQPositionCondition OMNQTrigger;
+
     [Header("Level2 Object")]
     public GameObject blackHand;
     public GameObject fallenLeaves;
@@ -244,7 +246,6 @@ public class ObjectManager : MonoBehaviour
 
         else if (GameManager.instance.gameState == State.O_DIARY_COMPLETE)
         {
-            Debug.Log("test");
             playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.mnqEquipPostion);
         }
     }
@@ -339,6 +340,7 @@ public class ObjectManager : MonoBehaviour
             mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
+            raycastHitObject.transform.gameObject.SetActive(false);
             TtargetPoint[2].SetActive(true);
             TtargetPoint[1].SetActive(false);
             //GameManager.instance.SwapLightSetting(true);
@@ -356,6 +358,7 @@ public class ObjectManager : MonoBehaviour
             eyeSpawner.DisableEye(0, eyeSpawner.spawnedObjectSet.childCount);
             chair.SetActive(false);
             candle.SetActive(false);
+            playerControler.isEquip = false;
             raycastHitObject.collider.gameObject.SetActive(false);
             TtargetPoint[2].SetActive(false);
             SpawnObjectSet(photoFrameSet);

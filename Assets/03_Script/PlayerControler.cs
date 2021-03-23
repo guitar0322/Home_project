@@ -17,7 +17,7 @@ public class PlayerControler : MonoBehaviour
     public bool raycastControlFlag;
 
     public GameObject fpsCam;
-    bool isEquip = false;
+    public bool isEquip = false;
     Rigidbody rigidbody;
 
     [Header("Component")]
@@ -138,9 +138,13 @@ public class PlayerControler : MonoBehaviour
         {
             return;
         }
-        SetEquip(item, false);
-        equipPoint.transform.DetachChildren();
         isEquip = false;
+        SetEquip(item, false);
+        item.layer = LayerMask.NameToLayer("Default");
+        equipPoint.transform.DetachChildren();
+        if(item.tag.Equals("MNQ")){
+            objectManager.OMNQTrigger.SnapMNQ();
+        }
     }
 
     void SetEquip(GameObject item, bool isEquip)

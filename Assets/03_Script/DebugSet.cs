@@ -9,6 +9,8 @@ public partial class GameManager
     public Vector3 candleEquipPostion;
     public Vector3 mnqEquipPostion;
 
+    public Transform mnqSnapTransform;
+
     [Header("Level2 Property")]
     [Tooltip ("유저가 컨트롤 불가능해지는 시간")]
     public float disableControlSec;
