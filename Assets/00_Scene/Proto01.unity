@@ -933,6 +933,7 @@ MonoBehaviour:
   diaryDropPosition: {fileID: 363056127}
   candleEquipPostion: {x: 0, y: 0, z: 1}
   mnqEquipPostion: {x: 0, y: 0, z: 2}
+  mnqSnapTransform: {fileID: 1151353354}
   disableControlSec: 3
   TMNQWaitMinTime: 2
   TMNQWaitMaxTime: 2
@@ -960,6 +961,7 @@ MonoBehaviour:
   leftDoor: {fileID: 876642392}
   slowWeight: 1
   playerControler: {fileID: 1590513475}
+  OMNQDropCondition: 0
   light: {fileID: 0}
   fKeyUI: {fileID: 1173282718}
   camUI: {fileID: 2072370347}
@@ -1216,7 +1218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114251793}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.010135688, y: 1.8460636, z: -4.42}
+  m_LocalPosition: {x: -0.17, y: 1.93, z: -3.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1086713107}
@@ -12087,6 +12089,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149642108}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1151353353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151353354}
+  m_Layer: 0
+  m_Name: SnapTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1151353354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151353353}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.040135622, y: 5.0246816, z: -0.043961763}
+  m_LocalScale: {x: 1, y: 5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 1714100569}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1161034174
 GameObject:
   m_ObjectHideFlags: 0
@@ -16436,6 +16468,7 @@ MonoBehaviour:
   mirror: {fileID: 1088022524}
   crackingMirror: {fileID: 977745132}
   mnq: {fileID: 114251793}
+  OMNQTrigger: {fileID: 1714100565}
   blackHand: {fileID: 701904777}
   fallenLeaves: {fileID: 1489781610}
   insence: {fileID: 1371350400}
@@ -17427,6 +17460,7 @@ MonoBehaviour:
   rotateControlFlag: 0
   raycastControlFlag: 0
   fpsCam: {fileID: 361112267}
+  isEquip: 0
   objectManager: {fileID: 1517390086}
   viewMode: {fileID: 1590513468}
   equipPoint: {fileID: 731886639}
@@ -17585,7 +17619,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -1.5138161e-20, w: 1}
   m_LocalPosition: {x: 3.22, y: 1.481, z: -7.55}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: [{fileID: 1001558521}]
+  m_Children:
+  - {fileID: 1001558521}
   m_Father: {fileID: 1777807744}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19445,7 +19480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFlower: 0
-  mNQ_D: {fileID: 114251793}
+  MNQ: {fileID: 114251793}
   pianoFlower: {fileID: 365603011}
 --- !u!65 &1714100566
 BoxCollider:
@@ -19517,7 +19552,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.3496623, y: -1.5987706, z: -0.88950944}
   m_LocalScale: {x: 1, y: 0.2, z: 2}
-  m_Children: []
+  m_Children:
+  - {fileID: 1151353354}
   m_Father: {fileID: 379529480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

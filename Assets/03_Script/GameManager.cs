@@ -11,6 +11,8 @@ public partial class GameManager : MonoBehaviour
     public GameObject leftDoor;
     public float slowWeight = 1;
     public PlayerControler playerControler;
+
+    public bool OMNQDropCondition;
     public static GameManager instance
     {
         get

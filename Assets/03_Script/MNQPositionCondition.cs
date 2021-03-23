@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gamesystem;
 
-public class MNQPsitionCondition : MonoBehaviour
+public class MNQPositionCondition : MonoBehaviour
 {
     public bool isFlower = false;
-    public GameObject mNQ_D;
+    public GameObject MNQ;
     //public GameObject mNQ_F;
     public GameObject pianoFlower;
 
@@ -14,7 +14,7 @@ public class MNQPsitionCondition : MonoBehaviour
     {
         if(GameManager.instance.gameState != State.O_DIARY_COMPLETE)
             return;
-        if (other.gameObject == mNQ_D)
+        if (other.gameObject == MNQ)
         {
             GameManager.instance.gameState++;
             pianoFlower.SetActive(true);
@@ -24,4 +24,9 @@ public class MNQPsitionCondition : MonoBehaviour
             GameManager.instance.OMNQDropCondition = true;
         }
     }  
+
+    public void SnapMNQ(){
+        MNQ.transform.position = GameManager.instance.mnqSnapTransform.position;
+        MNQ.transform.rotation = GameManager.instance.mnqSnapTransform.rotation;
+    }
 }
