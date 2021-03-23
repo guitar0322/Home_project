@@ -629,10 +629,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: dbdb9e29-aa3a-441c-9996-2d5246fe736a
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
-  projectName: Team_JJ_Prototype
-  organizationId: jinggyu
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
