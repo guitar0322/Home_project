@@ -24,6 +24,7 @@ public class ObjectManager : MonoBehaviour
     public MNQPositionCondition OMNQTrigger;
 
     [Header("Level2 Object")]
+    public GameObject TPicture;
     public GameObject blackHand;
     public GameObject fallenLeaves;
     public GameObject insence;
@@ -38,6 +39,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject candle;
 
     [Header("Level3 Object")]
+    public GameObject THPicture;
     public GameObject playerCam;
     public GameObject picture;
     public GameObject firstTrapWall;
@@ -198,6 +200,7 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             rightDoor.transform.localEulerAngles = new Vector3(-90, 225, 45);
+            mnqSpawner.TMNQSpawnTargetTime = Random.Range(GameManager.instance.mnqSpawnMinTime, GameManager.instance.mnqSpawnMaxTime);
         }
         else if(GameManager.instance.gameState == State.T_TELEVISION)
         {
@@ -205,6 +208,8 @@ public class ObjectManager : MonoBehaviour
             playerCam.SetActive(true);
             picture.SetActive(true);
             rightDoor.transform.localEulerAngles = new Vector3(-90, 135, -45);
+            TPicture.SetActive(false);
+            THPicture.SetActive(true);
         }
     }
 
@@ -272,7 +277,8 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_DOOR)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.SpawnMNQ(1, false);
+            if(mnqSpawner.isSpawnTMNQ == false)
+                mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[0].position;
             TtargetPoint[0].SetActive(true);
@@ -301,6 +307,8 @@ public class ObjectManager : MonoBehaviour
             fallenLeaves.SetActive(true);
             blackHand.SetActive(false);
             mnqSpawner.DisableMNQ(0);
+            mnqSpawner.isSpawnTMNQ = false;
+            mnqSpawner.isSpotMNQ = false;
             TtargetPoint[0].SetActive(false);
         }
     }
@@ -310,7 +318,8 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_PIANO)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.SpawnMNQ(1, false);
+            if(mnqSpawner.isSpawnTMNQ == false)
+                mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[1].position;
             TtargetPoint[1].SetActive(true);
@@ -337,7 +346,10 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             mnqSpawner.DisableMNQ(0);
-            mnqSpawner.SpawnMNQ(1, false);
+            mnqSpawner.isSpawnTMNQ = false;
+            mnqSpawner.isSpotMNQ = false;
+            if(mnqSpawner.isSpawnTMNQ == false)
+                mnqSpawner.SpawnMNQ(1, false);
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
             raycastHitObject.transform.gameObject.SetActive(false);

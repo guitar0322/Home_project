@@ -7,13 +7,26 @@ public class MNQSpawner : Spawner
 {
     public Transform THMNQPosSet;
     public Transform THMNQSet;
+    public float TMNQSpawnTargetTime;
     public bool THspawnFlag;
     private int THSpawnNum = 0;
     float spawnCoolTime;
     float time = 0;
+    float TMNQSpawnTime;
+    float TMNQDestroyTime;
+    float TMNQDestroyTargetTime;
+    public bool isSpawnTMNQ;
+
+    public bool isSpotMNQ;
+
     public void SpawnMNQ(int num, bool setSpeedFlag)
     {
         int posIdx;
+        if(GameManager.instance.gameState >= State.T_DOOR && GameManager.instance.gameState <= State.T_SPOT_THIRD){
+            isSpawnTMNQ = true;
+            TMNQDestroyTargetTime = Random.Range(GameManager.instance.mnqDestroyMinTime, GameManager.instance.mnqDestroyMaxTime);
+            TMNQSpawnTime = 0;
+        }
         if(THspawnFlag)
         {
             if (THSpawnNum >= spawnedObjectSet.childCount)
@@ -41,6 +54,7 @@ public class MNQSpawner : Spawner
         Debug.Log("posIdx : " + posIdx);
         isSpawnPos[posIdx] = false;
         DisableObject(idx);
+        TMNQDestroyTime = 0;
     }
 
     public void DisableMNQ(int startIdx, int endIdx)
@@ -80,6 +94,21 @@ public class MNQSpawner : Spawner
                 SpawnMNQ(Random.Range(GameManager.instance.spawnMNQMinNum, GameManager.instance.spawnMNQMaxNum), false);
                 time = 0;
                 spawnCoolTime = Random.Range(GameManager.instance.waitSpawnMNQMinTime, GameManager.instance.waitSpawnMNQMaxTime);
+            }
+        }
+
+        if(isSpawnTMNQ == true && isSpotMNQ == false){
+            TMNQDestroyTime += Time.deltaTime;
+            if(TMNQDestroyTime >= TMNQDestroyTargetTime){
+                DisableMNQ(0);
+                TMNQSpawnTargetTime = Random.Range(GameManager.instance.mnqSpawnMinTime, GameManager.instance.mnqSpawnMaxTime);
+                isSpawnTMNQ = false;
+            }
+        }
+        else if(isSpawnTMNQ == false && GameManager.instance.gameState >= State.T_DOOR && GameManager.instance.gameState <= State.T_SPOT_THIRD){
+            TMNQSpawnTime += Time.deltaTime;
+            if(TMNQSpawnTime >= TMNQSpawnTargetTime){
+                SpawnMNQ(1, false);
             }
         }
     }

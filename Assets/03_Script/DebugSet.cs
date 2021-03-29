@@ -12,6 +12,25 @@ public partial class GameManager
     public Transform mnqSnapTransform;
 
     [Header("Level2 Property")]
+    [Tooltip("마네킹 추적 범위")]
+    public float mnqTraceRange;
+    [Tooltip("마네킹 이동 후 대기시간")]
+    public float mnqIdleMinTime;
+    public float mnqIdleMaxTime;
+    [Tooltip("마네킹 이동시간")]
+    public float mnqPatrolMinTime;
+    public float mnqPatrolMaxTime;
+    [Tooltip("마네킹 이동속도")]
+    public float mnqPatrolSpeed;
+    public float mnqTraceSpeed;
+    [Tooltip("마네킹 공격범위")]
+    public float attackRange;
+    [Tooltip("마네킹 생성시간")]
+    public float mnqSpawnMinTime;
+    public float mnqSpawnMaxTime;
+    [Tooltip("마네킹 파괴시간")]
+    public float mnqDestroyMinTime;
+    public float mnqDestroyMaxTime;
     [Tooltip ("유저가 컨트롤 불가능해지는 시간")]
     public float disableControlSec;
     [Tooltip ("마네킹 대기 시간")]

@@ -17,6 +17,7 @@ public class TCollierCheck : MonoBehaviour
             other.GetComponent<NavMNQ>().StopFollow();
             other.GetComponent<NavMNQ>().enabled = false;
             this.enabled = false;
+            objectManager.mnqSpawner.isSpotMNQ = true;
             if (GameManager.instance.gameState == State.T_SOJU)
             {
                 sheet.SetActive(true);
@@ -32,7 +33,7 @@ public class TCollierCheck : MonoBehaviour
                 GameManager.instance.slowWeight = GameManager.instance.slowScale;
                 StartCoroutine("SpawnMNQ");
             }
-            if (GameManager.instance.gameState == State.T_ACCEPTANCE == false)
+            if (GameManager.instance.gameState != State.T_ACCEPTANCE)
                 GameManager.instance.gameState++;
             GameManager.instance.SwapLightSetting(false);
         }
