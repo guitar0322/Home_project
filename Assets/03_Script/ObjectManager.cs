@@ -246,10 +246,8 @@ public class ObjectManager : MonoBehaviour
             diary.transform.Rotate(0, 0, 90);
             SoundManager.instance.diaryDropSound.Play();
             GameManager.instance.gameState++;
-            //Debug.Log("DiaryContent Can Open & Close");                
         }
-
-        else if (GameManager.instance.gameState == State.O_DIARY_COMPLETE)
+        else if (CompareGamestate(State.O_DIARY_COMPLETE))
         {
             playerControler.EquipItem(raycastHitObject.transform.gameObject, GameManager.instance.mnqEquipPostion);
         }

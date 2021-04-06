@@ -138,12 +138,14 @@ public class PlayerControler : MonoBehaviour
         {
             return;
         }
-        isEquip = false;
-        SetEquip(item, false);
-        item.layer = LayerMask.NameToLayer("Default");
-        equipPoint.transform.DetachChildren();
         if(item.tag.Equals("MNQ")){
-            objectManager.OMNQTrigger.SnapMNQ();
+            if(objectManager.OMNQTrigger.isSnap == true){
+                isEquip = false;
+                SetEquip(item, false);
+                item.layer = LayerMask.NameToLayer("Default");
+                equipPoint.transform.DetachChildren();
+                objectManager.OMNQTrigger.SnapMNQ();
+            }
         }
     }
 

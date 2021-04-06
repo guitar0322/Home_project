@@ -376,7 +376,6 @@ public class Book : MonoBehaviour {
         {
             return true;
         }
-        return true;
     }
     Coroutine currentCoroutine;
     void UpdateSprites()

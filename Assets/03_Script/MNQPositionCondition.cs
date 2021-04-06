@@ -6,27 +6,25 @@ using Gamesystem;
 public class MNQPositionCondition : MonoBehaviour
 {
     public bool isFlower = false;
+    public bool isSnap;
     public GameObject MNQ;
     //public GameObject mNQ_F;
     public GameObject pianoFlower;
 
     void OnTriggerEnter(Collider other)
     {
-        if(GameManager.instance.gameState != State.O_DIARY_COMPLETE)
-            return;
-        if (other.gameObject == MNQ)
-        {
-            GameManager.instance.gameState++;
-            pianoFlower.SetActive(true);
-            this.enabled = false;
-        }
-        else if(other.tag.Equals("Player")){
-            GameManager.instance.OMNQDropCondition = true;
+        if(other.tag.Equals("Player")){
+            isSnap = true;
         }
     }  
 
     public void SnapMNQ(){
-        MNQ.transform.position = GameManager.instance.mnqSnapTransform.position;
-        MNQ.transform.rotation = GameManager.instance.mnqSnapTransform.rotation;
+        if(isSnap == true && GameManager.instance.gameState == State.O_DIARY_COMPLETE){
+            MNQ.transform.position = GameManager.instance.mnqSnapTransform.position;
+            MNQ.transform.rotation = GameManager.instance.mnqSnapTransform.rotation;
+            GameManager.instance.gameState++;
+            pianoFlower.SetActive(true);
+            this.enabled = false;
+        }
     }
 }
