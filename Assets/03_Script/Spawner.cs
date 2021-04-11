@@ -21,24 +21,27 @@ public class Spawner : MonoBehaviour
         return -1;
     }
 
-    public int SpawnObject()
+    public int SpawnObject(int num)
     {
-        int objectIdx, objectPosIdx;
-        objectIdx = IsValidObject();
-        if (objectIdx == -1)
-        {
-            Debug.Log("invalid spawn num");
-            return -1;
+        int objectIdx, objectPosIdx = -1;
+        for(int i = 0; i < num; i++){
+            objectIdx = IsValidObject();
+            if (objectIdx == -1)
+            {
+                Debug.Log("invalid spawn num");
+                return -1;
+            }
+            objectPosIdx = Random.Range(0, spawnedPosSet.transform.childCount);
+            while (isSpawnPos[objectPosIdx] == true)
+            {
+                objectPosIdx = (objectPosIdx + 1) % spawnedPosSet.childCount;
+            }
+            isSpawnPos[objectPosIdx] = true;
+            spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
+            spawnedObject.GetComponent<SpawnInfo>().posIdx = objectPosIdx;
+            spawnedObject.SetActive(true);
+            spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
         }
-        objectPosIdx = Random.Range(0, spawnedPosSet.transform.childCount);
-        while(isSpawnPos[objectPosIdx] == true)
-        {
-            objectPosIdx = (objectPosIdx + 1) % spawnedPosSet.childCount;
-        }
-        isSpawnPos[objectPosIdx] = true;
-        spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
-        spawnedObject.SetActive(true);
-        spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
         return objectPosIdx;
     }
 
@@ -52,13 +55,19 @@ public class Spawner : MonoBehaviour
 
     public void DisableObject(int idx)
     {
-        spawnedObjectSet.GetChild(idx).gameObject.SetActive(false);
-        for (int i = 0; i < spawnedObjectSet.childCount; i++)
-        {
-            Debug.Log(isSpawnPos[i]);
-        }
+        GameObject disableObject = spawnedObjectSet.GetChild(idx).gameObject;
+        disableObject.SetActive(false);
+        isSpawnPos[disableObject.GetComponent<SpawnInfo>().posIdx] = false;
     }
 
+    public void DisableObject(int startIdx, int endIdx){
+        GameObject disableObject;
+        for(int i = startIdx; i < endIdx; i++){
+            disableObject = spawnedObjectSet.GetChild(i).gameObject;
+            disableObject.SetActive(false);
+            isSpawnPos[disableObject.GetComponent<SpawnInfo>().posIdx] = false;
+        }
+    }
     public void SetObjectTransform(Transform target)
     {
         spawnedObject.transform.position = target.position;

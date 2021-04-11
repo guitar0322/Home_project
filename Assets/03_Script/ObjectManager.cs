@@ -55,7 +55,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject photo;
 
     [Header ("Component")]
-    public TMNQSpawner mnqSpawner;
+    public TraceMNQSpawner traceMNQSpawner;
+    public LassoMNQSpawner lassoMNQSpawner;
     public EyeSpawner eyeSpawner;
     public Spawner pictureSpawner;
     void Start()
@@ -199,7 +200,7 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             rightDoor.transform.localEulerAngles = new Vector3(-90, 225, 45);
-            mnqSpawner.TMNQSpawnTargetTime = Random.Range(GameManager.instance.mnqSpawnMinTime, GameManager.instance.mnqSpawnMaxTime);
+            traceMNQSpawner.enabled = true;
         }
         else if(GameManager.instance.gameState == State.T_TELEVISION)
         {
@@ -274,8 +275,8 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_DOOR)
         {
             GameManager.instance.gameState++;
-            if(mnqSpawner.isSpawnTMNQ == false)
-                mnqSpawner.SpawnMNQ(1, false);
+            if(traceMNQSpawner.isSpawnMNQ == false)
+                traceMNQSpawner.SpawnMNQ();
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[0].position;
             TtargetPoint[0].SetActive(true);
@@ -303,9 +304,8 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             fallenLeaves.SetActive(true);
             blackHand.SetActive(false);
-            mnqSpawner.DisableMNQ(0);
-            mnqSpawner.isSpawnTMNQ = false;
-            mnqSpawner.isSpotMNQ = false;
+            traceMNQSpawner.DisableMNQ();
+            traceMNQSpawner.ChangeNextPosSet();
             TtargetPoint[0].SetActive(false);
         }
     }
@@ -315,8 +315,8 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_PIANO)
         {
             GameManager.instance.gameState++;
-            if(mnqSpawner.isSpawnTMNQ == false)
-                mnqSpawner.SpawnMNQ(1, false);
+            if(traceMNQSpawner.isSpawnMNQ == false)
+                traceMNQSpawner.SpawnMNQ();
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[1].position;
             TtargetPoint[1].SetActive(true);
@@ -342,11 +342,10 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.T_MNQ_SECOND)
         {
             GameManager.instance.gameState++;
-            mnqSpawner.DisableMNQ(0);
-            mnqSpawner.isSpawnTMNQ = false;
-            mnqSpawner.isSpotMNQ = false;
-            if(mnqSpawner.isSpawnTMNQ == false)
-                mnqSpawner.SpawnMNQ(1, false);
+            traceMNQSpawner.DisableMNQ();
+            traceMNQSpawner.ChangeNextPosSet();
+            if(traceMNQSpawner.isSpawnMNQ == false)
+                traceMNQSpawner.SpawnMNQ();
             blackHand.SetActive(true);
             blackHand.transform.position = blackHand.GetComponent<ObjectInfo>().spawnTransform[2].position;
             raycastHitObject.transform.gameObject.SetActive(false);
@@ -363,7 +362,7 @@ public class ObjectManager : MonoBehaviour
         {
             GameManager.instance.gameState++;
             playerControler.moveControlFlag = true;
-            mnqSpawner.DisableMNQ(1, GameManager.instance.TMNQSpawnNum + 1);
+            lassoMNQSpawner.DisableObject(0, GameManager.instance.TMNQSpawnNum + 1);
             eyeSpawner.DisableEye(0, eyeSpawner.spawnedObjectSet.childCount);
             chair.SetActive(false);
             candle.SetActive(false);
@@ -440,15 +439,15 @@ public class ObjectManager : MonoBehaviour
         else if (CompareGamestate(State.TH_THIRD_MNQ))
         {
             raycastHitObject.transform.gameObject.SetActive(false);
-            pictureSpawner.SpawnObject();
+            pictureSpawner.SpawnObject(1);
             pictureSpawner.SetObjectTransform(raycastHitObject.transform);
             GameManager.instance.interactMNQNum--;
             if(GameManager.instance.interactMNQNum == 0)
             {
                 GameManager.instance.gameState++;
                 GameManager.instance.camUI.SetActive(false);
-                mnqSpawner.THspawnFlag = false;
-                mnqSpawner.DisableMNQ(0, mnqSpawner.spawnedObjectSet.childCount);
+                // mnqSpawner.THspawnFlag = false;
+                // mnqSpawner.DisableMNQ(0, mnqSpawner.spawnedObjectSet.childCount);
             }
         }
     }
@@ -460,7 +459,7 @@ public class ObjectManager : MonoBehaviour
         mainCam.transform.localEulerAngles = Vector3.zero;
         playerControler.enabled = true;
         playerControler.transform.position = GameManager.instance.playerTargetPos.position;
-        mnqSpawner.SwapTHMNQ();
+        // mnqSpawner.SwapTHMNQ();
     }
     void Bed_Interactive()
     {
@@ -533,22 +532,22 @@ public class ObjectManager : MonoBehaviour
         DisableObjectSet(electronicSet);
         DisableObjectSet(photoSet);
         DisableObjectSet(photoFrameSet);
-        mnqSpawner.DisableMNQ(0);
+        traceMNQSpawner.DisableMNQ();
     }
 
-    public void SpawnMNQ(int num, bool setSpeedFlag)
+    public void SpawnLassoMNQ(int num)
     {
-        mnqSpawner.SpawnMNQ(num, setSpeedFlag);
+        lassoMNQSpawner.SpawnObject(num);
     }
 
-    public void StopMNQ()
+    public void StopLassoMNQ()
     {
-        mnqSpawner.StopMNQ();
+        lassoMNQSpawner.StopMNQ();
     }
 
     public void SpawnEye()
     {
-        eyeSpawner.SpawnEye();
+        eyeSpawner.SpawnObject(eyeSpawner.spawnedObjectSet.childCount);
     }
 
     bool CompareGamestate(int state)
