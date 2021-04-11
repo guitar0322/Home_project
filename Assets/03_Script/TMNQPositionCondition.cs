@@ -18,6 +18,11 @@ public class MNQPositionCondition : MonoBehaviour
         }
     }  
 
+    void OnTriggerExit(Collider other){
+        if(other.tag.Equals("Player")){
+            isSnap = false;
+        }
+    }
     public void SnapMNQ(){
         if(isSnap == true && GameManager.instance.gameState == State.O_DIARY_COMPLETE){
             MNQ.transform.position = GameManager.instance.mnqSnapTransform.position;

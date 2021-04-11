@@ -13,6 +13,7 @@ public class TCollierCheck : MonoBehaviour
     {
         if (other.tag.Equals("TMNQ") && GameManager.instance.gameState < State.T_SPOT_THIRD)
         {
+            Debug.Log("tcollider");
             other.isTrigger = false;
             other.GetComponent<NavMNQ>().StopFollow();
             other.GetComponent<NavMNQ>().enabled = false;

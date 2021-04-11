@@ -39,10 +39,6 @@ public class Spawner : MonoBehaviour
         spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
         spawnedObject.SetActive(true);
         spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
-        for (int i = 0; i < spawnedObjectSet.childCount; i++)
-        {
-            Debug.Log(isSpawnPos[i]);
-        }
         return objectPosIdx;
     }
 

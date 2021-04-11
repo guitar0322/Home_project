@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gamesystem;
 
-public class MNQSpawner : Spawner
+public class TMNQSpawner : Spawner
 {
     public Transform THMNQPosSet;
     public Transform THMNQSet;
@@ -38,7 +38,6 @@ public class MNQSpawner : Spawner
         for(int i = 0; i < num; i++)
         {
             posIdx = SpawnObject();
-            Debug.Log("posIdx : " + posIdx);
             if (posIdx == -1)
                 return;
             if (GameManager.instance.gameState < State.T_END_DOOR)
@@ -51,7 +50,6 @@ public class MNQSpawner : Spawner
     public void DisableMNQ(int idx)
     {
         int posIdx = spawnedObjectSet.GetChild(idx).GetComponent<TMNQ>().posIdx;
-        Debug.Log("posIdx : " + posIdx);
         isSpawnPos[posIdx] = false;
         DisableObject(idx);
         TMNQDestroyTime = 0;

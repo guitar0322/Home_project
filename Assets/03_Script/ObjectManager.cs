@@ -55,7 +55,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject photo;
 
     [Header ("Component")]
-    public MNQSpawner mnqSpawner;
+    public TMNQSpawner mnqSpawner;
     public EyeSpawner eyeSpawner;
     public Spawner pictureSpawner;
     void Start()
@@ -134,7 +134,6 @@ public class ObjectManager : MonoBehaviour
                 break;
 
         }
-        Debug.Log(target.collider.tag);
     }
 
     public void InteractMNQ()

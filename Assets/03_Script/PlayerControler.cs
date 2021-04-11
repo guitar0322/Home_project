@@ -140,6 +140,7 @@ public class PlayerControler : MonoBehaviour
         }
         if(item.tag.Equals("MNQ")){
             if(objectManager.OMNQTrigger.isSnap == true){
+                Debug.Log("test");
                 isEquip = false;
                 SetEquip(item, false);
                 item.layer = LayerMask.NameToLayer("Default");
