@@ -15,6 +15,7 @@ public class Book : MonoBehaviour {
     RectTransform BookPanel;
     public Sprite background;
     public Sprite[] bookPages;
+    public Sprite[] tempPages;
     public Sprite[] changeBookPages;
     public GameObject leftBtn;
     public GameObject rightBtn;
@@ -92,10 +93,14 @@ public class Book : MonoBehaviour {
         Shadow.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
         ShadowLTR.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
         NextPageClip.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
+        tempPages = new Sprite[bookPages.Length];
+        for(int i = 0; i < bookPages.Length; i++)
+        {
+            tempPages[i] = bookPages[i];
+        }
     }
     private void OnEnable()
     {
-        Debug.Log("open book. page = " + currentPage);
         if(CheckBtnEnable() == false)
         {
             rightBtn.GetComponent<Button>().interactable = false;
@@ -118,11 +123,17 @@ public class Book : MonoBehaviour {
         RightNext.sprite = (currentPage >= 0 && currentPage < bookPages.Length + 1) ? bookPages[currentPage + 1] : background;
     }
 
+    public void InitPage()
+    {
+        for(int i = 0; i < bookPages.Length; i++)
+        {
+            bookPages[i] = tempPages[i];
+        }
+    }
     public void ChangeBookPage(int page)
     {
         bookPages[page] = changeBookPages[page];
         bookPages[page+1] = changeBookPages[page+1];
-
     }
     public Vector3 transformPoint(Vector3 global)
     {
@@ -412,7 +423,6 @@ public class Book : MonoBehaviour {
         {
             background = bookPages[11];
         }
-        Debug.Log("book : " + currentPage);
         //rightBtn.GetComponent<Button>().interactable = false;
     }
     public void TweenForward()

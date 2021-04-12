@@ -44,6 +44,7 @@ public partial class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SaveData();
     }
 
     // Update is called once per frame

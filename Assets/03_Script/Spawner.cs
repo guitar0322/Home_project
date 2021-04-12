@@ -39,6 +39,7 @@ public class Spawner : MonoBehaviour
             isSpawnPos[objectPosIdx] = true;
             spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
             spawnedObject.GetComponent<SpawnInfo>().posIdx = objectPosIdx;
+            spawnedObject.GetComponent<SpawnInfo>().objectIdx = objectIdx;
             spawnedObject.SetActive(true);
             spawnedObject.transform.position = spawnedPosSet.GetChild(objectPosIdx).transform.position;
         }
@@ -72,6 +73,11 @@ public class Spawner : MonoBehaviour
     {
         spawnedObject.transform.position = target.position;
         spawnedObject.transform.eulerAngles = target.eulerAngles;
+    }
+
+    public void SetObjectPosition(float x, float y, float z)
+    {
+        spawnedObject.transform.position = new Vector3(x, y, z);
     }
     // Start is called before the first frame update
     void Start()

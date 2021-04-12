@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class SpawnInfo : MonoBehaviour
 {
+    public int objectIdx;
     public int posIdx;
 }

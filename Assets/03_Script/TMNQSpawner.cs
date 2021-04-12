@@ -40,13 +40,6 @@ public class TMNQSpawner : Spawner
         }
     }
 
-    public void SwapTHMNQ()
-    {
-        spawnedObjectSet = THMNQSet;
-        spawnedPosSet = THMNQPosSet;
-        THspawnFlag = true;
-        spawnCoolTime = Random.Range(GameManager.instance.waitSpawnMNQMinTime, GameManager.instance.waitSpawnMNQMaxTime);
-    }
 
     private void Update()
     {

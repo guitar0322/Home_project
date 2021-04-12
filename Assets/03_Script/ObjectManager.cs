@@ -58,6 +58,7 @@ public class ObjectManager : MonoBehaviour
     public TraceMNQSpawner traceMNQSpawner;
     public LassoMNQSpawner lassoMNQSpawner;
     public EyeSpawner eyeSpawner;
+    public THMNQSpawner THMNQSpawner;
     public Spawner pictureSpawner;
     void Start()
     {
@@ -146,7 +147,6 @@ public class ObjectManager : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(mouseDownPos);
         if (Physics.Raycast(ray, out raycastHitObject, playerControler.m_RayDistance))
         {
-            Debug.Log(raycastHitObject.collider.tag);
             if (!raycastHitObject.collider.tag.Equals("TMNQ"))
             {
                 return;
@@ -366,6 +366,7 @@ public class ObjectManager : MonoBehaviour
             eyeSpawner.DisableEye(0, eyeSpawner.spawnedObjectSet.childCount);
             chair.SetActive(false);
             candle.SetActive(false);
+            traceMNQSpawner.DisableMNQ();
             playerControler.isEquip = false;
             raycastHitObject.collider.gameObject.SetActive(false);
             TtargetPoint[2].SetActive(false);
@@ -440,14 +441,17 @@ public class ObjectManager : MonoBehaviour
         {
             raycastHitObject.transform.gameObject.SetActive(false);
             pictureSpawner.SpawnObject(1);
-            pictureSpawner.SetObjectTransform(raycastHitObject.transform);
+            pictureSpawner.SetObjectPosition(
+                raycastHitObject.transform.position.x,
+                pictureSpawner.spawnedPosSet.GetChild(0).transform.position.y,
+                raycastHitObject.transform.position.z);
             GameManager.instance.interactMNQNum--;
             if(GameManager.instance.interactMNQNum == 0)
             {
                 GameManager.instance.gameState++;
                 GameManager.instance.camUI.SetActive(false);
-                // mnqSpawner.THspawnFlag = false;
-                // mnqSpawner.DisableMNQ(0, mnqSpawner.spawnedObjectSet.childCount);
+                THMNQSpawner.DisableObject(0, THMNQSpawner.spawnedPosSet.childCount);
+                THMNQSpawner.enabled = false;
             }
         }
     }
@@ -459,7 +463,7 @@ public class ObjectManager : MonoBehaviour
         mainCam.transform.localEulerAngles = Vector3.zero;
         playerControler.enabled = true;
         playerControler.transform.position = GameManager.instance.playerTargetPos.position;
-        // mnqSpawner.SwapTHMNQ();
+        THMNQSpawner.enabled = true;
     }
     void Bed_Interactive()
     {

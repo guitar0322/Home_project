@@ -28,7 +28,6 @@ public class AutoFlip : MonoBehaviour {
     }
     public void FlipRightPage()
     {
-        Debug.Log("is flipping in autoflip : " + isFlipping);
         if (isFlipping) return;
         SoundManager.instance.FlipSound();
         if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
