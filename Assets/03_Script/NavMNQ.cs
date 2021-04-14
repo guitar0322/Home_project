@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Gamesystem;
 public class NavMNQ : MonoBehaviour
 {
     public Transform playerTransform;
@@ -70,7 +71,6 @@ public class NavMNQ : MonoBehaviour
             }
             if (agent.velocity.sqrMagnitude >= 0.2f * 0.2f && agent.remainingDistance <= 0.5f)
             {
-                Debug.Log("sadf");
                 StartCoroutine("WaitAndSetDestination");
                 time = 0;
                 isMove = false;
@@ -84,7 +84,6 @@ public class NavMNQ : MonoBehaviour
             agent.speed = GameManager.instance.mnqTraceSpeed;
             time = 0;
             agent.SetDestination(playerTransform.transform.position);
-            Debug.Log("trace");
         }
         if(isTrace == true){
             if(distance >= GameManager.instance.mnqTraceRange){
@@ -96,8 +95,10 @@ public class NavMNQ : MonoBehaviour
             }
             if (agent.velocity.sqrMagnitude >= 0.2f * 0.2f && agent.remainingDistance <= agent.stoppingDistance+0.1f)
             {
-                Debug.Log("dead");
-                GameManager.instance.playerControler.enabled = false;
+                if(GameManager.instance.gameState != State.T_SPOT_THIRD){
+                    Debug.Log("dead");
+                    GameManager.instance.playerControler.enabled = false;
+                }
             }
         }
     }

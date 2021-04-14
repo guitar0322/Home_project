@@ -1,36 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class TMNQ : MonoBehaviour
+public class LassoMNQ : MonoBehaviour
 {
     private float minTime;
     private float maxTime;
     private float _WaitTime;
-    public NavMNQ navMNQ;
     public int posIdx;
+    public NavMeshAgent agent;
+    public Transform playerTrasnform;
+    
     public void SetProperty(float waitMinTime, float waitMaxTime, bool flag, int _posIdx)
     {
-        if (navMNQ != null)
-            navMNQ.enabled = true;
         posIdx = _posIdx;
-        minTime = waitMinTime;
-        maxTime = waitMaxTime;
-        _WaitTime = Random.Range(minTime, maxTime);
-        if(flag == true)
-        {
-            navMNQ.SetSpeed();
-        }
-        StartCoroutine("FollowPlayer");
     }
     IEnumerator FollowPlayer()
     {
         yield return new WaitForSeconds(_WaitTime);
-        navMNQ.followFlag = true;
+        agent.SetDestination(playerTrasnform.position);
     }
     // Start is called before the first frame update
     void Start()
     {
+        _WaitTime = Random.Range(GameManager.instance.TMNQWaitMinTime, GameManager.instance.TMNQWaitMaxTime);
+        agent.speed = Random.Range(GameManager.instance.TMNQMinSpeed, GameManager.instance.TMNQMaxSpeed);
+        StartCoroutine("FollowPlayer");
     }
 
     // Update is called once per frame

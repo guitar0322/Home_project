@@ -5,16 +5,6 @@ using UnityEngine;
 public class EyeSpawner : Spawner
 {
     // Start is called before the first frame update
-
-    public void SpawnEye()
-    {
-        InitSpawn();
-        for (int i = 0; i < spawnedObjectSet.transform.childCount; i++)
-        {
-            SpawnObject();
-        }
-    }
-
     public void DisableEye(int idx)
     {
         DisableObject(idx);

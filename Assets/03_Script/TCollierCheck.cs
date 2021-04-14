@@ -15,9 +15,8 @@ public class TCollierCheck : MonoBehaviour
         {
             other.isTrigger = false;
             other.GetComponent<NavMNQ>().StopFollow();
-            other.GetComponent<NavMNQ>().enabled = false;
             this.enabled = false;
-            objectManager.mnqSpawner.isSpotMNQ = true;
+            objectManager.traceMNQSpawner.isSpotMNQ = true;
             if (GameManager.instance.gameState == State.T_SOJU)
             {
                 sheet.SetActive(true);
@@ -31,18 +30,19 @@ public class TCollierCheck : MonoBehaviour
                 lasso.SetActive(true);
                 GameManager.instance.playerControler.moveControlFlag = false;
                 GameManager.instance.slowWeight = GameManager.instance.slowScale;
-                StartCoroutine("SpawnMNQ");
+                objectManager.traceMNQSpawner.enabled = false;
+                StartCoroutine("SpawnLassoMNQ");
             }
             if (GameManager.instance.gameState != State.T_ACCEPTANCE)
                 GameManager.instance.gameState++;
             GameManager.instance.SwapLightSetting(false);
         }
     }
-    IEnumerator SpawnMNQ()
+    IEnumerator SpawnLassoMNQ()
     {
         yield return new WaitForSeconds(GameManager.instance.disableControlSec);
-        objectManager.SpawnMNQ(GameManager.instance.TMNQSpawnNum, true);
-        objectManager.mnqSpawner.InitSpawn();
+        objectManager.SpawnLassoMNQ(GameManager.instance.TMNQSpawnNum);
+        objectManager.lassoMNQSpawner.InitSpawn();
         StartCoroutine("SpawnEye");
     }
     IEnumerator SpawnEye()
@@ -50,7 +50,7 @@ public class TCollierCheck : MonoBehaviour
         yield return new WaitForSeconds(GameManager.instance.waitSpawnEyeTime);
         objectManager.SpawnEye();
         yield return new WaitForSeconds(GameManager.instance.waitSpawnEyeTime + GameManager.instance.eyeScalingTime + GameManager.instance.waitLookPlayerTime);
-        objectManager.StopMNQ();
+        objectManager.StopLassoMNQ();
         GameManager.instance.slowWeight = 1;
         GameManager.instance.gameState++;
     }

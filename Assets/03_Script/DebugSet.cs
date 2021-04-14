@@ -65,11 +65,11 @@ public partial class GameManager
     [Tooltip("캐릭터 이동 위치")]
     public Transform playerTargetPos;
     [Tooltip("마네킹 소환 대기시간")]
-    public float waitSpawnMNQMinTime;
-    public float waitSpawnMNQMaxTime;
+    public float waitSpawnTHMNQMinTime;
+    public float waitSpawnTHMNQMaxTime;
     [Tooltip("마네킹 소환 수")]
-    public int spawnMNQMinNum;
-    public int spawnMNQMaxNum;
+    public int spawnTHMNQMinNum;
+    public int spawnTHMNQMaxNum;
     [Tooltip("촬영해야할 마네킹 수")]
     public int interactMNQNum;
 
