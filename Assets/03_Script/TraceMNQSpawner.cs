@@ -5,6 +5,7 @@ using UnityEngine;
 public class TraceMNQSpawner : Spawner
 {
     public Transform TMNQPosSet;
+    public Transform playerTr;
     int posSetIdx = 0;
     public float TMNQSpawnTargetTime;
     float TMNQSpawnTime;
@@ -17,12 +18,29 @@ public class TraceMNQSpawner : Spawner
     }
     public void SpawnMNQ()
     {
-        SpawnObject(1);
-        isSpawnMNQ = true;
-        TMNQDestroyTargetTime = Random.Range(GameManager.instance.mnqDestroyMinTime, GameManager.instance.mnqDestroyMaxTime);
-        TMNQSpawnTime = 0;
+        for(int i = 0; i < spawnedPosSet.childCount; i++)
+        {
+            if(CheckNearPlayer(i) == true)
+            {
+                SpawnObjectWithIdx(i);
+                isSpawnMNQ = true;
+                TMNQDestroyTargetTime = Random.Range(GameManager.instance.mnqDestroyMinTime, GameManager.instance.mnqDestroyMaxTime);
+                TMNQSpawnTime = 0;
+            }
+        }
     }
 
+    bool CheckNearPlayer(int posIdx)
+    {
+        if (isSpawnPos[posIdx] == true)
+            return false;
+        if (Vector3.Distance(spawnedPosSet.GetChild(posIdx).position, playerTr.position) 
+            < GameManager.instance.mnqSpawnMinRange)
+        {
+            return false;
+        }
+        return true;
+    }
     public void DisableMNQ()
     {
         DisableObject(0);

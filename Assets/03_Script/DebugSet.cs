@@ -12,6 +12,8 @@ public partial class GameManager
     public Transform mnqSnapTransform;
 
     [Header("Level2 Property")]
+    [Tooltip("플레이어와 마네킹스폰 최소거리")]
+    public float mnqSpawnMinRange;
     [Tooltip("마네킹 추적 범위")]
     public float mnqTraceRange;
     [Tooltip("마네킹 이동 후 대기시간")]

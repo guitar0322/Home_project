@@ -20,7 +20,23 @@ public class Spawner : MonoBehaviour
         }
         return -1;
     }
+    public void SpawnObjectWithIdx(int idx)
+    {
+        int objectIdx = IsValidObject();
+        if (objectIdx == -1)
+        {
+            Debug.Log("invalid spawn num");
+            return;
+        }
+        if (isSpawnPos[idx] == true)
+            return;
 
+        spawnedObject = spawnedObjectSet.GetChild(objectIdx).gameObject;
+        spawnedObject.GetComponent<SpawnInfo>().posIdx = idx;
+        spawnedObject.GetComponent<SpawnInfo>().objectIdx = objectIdx;
+        spawnedObject.SetActive(true);
+        spawnedObject.transform.position = spawnedPosSet.GetChild(idx).transform.position;
+    }
     public int SpawnObject(int num)
     {
         int objectIdx, objectPosIdx = -1;

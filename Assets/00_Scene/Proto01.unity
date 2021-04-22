@@ -256,7 +256,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -467,7 +467,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -1279,6 +1279,7 @@ MonoBehaviour:
   candleEquipPostion: {x: -0.7, y: -0.65, z: 1}
   mnqEquipPostion: {x: -0.65, y: -0.7, z: 0}
   mnqSnapTransform: {fileID: 162957942}
+  mnqSpawnMinRange: 2
   mnqTraceRange: 10
   mnqIdleMinTime: 1
   mnqIdleMaxTime: 3
@@ -1313,7 +1314,7 @@ MonoBehaviour:
   spawnTHMNQMinNum: 1
   spawnTHMNQMaxNum: 3
   interactMNQNum: 3
-  gameState: 3
+  gameState: 0
   middleGameState: 0
   leftDoor: {fileID: 876642392}
   slowWeight: 1
@@ -3324,7 +3325,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -10939,7 +10940,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -12204,7 +12205,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -12410,7 +12411,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -14628,7 +14629,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -20405,7 +20406,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -21008,7 +21009,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5189582
-  m_Height: 2
+  m_Height: 2.31
   m_Direction: 1
   m_Center: {x: 2.181616e-11, y: 0, z: 0.0075452924}
 --- !u!23 &1590513471
@@ -21066,7 +21067,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590513467}
   m_LocalRotation: {x: -0, y: -0.19800244, z: -0, w: 0.98020154}
-  m_LocalPosition: {x: -2.15, y: 0.567, z: -4.89}
+  m_LocalPosition: {x: -2.15, y: 0.57, z: -4.89}
   m_LocalScale: {x: 0.5, y: 0.5175, z: 0.5}
   m_Children:
   - {fileID: 361112268}
@@ -22632,7 +22633,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684578952}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a08a2e8706835e942ae1f18fb87e338f, type: 3}
   m_Name: 
@@ -22640,6 +22641,7 @@ MonoBehaviour:
   spawnedObjectSet: {fileID: 753638165}
   spawnedPosSet: {fileID: 150237754}
   TMNQPosSet: {fileID: 1488074544}
+  playerTr: {fileID: 1590513473}
   TMNQSpawnTargetTime: 0
   isSpawnMNQ: 0
   isSpotMNQ: 0
@@ -25294,7 +25296,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
@@ -25859,7 +25861,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930312912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.38, y: 1.0874376, z: -1.7}
+  m_LocalPosition: {x: 0.98, y: 1.0874376, z: -7.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 150237754}
@@ -26008,7 +26010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942767582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.55, y: 1.0874376, z: -1.63}
+  m_LocalPosition: {x: 0.44, y: 1.0874376, z: -5.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 150237754}
@@ -27187,7 +27189,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
