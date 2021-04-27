@@ -266,7 +266,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
             GameManager.instance.gameState++;
-            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -180);
+            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -60);
         }
     }
 
@@ -523,7 +523,7 @@ public class ObjectManager : MonoBehaviour
 
     public void OpenLeftDoor()
     {
-        leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -120);
+        leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -15);
     }
 
     public void OpenRightDoor()
