@@ -20,18 +20,18 @@ public class CloseDoorTrigger : MonoBehaviour
         switch (GameManager.instance.gameState)
         {
             case State.O_DOOR:
-                leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -90);
+                leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 this.transform.position = TCloseDoor.position;
                 this.transform.localEulerAngles = new Vector3(0, 90, 0);
                 objectManager.mnq.SetActive(false);
                 break;
             case State.T_DOOR:
-                rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 180);
+                rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 this.transform.position = TEndCloseDoor.position;
                 this.transform.localEulerAngles = new Vector3(0, 0, 0);
                 break;
             case State.T_END_DOOR:
-                rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 180);
+                rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 objectManager.DisableTObject();
                 Destroy(this);
                 break;
