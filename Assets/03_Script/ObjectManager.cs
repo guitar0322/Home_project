@@ -207,7 +207,7 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             playerCam.SetActive(true);
             picture.SetActive(true);
-            rightDoor.transform.localEulerAngles = new Vector3(-90, 135, -45);
+            rightDoor.transform.localEulerAngles = new Vector3(-90, 80, -45);
             TPicture.SetActive(false);
             THPicture.SetActive(true);
         }
@@ -406,7 +406,7 @@ public class ObjectManager : MonoBehaviour
         if (CompareGamestate(State.TH_CAM))
         {
             GameManager.instance.gameState++;
-            leftDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
+            leftDoor.transform.localEulerAngles = new Vector3(-90, 60, 0);
         }
     }
 
@@ -528,7 +528,7 @@ public class ObjectManager : MonoBehaviour
 
     public void OpenRightDoor()
     {
-        rightDoor.transform.localEulerAngles = new Vector3(-90, 180, -10);
+        rightDoor.transform.localEulerAngles = new Vector3(-90, 22, -10);
     }
 
     public void DisableTObject()
