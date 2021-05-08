@@ -15,12 +15,13 @@ public class ObjectManager : MonoBehaviour
     [Header("Level1 Object")]
     public GameObject diary;
     public GameObject leftDoor;
+    public GameObject leftDoorWall;
     public GameObject rightDoor;
+    public GameObject rightDoorWall;
     public GameObject pianoFlower;
     public GameObject mirror;
     public GameObject crackingMirror;
     public GameObject mnq;
-
     public MNQPositionCondition OMNQTrigger;
 
     [Header("Level2 Object")]
@@ -207,6 +208,7 @@ public class ObjectManager : MonoBehaviour
             GameManager.instance.gameState++;
             playerCam.SetActive(true);
             picture.SetActive(true);
+            rightDoorWall.SetActive(false);
             rightDoor.transform.localEulerAngles = new Vector3(-90, 80, -45);
             TPicture.SetActive(false);
             THPicture.SetActive(true);
@@ -266,6 +268,7 @@ public class ObjectManager : MonoBehaviour
         if (GameManager.instance.gameState == State.O_PIANO_PUZZLE)
         {
             GameManager.instance.gameState++;
+            leftDoorWall.SetActive(false);
             leftDoor.transform.localEulerAngles = new Vector3(-90, 0, -60);
         }
     }

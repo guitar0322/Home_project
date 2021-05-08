@@ -27,6 +27,7 @@ public class CloseDoorTrigger : MonoBehaviour
                 break;
             case State.T_DOOR:
                 rightDoor.transform.localEulerAngles = new Vector3(-90, 0, 0);
+                objectManager.rightDoorWall.SetActive(true);
                 this.transform.position = TEndCloseDoor.position;
                 this.transform.localEulerAngles = new Vector3(0, 0, 0);
                 break;
