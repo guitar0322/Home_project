@@ -12,4 +12,26 @@ public class ObjectInfo : MonoBehaviour
     [Tooltip ("생성되어야 할 위치 Transform을 할당")]
     public Transform[] spawnTransform;
 
+    public Material oldMat;
+    public Material outlineMat;
+    public bool outlineFlag;
+    MeshRenderer meshRenderer;
+    private void Start()
+    {
+        outlineFlag = false;
+        meshRenderer = GetComponent<MeshRenderer>();
+        oldMat = meshRenderer.material;
+    }
+    private void Update()
+    {
+        if(outlineFlag == true)
+        {
+            meshRenderer.material = outlineMat;
+        }
+        else
+        {
+            meshRenderer.material = oldMat;
+        }
+    }
+
 }
