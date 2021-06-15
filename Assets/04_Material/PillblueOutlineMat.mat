@@ -94,7 +94,7 @@ Material:
     - _Mode: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
-    - _Outline: 0.08
+    - _Outline: 0.12
     - _OutlineWidth: 0.08
     - _Parallax: 0.02
     - _RimOffset: 0.6
@@ -117,6 +117,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighlightTint: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.082858644, g: 0.8129383, b: 0.9245283, a: 1}
+    - _OutlineColor: {r: 0.33397114, g: 0.6898038, b: 0.745283, a: 1}
     - _OutlineTint: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
